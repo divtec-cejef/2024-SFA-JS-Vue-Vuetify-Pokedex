@@ -1,12 +1,27 @@
 <template>
   <v-container v-if="selectedPokemon">
     <v-card>
-      <v-img contain height="300px" :src="selectedPokemon.sprites.front_default" />
+      <v-img contain height="300px" :src="`/images/${selectedPokemon.img}`" />
       <v-card-title>{{ selectedPokemon.name }}</v-card-title>
+      <v-card-subtitle>Type: {{ selectedPokemon.type }} | Level: {{ selectedPokemon.level }}</v-card-subtitle>
       <v-card-text>
-        <p>Height: {{ selectedPokemon.height }}</p>
-        <p>Weight: {{ selectedPokemon.weight }}</p>
-        <p>Types: {{ pokemonTypes }}</p>
+        <p>{{ selectedPokemon.description }}</p>
+        <v-divider class="my-3" />
+        <p>Height: {{ selectedPokemon.height }} m</p>
+        <p>Weight: {{ selectedPokemon.weight }} kg</p>
+        <p>Abilities: {{ selectedPokemon.abilities.join(', ') }}</p>
+        <v-divider class="my-3" />
+        <h3>Stats</h3>
+        <v-list-item v-for="(value, key) in selectedPokemon.stats" :key="key">
+          <v-list-item-title>{{ key.toUpperCase() }}: {{ value }}</v-list-item-title>
+          <v-progress-linear
+            :color="getStatColor(key)"
+            height="25"
+            :model-value="value"
+          >
+            <strong>{{ value }}</strong>
+          </v-progress-linear>
+        </v-list-item>
       </v-card-text>
       <v-card-actions>
         <v-btn icon @click="toggleFavorite(selectedPokemon)">
@@ -14,33 +29,34 @@
             {{ isFavorite(selectedPokemon) ? 'mdi-heart' : 'mdi-heart-outline' }}
           </v-icon>
         </v-btn>
-        <v-btn @click="goBack">Back to List</v-btn>
+        <v-btn to="/">Back to List</v-btn>
       </v-card-actions>
     </v-card>
   </v-container>
 </template>
 
 <script setup>
-  import { computed, onMounted } from 'vue'
-  import { useRoute, useRouter } from 'vue-router'
+  import { onMounted } from 'vue'
+  import { useRoute } from 'vue-router'
   import { storeToRefs } from 'pinia'
   import { usePokemonStore } from '@/stores/pokemonStore'
 
   const route = useRoute()
-  const router = useRouter()
   const pokemonStore = usePokemonStore()
   const { selectedPokemon } = storeToRefs(pokemonStore)
-  const { fetchPokemonDetails, toggleFavorite, isFavorite } = pokemonStore
+  const { selectPokemon, toggleFavorite, isFavorite } = pokemonStore
 
   onMounted(() => {
-    fetchPokemonDetails(`https://pokeapi.co/api/v2/pokemon/${route.params.id}`)
+    selectPokemon(parseInt(route.params.id))
   })
 
-  const pokemonTypes = computed(() => {
-    return selectedPokemon.value?.types.map(type => type.type.name).join(', ')
-  })
-
-  const goBack = () => {
-    router.push({ name: 'PokemonList' })
+  const getStatColor = stat => {
+    const colors = {
+      hp: 'green',
+      attack: 'red',
+      defense: 'blue',
+      speed: 'yellow',
+    }
+    return colors[stat] || 'grey'
   }
 </script>
