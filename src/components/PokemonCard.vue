@@ -15,7 +15,7 @@
     </v-card-subtitle>
     <v-card-text>Level: {{ pokemon.level }}</v-card-text>
     <v-card-actions>
-      <v-btn icon @click.stop="toggleFavorite">
+      <v-btn icon @click.prevent="toggleFavorite">
         <v-icon :color="isFavorite ? 'red' : ''">
           {{ isFavorite ? 'mdi-heart' : 'mdi-heart-outline' }}
         </v-icon>

@@ -1,13 +1,12 @@
 <template>
   <v-text-field
-    label="Search Pokémon"
-    :model-value="modelValue"
+    v-model="search"
+    clearable
+    label="Trouver un Pokémon"
     prepend-icon="mdi-magnify"
-    @input="$emit('update:modelValue', $event.target.value)"
   />
 </template>
 
 <script setup>
-  defineProps(['modelValue'])
-  defineEmits(['update:modelValue'])
+  const search = defineModel()
 </script>
