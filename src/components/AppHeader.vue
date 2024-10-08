@@ -1,12 +1,13 @@
 <template>
   <v-app-bar flat>
-    <v-container class="mx-auto d-flex align-center justify-center">
+    <v-container class="d-flex align-start align-center">
       <v-avatar
-        class="mr-4 pa-0"
-        image="/images/pokeball.svg"
+        class="mr-4 pa-0 cursor-pointer"
+        image="@/assets/pokeball.svg"
         size="64"
+        @click="$router.push('/')"
       />
-
+      <v-toolbar-title>Pokedex</v-toolbar-title>
       <v-btn
         v-for="link in menuItems"
         :key="link.title"
@@ -14,7 +15,6 @@
         :to="link.path"
         variant="text"
       />
-      <v-spacer />
     </v-container>
   </v-app-bar>
 </template>
