@@ -294,6 +294,7 @@ const pokemons = [
 export const usePokemonStore = defineStore('pokemon', {
   state: () => ({
     typeColors,
+    // Ajout d'un identifiant unique pour chaque Pokémon
     pokemons: pokemons.map((pokemon, index) => ({ ...pokemon, id: index + 1 })),
     selectedPokemon: null,
     favorites: [],
