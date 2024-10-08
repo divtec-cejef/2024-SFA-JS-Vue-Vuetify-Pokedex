@@ -1,5 +1,6 @@
 <template>
   <v-container>
+    <h1 class="mb-6 text-center">Pokédex</h1>
     <pokemon-search v-model="search" />
     <v-row>
       <v-col

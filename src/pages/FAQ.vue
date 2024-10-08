@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <h1 class="text-h3 mb-6">Foire Aux Questions (FAQ)</h1>
+    <h1 class="mb-6 text-center">Foire Aux Questions (FAQ)</h1>
     <v-expansion-panels>
       <v-expansion-panel
         v-for="(item, i) in faqItems"

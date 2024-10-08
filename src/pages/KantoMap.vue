@@ -2,7 +2,7 @@
   <v-container class="pokemon-world">
     <v-row justify="center">
       <v-col cols="12" md="10">
-        <h1 class="text-h3 mb-6 text-center">Le Monde Pokémon</h1>
+        <h1 class="mb-6 text-center">Le Monde Pokémon</h1>
 
         <v-img
           alt="Carte du monde Pokémon"
