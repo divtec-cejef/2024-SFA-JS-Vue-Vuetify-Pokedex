@@ -11,9 +11,8 @@
       <v-btn
         v-for="link in menuItems"
         :key="link.title"
-        :text="link.title"
+        :icon="link.icon"
         :to="link.path"
-        variant="text"
       />
     </v-container>
   </v-app-bar>
@@ -23,8 +22,8 @@
   import { ref } from 'vue'
 
   const menuItems = ref([
-    { title: 'Accueil', path: '/' },
-    { title: 'FAQ', path: '/faq' },
-    { title: 'Kanto', path: '/kantomap' },
+    { title: 'Accueil', path: '/', icon: 'mdi-pokeball' },
+    { title: 'FAQ', path: '/faq', icon: 'mdi-frequently-asked-questions' },
+    { title: 'Kanto', path: '/kantomap', icon: 'mdi-map' },
   ])
 </script>
