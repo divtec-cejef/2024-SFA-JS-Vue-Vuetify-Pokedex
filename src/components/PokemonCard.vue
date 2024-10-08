@@ -1,6 +1,6 @@
 <template>
   <v-card :to="`/pokemon/${pokemon.id}`">
-    <v-img contain height="200px" :src="`/images/${pokemon.img}`" />
+    <v-img contain height="200px" :src="`images/${pokemon.img}`" />
     <v-card-title>{{ pokemon.name }}</v-card-title>
     <v-card-subtitle>
       <v-chip

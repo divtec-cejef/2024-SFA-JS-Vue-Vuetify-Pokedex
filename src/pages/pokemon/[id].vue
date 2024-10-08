@@ -1,7 +1,7 @@
 <template>
   <v-container v-if="selectedPokemon">
     <v-card>
-      <v-img contain height="300px" :src="`/images/${selectedPokemon.img}`" />
+      <v-img contain height="300px" :src="`images/${selectedPokemon.img}`" />
       <v-card-title>{{ selectedPokemon.name }}</v-card-title>
       <v-card-subtitle>Type: {{ selectedPokemon.type }} | Level: {{ selectedPokemon.level }}</v-card-subtitle>
       <v-card-text>
