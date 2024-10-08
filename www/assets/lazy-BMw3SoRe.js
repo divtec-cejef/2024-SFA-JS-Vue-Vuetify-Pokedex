@@ -1,0 +1,1 @@
+import{p as r,N as n,c,z as u}from "./index-PEAgLQrH.js";const f=(a,o)=>{const e=a.__vccOpts||a;for(const[t,s]of o)e[t]=s;return e},p=r({eager:Boolean},"lazy");function v(a,o){const e=n(!1),t=c(()=>e.value||a.eager||o.value);u(o,()=>e.value=!0);function s(){a.eager||(e.value=!1)}return{isBooted:e,hasContent:t,onAfterLeave:s}}export{f as _,p as m,v as u};
