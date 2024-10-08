@@ -1,7 +1,7 @@
 <template>
   <v-container v-if="selectedPokemon">
     <v-card>
-      <v-img contain height="300px" :src="`images/${selectedPokemon.img}`" />
+      <v-img contain height="300px" :src="`/images/${selectedPokemon.img}`" />
       <v-card-title>{{ selectedPokemon.name }}</v-card-title>
       <v-card-subtitle>Type: {{ selectedPokemon.type }} | Level: {{ selectedPokemon.level }}</v-card-subtitle>
       <v-card-text>
@@ -29,7 +29,7 @@
             {{ isFavorite(selectedPokemon) ? 'mdi-heart' : 'mdi-heart-outline' }}
           </v-icon>
         </v-btn>
-        <v-btn to="/">Back to List</v-btn>
+        <v-btn to="/">Retour au Pokédex</v-btn>
       </v-card-actions>
     </v-card>
   </v-container>
