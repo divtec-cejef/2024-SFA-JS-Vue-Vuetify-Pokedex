@@ -23,6 +23,7 @@
 
   const menuItems = ref([
     { title: 'Accueil', path: '/', icon: 'mdi-pokeball' },
+    { title: 'Favoris', path: '/favoris', icon: 'mdi-heart' },
     { title: 'FAQ', path: '/faq', icon: 'mdi-frequently-asked-questions' },
     { title: 'Kanto', path: '/kantomap', icon: 'mdi-map' },
   ])
