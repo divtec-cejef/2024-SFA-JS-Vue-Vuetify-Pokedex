@@ -14,6 +14,23 @@
 </template>
 
 <script setup>
-// Pas de logique nécessaire ici
+  // importe le composant MenuPrincipal
   import MenuPrincipal from '@/components/AppHeader.vue'
+  // importe le lyfecycle onMounted
+  import { onMounted } from 'vue'
+  // importe le magasin des pokemons
+  import { usePokemonStore } from '@/stores/pokemonStore'
+  // récupère le magasin des pokemons
+  const pokemonStore = usePokemonStore()
+  // lorsque le composant est monté
+  // on récupère les favoris stockés dans le local storage
+  onMounted(() => {
+    // récupère les favoris stockés dans le local storage
+    const storedFavorites = localStorage.getItem('favorites')
+    // si des favoris sont stockés
+    if (storedFavorites) {
+      // on les ajoute au magasin des pokemons
+      pokemonStore.favorites = JSON.parse(storedFavorites)
+    }
+  })
 </script>

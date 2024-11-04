@@ -312,6 +312,7 @@ export const usePokemonStore = defineStore('pokemon', {
       } else {
         this.favorites.splice(index, 1)
       }
+      localStorage.setItem('favorites', JSON.stringify(this.favorites))
     },
     isFavorite (pokemon) {
       return this.favorites.some(fav => fav.id === pokemon.id)
