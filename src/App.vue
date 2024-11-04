@@ -22,8 +22,8 @@
   import { usePokemonStore } from '@/stores/pokemonStore'
   // récupère le magasin des pokemons
   const pokemonStore = usePokemonStore()
-  // lorsque le composant est monté
-  // on récupère les favoris stockés dans le local storage
+
+  // lorsque le composant est monté on récupère les favoris du local storage
   onMounted(() => {
     // récupère les favoris stockés dans le local storage
     const storedFavorites = localStorage.getItem('favorites')
