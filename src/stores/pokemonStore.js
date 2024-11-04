@@ -25,14 +25,9 @@ export const usePokemonStore = defineStore('pokemon', {
     },
     async fetchPokemons () {
       try {
+        // Récupération des pokémons
         const response = await axios.get(`${this.apiUrl}/items/pokemon?fields=*,images.*,types.type_id.*`)
-        this.pokemons = response.data.data.map(pokemon => ({
-          ...pokemon,
-          imageUrl: `${this.imageUrl}/${pokemon.image}`,
-          spriteUrl: `${this.imageUrl}/${pokemon.sprite}`,
-          // Conserve les identifiants de types sans transformation
-          types: pokemon.types,
-        }))
+        this.pokemons = response.data.data
       } catch (error) {
         console.error('Erreur lors du chargement des pokémons:', error)
       }
@@ -55,6 +50,7 @@ export const usePokemonStore = defineStore('pokemon', {
       }
       localStorage.setItem('favorites', JSON.stringify(this.favorites))
     },
+
     isFavorite (pokemon) {
       return this.favorites.some(fav => fav.id === pokemon.id)
     },
