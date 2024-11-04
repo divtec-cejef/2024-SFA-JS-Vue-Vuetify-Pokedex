@@ -62,9 +62,9 @@
       </v-card-text>
 
       <v-card-actions>
-        <v-btn icon @click="toggleFavorite(selectedPokemon)">
-          <v-icon :color="isFavorite(selectedPokemon) ? 'red' : ''">
-            {{ isFavorite(selectedPokemon) ? 'mdi-heart' : 'mdi-heart-outline' }}
+        <v-btn icon @click="pokemonStore.toggleFavorite(selectedPokemon)">
+          <v-icon :color="pokemonStore.isFavorite(selectedPokemon) ? 'red' : ''">
+            {{ pokemonStore.isFavorite(selectedPokemon) ? 'mdi-heart' : 'mdi-heart-outline' }}
           </v-icon>
         </v-btn>
         <v-btn to="/">Retour au Pokédex</v-btn>
@@ -82,10 +82,9 @@
   const route = useRoute()
   const pokemonStore = usePokemonStore()
   const { selectedPokemon } = storeToRefs(pokemonStore)
-  const { selectPokemon, toggleFavorite, isFavorite } = pokemonStore
 
   // Charge le Pokémon sélectionné
   onMounted(() => {
-    selectPokemon(parseInt(route.params.id))
+    pokemonStore.selectPokemon(parseInt(route.params.id))
   })
 </script>

@@ -17,9 +17,9 @@
       />
     </v-card-subtitle>
     <v-card-actions>
-      <v-btn icon @click.prevent="toggleFavorite">
-        <v-icon :color="isFavorite ? 'red' : ''">
-          {{ isFavorite ? 'mdi-heart' : 'mdi-heart-outline' }}
+      <v-btn icon @click.prevent="pokemonStore.toggleFavorite(props.pokemon)">
+        <v-icon :color="pokemonStore.isFavorite(pokemon) ? 'red' : ''">
+          {{ pokemonStore.isFavorite(pokemon) ? 'mdi-heart' : 'mdi-heart-outline' }}
         </v-icon>
       </v-btn>
     </v-card-actions>
@@ -27,9 +27,11 @@
 </template>
 
 <script setup>
-  import { computed } from 'vue'
+  // Importation du magasin des pokémons
   import { usePokemonStore } from '@/stores/pokemonStore'
+  const pokemonStore = usePokemonStore()
 
+  // Déclaration des props
   const props = defineProps({
     pokemon: {
       type: Object,
@@ -37,14 +39,4 @@
     },
   })
 
-  const pokemonStore = usePokemonStore()
-  const isFavorite = computed(() => pokemonStore.isFavorite(props.pokemon))
-
-  function toggleFavorite () {
-    pokemonStore.toggleFavorite(props.pokemon)
-  }
-
-  function getTypeById (typeId) {
-    return pokemonStore.getTypeById(typeId)
-  }
 </script>
