@@ -24,9 +24,9 @@
   const pokemonStore = usePokemonStore()
 
   // lorsque le composant est monté on récupère les favoris du local storage
-  onMounted(() => {
+  onMounted(async () => {
     pokemonStore.loadFavorites() // charge les favoris depuis le local storage
-    pokemonStore.fetchTypes() // charge les types depuis l'API
-    pokemonStore.fetchPokemons() // charge les pokemons depuis l'API
+    await pokemonStore.fetchTypes() // charge les types depuis l'API
+    await pokemonStore.fetchPokemons() // charge les pokemons depuis l'API
   })
 </script>
