@@ -32,7 +32,7 @@
   const filteredPokemons = computed(() => {
     if (!search.value) return pokemons.value
     return pokemons.value.filter(pokemon =>
-      pokemon.name.toLowerCase().includes(search.value.toLowerCase())
+      pokemon.nom.toLowerCase().includes(search.value.toLowerCase())
     )
   })
 </script>

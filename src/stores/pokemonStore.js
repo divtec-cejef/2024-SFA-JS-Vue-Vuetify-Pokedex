@@ -3,8 +3,10 @@ import axios from 'axios'
 
 export const usePokemonStore = defineStore('pokemon', {
   state: () => ({
-    typeColors: [],
-    pokemons: [],
+    apiUrl: 'https://localhost', // URL de base pour l'API
+    imageUrl: 'https://localhost/assets', // URL de base pour les images
+    types: [], // Contient les informations de tous les types
+    pokemons: [], // Contiendra les Pokémon avec les identifiants de types non transformés
     selectedPokemon: null,
     favorites: [],
   }),
@@ -14,29 +16,36 @@ export const usePokemonStore = defineStore('pokemon', {
   actions: {
     async fetchTypes () {
       try {
-        const response = await axios.get('http://localhost:8055/items/type')
-        this.typeColors = response.data.data.reduce((acc, type) => {
-          acc[type.name] = type.color
-          return acc
-        }, {})
+        // Récupération des types
+        const typesResponse = await axios.get(`${this.apiUrl}/items/type`)
+        this.types = typesResponse.data.data
       } catch (error) {
-        console.error('Error fetching types:', error)
+        console.error('Erreur lors du chargement des types:', error)
       }
     },
     async fetchPokemons () {
       try {
-        const response = await axios.get('http://localhost:8055/items/pokemon')
-        this.pokemons = response.data.data
+        const response = await axios.get(`${this.apiUrl}/items/pokemon?fields=*,images.*,types.type_id.*`)
+        this.pokemons = response.data.data.map(pokemon => ({
+          ...pokemon,
+          imageUrl: `${this.imageUrl}/${pokemon.image}`,
+          spriteUrl: `${this.imageUrl}/${pokemon.sprite}`,
+          // Conserve les identifiants de types sans transformation
+          types: pokemon.types,
+        }))
       } catch (error) {
-        console.error('Error fetching pokemons:', error)
+        console.error('Erreur lors du chargement des pokémons:', error)
       }
     },
+
     selectPokemon (id) {
       this.selectedPokemon = this.pokemons.find(p => p.id === id) || null
     },
+
     loadFavorites () {
       this.favorites = JSON.parse(localStorage.getItem('favorites')) || []
     },
+
     toggleFavorite (pokemon) {
       const index = this.favorites.findIndex(fav => fav.id === pokemon.id)
       if (index === -1) {
@@ -48,9 +57,6 @@ export const usePokemonStore = defineStore('pokemon', {
     },
     isFavorite (pokemon) {
       return this.favorites.some(fav => fav.id === pokemon.id)
-    },
-    getTypeColor (type) {
-      return this.typeColors[type] || '#A8A878' // Default color if not found
     },
   },
 })

@@ -1,19 +1,21 @@
 <template>
   <v-card :to="`/pokemon/${pokemon.id}`">
-    <v-img contain height="200px" :src="`images/${pokemon.img}`" />
-    <v-card-title>{{ pokemon.name }}</v-card-title>
-    <v-card-subtitle>
-      <v-chip
-        v-for="type in pokemon.type.split(',')"
-        :key="type"
+    <v-img contain height="200px" :src="`${pokemonStore.imageUrl}/${pokemon.image}`" />
+    <v-card-title>
+      {{ pokemon.nom }}
+    </v-card-title>
+    <v-card-subtitle class="d-flex align-center">
+      <v-img
+        v-for="type in pokemon.types"
+        :key="type.type_id?.id"
+        :alt="type.type_id?.name"
         class="ma-1"
-        :color="getTypeColor(type)"
-        text-color="white"
-      >
-        {{ type }}
-      </v-chip>
+        max-height="40"
+        max-width="40"
+        :src="pokemonStore.imageUrl + '/' + type.type_id?.image"
+        :title="type.type_id?.name"
+      />
     </v-card-subtitle>
-    <v-card-text>Level: {{ pokemon.level }}</v-card-text>
     <v-card-actions>
       <v-btn icon @click.prevent="toggleFavorite">
         <v-icon :color="isFavorite ? 'red' : ''">
@@ -42,7 +44,7 @@
     pokemonStore.toggleFavorite(props.pokemon)
   }
 
-  function getTypeColor (type) {
-    return pokemonStore.getTypeColor(type)
+  function getTypeById (typeId) {
+    return pokemonStore.getTypeById(typeId)
   }
 </script>
