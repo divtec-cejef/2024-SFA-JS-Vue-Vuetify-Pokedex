@@ -25,12 +25,6 @@
 
   // lorsque le composant est monté on récupère les favoris du local storage
   onMounted(() => {
-    // récupère les favoris stockés dans le local storage
-    const storedFavorites = localStorage.getItem('favorites')
-    // si des favoris sont stockés
-    if (storedFavorites) {
-      // on les ajoute au magasin des pokemons
-      pokemonStore.favorites = JSON.parse(storedFavorites)
-    }
+    pokemonStore.loadFavorites()
   })
 </script>

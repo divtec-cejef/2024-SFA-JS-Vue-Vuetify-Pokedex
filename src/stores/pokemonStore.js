@@ -322,6 +322,9 @@ export const usePokemonStore = defineStore('pokemon', {
     selectPokemon (id) {
       this.selectedPokemon = this.pokemons.find(p => p.id === id) || null
     },
+    loadFavorites () {
+      this.favorites = JSON.parse(localStorage.getItem('favorites')) || []
+    },
     toggleFavorite (pokemon) {
       const index = this.favorites.findIndex(fav => fav.id === pokemon.id)
       if (index === -1) {
