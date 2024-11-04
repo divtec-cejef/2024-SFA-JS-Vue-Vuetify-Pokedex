@@ -26,5 +26,7 @@
   // lorsque le composant est monté on récupère les favoris du local storage
   onMounted(() => {
     pokemonStore.loadFavorites()
+    pokemonStore.fetchTypes()
+    pokemonStore.fetchPokemons()
   })
 </script>
