@@ -3,8 +3,17 @@
     <h1 class="mb-6 text-center">Pokédex</h1>
     <pokemon-search v-model="search" />
     <v-row>
+      <v-col v-if="pokemonStore.isLoading" class="text-center" cols="12">
+        <v-progress-circular
+          class="mx-auto"
+          color="primary"
+          indeterminate
+          size="64"
+        />
+      </v-col>
       <v-col
         v-for="pokemon in filteredPokemons"
+        v-else
         :key="pokemon.id"
         cols="12"
         lg="3"

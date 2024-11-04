@@ -1,4 +1,12 @@
 <template>
+  <v-col v-if="pokemonStore.isLoading" class="text-center" cols="12">
+    <v-progress-circular
+      class="mx-auto"
+      color="primary"
+      indeterminate
+      size="64"
+    />
+  </v-col>
   <v-container v-if="selectedPokemon">
     <v-card>
       <v-img contain height="300px" :src="`${pokemonStore.imageUrl}/${selectedPokemon.image}`" />
@@ -74,7 +82,6 @@
 </template>
 
 <script setup>
-  import { onMounted } from 'vue'
   import { useRoute } from 'vue-router'
   import { storeToRefs } from 'pinia'
   import { usePokemonStore } from '@/stores/pokemonStore'
@@ -83,8 +90,12 @@
   const pokemonStore = usePokemonStore()
   const { selectedPokemon } = storeToRefs(pokemonStore)
 
-  // Charge le Pokémon sélectionné
-  onMounted(() => {
-    pokemonStore.selectPokemon(parseInt(route.params.id))
-  })
+  watch(
+    () => pokemonStore.isLoading,
+    isLoading => {
+      if (!isLoading) {
+        pokemonStore.selectPokemon(parseInt(route.params.id))
+      }
+    }
+  )
 </script>
