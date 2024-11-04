@@ -90,12 +90,20 @@
   const pokemonStore = usePokemonStore()
   const { selectedPokemon } = storeToRefs(pokemonStore)
 
-  watch(
-    () => pokemonStore.isLoading,
-    isLoading => {
-      if (!isLoading) {
-        pokemonStore.selectPokemon(parseInt(route.params.id))
-      }
+  onMounted(() => {
+    // Vérifie que le chargement est terminé avant d'appeler selectPokemon
+    if (!pokemonStore.isLoading) {
+      pokemonStore.selectPokemon(parseInt(route.params.id))
+    } else {
+      // Utilise un watcher pour attendre la fin du chargement
+      watch(
+        () => pokemonStore.isLoading,
+        isLoading => {
+          if (!isLoading) {
+            pokemonStore.selectPokemon(parseInt(route.params.id))
+          }
+        }
+      )
     }
-  )
+  })
 </script>
