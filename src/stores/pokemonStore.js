@@ -23,6 +23,7 @@ export const usePokemonStore = defineStore('pokemon', {
         console.error('Erreur lors du chargement des types:', error)
       }
     },
+
     async fetchPokemons () {
       try {
         // Récupération des pokémons
