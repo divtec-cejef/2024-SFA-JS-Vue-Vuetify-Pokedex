@@ -1,3 +1,4 @@
+import axios from 'axios'
 import { defineStore } from 'pinia'
 
 const typeColors = {
@@ -312,6 +313,7 @@ export const usePokemonStore = defineStore('pokemon', {
   state: () => ({
     typeColors,
     pokemons,
+    types: [],
     selectedPokemon: null,
     favorites: [],
   }),
@@ -319,6 +321,15 @@ export const usePokemonStore = defineStore('pokemon', {
     favoritesCount: state => state.favorites.length,
   },
   actions: {
+    async fetchTypes () {
+      // https://localhost/items/type
+      try {
+        const reponse = await axios.get('https://localhost/items/type')
+        this.types = reponse.data.data
+      } catch (error) {
+        console.error('Impossible de récupérer les types !')
+      }
+    },
     selectPokemon (id) {
       this.selectedPokemon = this.pokemons.find(p => p.id === id) || null
     },

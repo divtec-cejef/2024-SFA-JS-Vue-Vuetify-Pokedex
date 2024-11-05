@@ -18,11 +18,11 @@
 </template>
 
 <script setup>
+  import { usePokemonStore } from '@/stores/pokemonStore'
   import { computed, ref } from 'vue'
   import { storeToRefs } from 'pinia'
-  import { usePokemonStore } from '@/stores/pokemonStore'
+
   import PokemonSearch from '@/components/PokemonSearch.vue'
-  import PokemonCard from '@/components/PokemonCard.vue'
 
   const pokemonStore = usePokemonStore()
   const { pokemons } = storeToRefs(pokemonStore)
@@ -30,9 +30,15 @@
   const search = ref('')
 
   const filteredPokemons = computed(() => {
-    if (!search.value) return pokemons.value
+    if (!search.value) {
+      return pokemons.value
+    }
+
     return pokemons.value.filter(pokemon =>
       pokemon.name.toLowerCase().includes(search.value.toLowerCase())
     )
   })
+
+  await pokemonStore.fetchTypes()
+  console.log('FINI')
 </script>
