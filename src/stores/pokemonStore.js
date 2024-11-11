@@ -48,15 +48,19 @@ export const usePokemonStore = defineStore('pokemon', {
           email,
           password,
         })
-
         // Stocke le token en cas de succès
         this.token = response.data.data.access_token
+        // Configure les entêtes de requête pour inclure le token
         axios.defaults.headers.common.Authorization = `Bearer ${this.token}`
-
-        return { success: true, message: 'Connexion réussie' }
+        return {
+          success: true,
+          message: 'Connexion réussie',
+        }
       } catch (error) {
-        const errorMessage = error.response?.data?.errors?.[0]?.message || 'Erreur lors de la connexion'
-        return { success: false, message: errorMessage }
+        return {
+          success: false,
+          message: 'Mauvais email ou mot de passe !',
+        }
       } finally {
         this.isLoading = false
       }

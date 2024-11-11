@@ -24,7 +24,7 @@
       <v-btn
         v-if="store.token"
         icon="mdi-logout"
-        @click="store.logout"
+        @click="logout"
       />
       <!-- Si pas connecté, affiche le bouton Login -->
       <v-btn
@@ -37,6 +37,7 @@
 </template>
 
 <script setup>
+  import router from '@/router'
   import { ref } from 'vue'
   import { usePokemonStore } from '@/stores/pokemonStore'
 
@@ -50,4 +51,10 @@
     { title: 'FAQ', path: '/faq', icon: 'mdi-frequently-asked-questions' },
     { title: 'Kanto', path: '/kantomap', icon: 'mdi-map' },
   ])
+
+  // Fonction de déconnexion
+  function logout () {
+    store.logout()
+    router.push('/')
+  }
 </script>

@@ -19,11 +19,11 @@
         />
         <!-- Affichage du message d'erreur en cas d'échec de connexion -->
         <v-alert
+          v-if="errorMessage"
           border="start"
           class="mb-6"
           color="warning"
-          text="Mauvais email ou mot de passe !"
-        />
+        > {{ errorMessage }}</v-alert>
         <!-- Bouton de connexion -->
         <v-btn color="primary" size="large" type="submit">Se connecter</v-btn>
       </v-form>
@@ -33,12 +33,11 @@
 </template>
 
 <script setup>
+  import router from '@/router'
   import { ref } from 'vue'
-  import { useRouter } from 'vue-router'
   import { usePokemonStore } from '@/stores/pokemonStore'
 
-  // Initialisation du routeur et du store
-  const router = useRouter()
+  // Initialisation du store
   const pokemonStore = usePokemonStore()
 
   // Champs du formulaire de connexion
@@ -46,8 +45,7 @@
   const loginPassword = ref('')
 
   // État pour le message et le statut de succès de la connexion
-  const loginMessage = ref(null)
-  const loginSuccess = ref(false)
+  const errorMessage = ref('')
 
   /**
    * Fonction de connexion
@@ -56,12 +54,12 @@
    */
   const handleLogin = async () => {
     const response = await pokemonStore.login(loginEmail.value, loginPassword.value)
-    loginSuccess.value = response.success
-    loginMessage.value = response.message
-
-    // Redirection en cas de succès
-    if (loginSuccess.value) {
+    if (response.success) {
+      // Rediriger l'utilisateur vers la page d'accueil
       router.push('/')
+    } else {
+      // Afficher un message d'erreur
+      errorMessage.value = response.message
     }
   }
 </script>
