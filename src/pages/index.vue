@@ -1,6 +1,16 @@
 <template>
   <v-container>
-    <h1 class="mb-6 text-center">Pokédex</h1>
+    <h1 class="mb-6 text-center">
+      Pokédex
+      <!-- bouton pour ajouter un pokémon -->
+      <v-btn
+        class="ml-4"
+        color="primary"
+        fab
+        icon="mdi-plus"
+        @click="$router.push('pokemon/add')"
+      />
+    </h1>
     <pokemon-search v-model="search" />
     <v-row>
       <v-col v-if="pokemonStore.isLoading" class="text-center" cols="12">

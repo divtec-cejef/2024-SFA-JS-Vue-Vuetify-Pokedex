@@ -38,9 +38,14 @@
 </template>
 
 <script setup>
-  import router from '@/router'
+  import { useRoute, useRouter } from 'vue-router'
   import { ref } from 'vue'
   import { usePokemonStore } from '@/stores/pokemonStore'
+
+  // Récupération du router pour la redirection
+  const router = useRouter()
+  // Récupération des paramètres de l'URL pour la redirection
+  const route = useRoute()
 
   // Initialisation du store
   const pokemonStore = usePokemonStore()
@@ -60,8 +65,8 @@
   const handleLogin = async () => {
     const response = await pokemonStore.login(loginEmail.value, loginPassword.value)
     if (response.success) {
-      // Rediriger l'utilisateur vers la page d'accueil
-      router.push('/')
+      // Rediriger l'utilisateur vers la page précédente ou la page d'accueil
+      router.push(route.query.redirect || '/')
     } else {
       // Afficher un message d'erreur
       errorMessage.value = response.message
