@@ -2,7 +2,7 @@
   <v-container>
     <v-sheet class="mx-auto bg-transparent" max-width="400">
       <h1 class="mb-4">Connexion</h1>
-      <v-form @submit.prevent="handleLogin">
+      <v-form @submit.prevent="login">
         <!-- Champ d'email -->
         <v-text-field
           v-model="loginEmail"
@@ -62,11 +62,11 @@
    * @async
    * Utilise l'action login du store pour authentifier l'utilisateur
    */
-  const handleLogin = async () => {
+  const login = async () => {
     const response = await pokemonStore.login(loginEmail.value, loginPassword.value)
     if (response.success) {
       // Rediriger l'utilisateur vers la page précédente ou la page d'accueil
-      router.push(route.query.redirect || '/')
+      router.push(route.query.redirect || '/') // route.query.redirect récupère le paramètre d'URL redirect
     } else {
       // Afficher un message d'erreur
       errorMessage.value = response.message
