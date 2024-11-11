@@ -25,14 +25,13 @@
         v-if="store.token"
         icon="mdi-logout"
         @click="store.logout"
-      >Logout</v-btn>
-
+      />
       <!-- Si pas connecté, affiche le bouton Login -->
       <v-btn
         v-else
         icon="mdi-login"
         @click="$router.push('/login')"
-      >Login</v-btn>
+      />
     </v-container>
   </v-app-bar>
 </template>
