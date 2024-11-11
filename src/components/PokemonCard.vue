@@ -22,7 +22,38 @@
           {{ pokemonStore.isFavorite(pokemon) ? 'mdi-heart' : 'mdi-heart-outline' }}
         </v-icon>
       </v-btn>
+      <!-- Bouton pour supprimer un pokémon -->
+      <v-btn
+        v-if="pokemonStore.isAuthenticated"
+        color="red"
+        icon="mdi-delete"
+        @click.prevent="dialog = true"
+      />
     </v-card-actions>
+
+    <v-dialog
+      v-model="dialog"
+      max-width="400"
+      persistent
+    >
+      <v-card
+        prepend-icon="mdi-delete"
+        text="Etes-vous sûr de vouloir supprimer ce pokémon ?"
+        title="Suppression"
+      >
+        <template #actions>
+          <v-spacer />
+
+          <v-btn @click="dialog = false">
+            Annuler
+          </v-btn>
+
+          <v-btn @click="deletePokemon(pokemon.id)">
+            Supprimer
+          </v-btn>
+        </template>
+      </v-card>
+    </v-dialog>
   </v-card>
 </template>
 
@@ -38,5 +69,17 @@
       required: true,
     },
   })
+  // État pour afficher la boîte de dialogue
+  const dialog = ref(false)
+  // Fonction pour supprimer un pokémon
+  async function deletePokemon (id) {
+    try {
+      await pokemonStore.deletePokemon(id)
+    } catch (error) {
+      console.error(error)
+    } finally {
+      dialog.value = false // Fermer la boîte de dialogue
+    }
+  }
 
 </script>

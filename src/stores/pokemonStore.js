@@ -110,7 +110,7 @@ export const usePokemonStore = defineStore('pokemon', {
         await axios.delete(`${this.apiUrl}/items/pokemon/${id}`)
         this.pokemons = this.pokemons.filter(p => p.id !== id)
       } catch (error) {
-        console.error('Erreur lors de la suppression du Pokémon:', error)
+        throw new Error('Supression impossible !')
       } finally {
         this.isLoading = false
       }
@@ -137,7 +137,7 @@ export const usePokemonStore = defineStore('pokemon', {
     async fetchPokemons () {
       this.isLoading = true
       try {
-        const response = await axios.get(`${this.apiUrl}/items/pokemon?fields=*,images.*,types.type_id.*`)
+        const response = await axios.get(`${this.apiUrl}/items/pokemon?fields=*,images.*,types.type_id.*&limit=-1`)
         this.pokemons = response.data.data
       } catch (error) {
         console.error('Erreur lors du chargement des pokémons:', error)
