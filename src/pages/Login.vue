@@ -23,7 +23,9 @@
           border="start"
           class="mb-6"
           color="warning"
-        > {{ errorMessage }}</v-alert>
+        >
+          {{ errorMessage }}
+        </v-alert>
         <!-- Bouton de connexion -->
         <v-btn
           color="primary"

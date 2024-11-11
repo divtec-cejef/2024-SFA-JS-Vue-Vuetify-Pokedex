@@ -53,6 +53,7 @@ export const usePokemonStore = defineStore('pokemon', {
         this.token = response.data.data.access_token
         // Configure les entêtes de requête pour inclure le token
         axios.defaults.headers.common.Authorization = `Bearer ${this.token}`
+        axios.defaults.headers.common['Accept-Language'] = 'fr'
         // Ajoute un délai de 3 secondes avant de retourner la réponse
         await new Promise(resolve => setTimeout(resolve, 3000))
 
@@ -79,23 +80,20 @@ export const usePokemonStore = defineStore('pokemon', {
     },
 
     /**
-     * Crée un nouveau Pokémon et l'ajoute à la liste des Pokémon.
-     * @param {number} pokedexId - L'ID du Pokémon dans le Pokédex.
-     * @param {string} slug - Identifiant court et descriptif du Pokémon.
-     * @param {string} nom - Nom du Pokémon.
+     * Crée un nouveau Pokémon en envoyant les données à l'API
+     * @param data - Les données du Pokémon à créer
+     * @returns {Promise<void>}
      */
-    async createPokemon (pokedexId, slug, nom) {
+    async createPokemon (data) {
       this.isLoading = true
       try {
-        const newPokemon = {
-          pokedexId,
-          slug,
-          nom,
-        }
-        const response = await axios.post(`${this.apiUrl}/items/pokemon`, newPokemon)
+        const response = await axios.post(`${this.apiUrl}/items/pokemon`, data)
         this.pokemons.push(response.data.data)
       } catch (error) {
-        console.error('Erreur lors de la création du Pokémon:', error)
+        // Récupérer le message d'erreur spécifique de l'API s'il est disponible
+        const errorMessage = error.response?.data?.errors?.[0]?.message || 'Une erreur est survenue lors de la création du Pokémon.'
+        // Lever l'erreur avec le message détaillé
+        throw new Error(errorMessage)
       } finally {
         this.isLoading = false
       }
