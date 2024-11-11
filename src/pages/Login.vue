@@ -25,7 +25,12 @@
           color="warning"
         > {{ errorMessage }}</v-alert>
         <!-- Bouton de connexion -->
-        <v-btn color="primary" size="large" type="submit">Se connecter</v-btn>
+        <v-btn
+          color="primary"
+          :loading="pokemonStore.isLoading"
+          size="large"
+          type="submit"
+        >Se connecter</v-btn>
       </v-form>
     </v-sheet>
 

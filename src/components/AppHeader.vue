@@ -34,6 +34,13 @@
       />
     </v-container>
   </v-app-bar>
+  <!-- Notification de déconnexion -->
+  <v-snackbar
+    v-model="snackbar"
+    color="success"
+  >
+    Déconnexion réussie !
+  </v-snackbar>
 </template>
 
 <script setup>
@@ -52,9 +59,13 @@
     { title: 'Kanto', path: '/kantomap', icon: 'mdi-map' },
   ])
 
+  // État pour afficher la notification de déconnexion
+  const snackbar = ref(false)
+
   // Fonction de déconnexion
   function logout () {
-    store.logout()
-    router.push('/')
+    snackbar.value = true // Afficher la notification de déconnexion
+    store.logout() // Appeler la méthode de déconnexion du store
+    router.push('/') // Rediriger l'utilisateur vers la page d'accueil
   }
 </script>

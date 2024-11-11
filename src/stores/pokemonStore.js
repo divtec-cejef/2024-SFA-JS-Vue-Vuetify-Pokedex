@@ -43,6 +43,7 @@ export const usePokemonStore = defineStore('pokemon', {
      */
     async login (email, password) {
       this.isLoading = true
+
       try {
         const response = await axios.post(`${this.apiUrl}/auth/login`, {
           email,
@@ -52,6 +53,9 @@ export const usePokemonStore = defineStore('pokemon', {
         this.token = response.data.data.access_token
         // Configure les entêtes de requête pour inclure le token
         axios.defaults.headers.common.Authorization = `Bearer ${this.token}`
+        // Ajoute un délai de 3 secondes avant de retourner la réponse
+        await new Promise(resolve => setTimeout(resolve, 3000))
+
         return {
           success: true,
           message: 'Connexion réussie',
