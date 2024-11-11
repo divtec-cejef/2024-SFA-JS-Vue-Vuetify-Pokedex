@@ -108,7 +108,10 @@ export const usePokemonStore = defineStore('pokemon', {
       this.isLoading = true
       try {
         await axios.delete(`${this.apiUrl}/items/pokemon/${id}`)
+        // Supprimer le Pokémon de la liste locale
         this.pokemons = this.pokemons.filter(p => p.id !== id)
+        // Supprimer le Pokémon des favoris s'il est présent
+        this.favorites = this.favorites.filter(p => p.id !== id)
       } catch (error) {
         throw new Error('Supression impossible !')
       } finally {
