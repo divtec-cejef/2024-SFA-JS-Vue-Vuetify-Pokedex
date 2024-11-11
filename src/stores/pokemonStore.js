@@ -2,23 +2,103 @@ import { defineStore } from 'pinia'
 import axios from 'axios'
 
 export const usePokemonStore = defineStore('pokemon', {
+  /**
+   * Définit l'état initial du store Pokemon.
+   * @returns {Object} - L'état initial de l'application Pokémon.
+   */
   state: () => ({
-    isLoading: false, // Indique si une requête est en cours
-    apiUrl: 'https://localhost', // URL de base pour l'API
-    imageUrl: 'https://localhost/assets', // URL de base pour les images
-    types: [], // Contient les informations de tous les types
-    pokemons: [], // Contiendra les Pokémon avec les identifiants de types non transformés
-    selectedPokemon: null,
-    favorites: [],
+    isLoading: false, // Indicateur de chargement global
+    apiUrl: 'https://localhost', // URL de base pour accéder à l'API
+    imageUrl: 'https://localhost/assets', // URL de base pour récupérer les images
+    types: [], // Liste des types de Pokémon obtenue depuis l'API
+    pokemons: [], // Liste des Pokémon obtenue depuis l'API
+    selectedPokemon: null, // Pokémon actuellement sélectionné
+    favorites: [], // Liste des Pokémon favoris
+    token: null, // Token d'authentification pour les requêtes API sécurisées
   }),
+
   getters: {
+    /**
+     * Compte le nombre de Pokémon dans les favoris.
+     * @param {Object} state - L'état actuel du store.
+     * @returns {number} - Le nombre total de Pokémon favoris.
+     */
     favoritesCount: state => state.favorites.length,
+
+    /**
+     * Détermine si l'utilisateur est actuellement authentifié.
+     * @param {Object} state - L'état actuel du store.
+     * @returns {boolean} - `true` si un token est présent, indiquant une connexion.
+     */
+    isAuthenticated: state => !!state.token,
   },
+
   actions: {
+    /**
+     * Authentifie l'utilisateur avec email et mot de passe.
+     * Enregistre le token dans l'état en cas de succès.
+     * @param {string} email - L'email de l'utilisateur.
+     * @param {string} password - Le mot de passe de l'utilisateur.
+     * @returns {Promise<Object>} - Objet contenant le statut `success` et un `message`.
+     */
+    async login (email, password) {
+      this.isLoading = true
+      try {
+        const response = await axios.post(`${this.apiUrl}/auth/login`, {
+          email,
+          password,
+        })
+
+        // Stocke le token en cas de succès
+        this.token = response.data.data.access_token
+        axios.defaults.headers.common.Authorization = `Bearer ${this.token}`
+
+        return { success: true, message: 'Connexion réussie' }
+      } catch (error) {
+        const errorMessage = error.response?.data?.errors?.[0]?.message || 'Erreur lors de la connexion'
+        return { success: false, message: errorMessage }
+      } finally {
+        this.isLoading = false
+      }
+    },
+
+    /**
+     * Déconnecte l'utilisateur en supprimant le token.
+     */
+    logout () {
+      this.token = null
+      delete axios.defaults.headers.common.Authorization
+    },
+
+    /**
+     * Crée un nouveau Pokémon et l'ajoute à la liste des Pokémon.
+     * @param {number} pokedexId - L'ID du Pokémon dans le Pokédex.
+     * @param {string} slug - Identifiant court et descriptif du Pokémon.
+     * @param {string} nom - Nom du Pokémon.
+     */
+    async createPokemon (pokedexId, slug, nom) {
+      this.isLoading = true
+      try {
+        const newPokemon = {
+          pokedexId,
+          slug,
+          nom,
+        }
+        const response = await axios.post(`${this.apiUrl}/items/pokemon`, newPokemon)
+        this.pokemons.push(response.data.data)
+      } catch (error) {
+        console.error('Erreur lors de la création du Pokémon:', error)
+      } finally {
+        this.isLoading = false
+      }
+    },
+
+    /**
+     * Récupère tous les types de Pokémon et les stocke dans l'état.
+     */
     async fetchTypes () {
       this.isLoading = true
       try {
-        // Récupération des types
         const typesResponse = await axios.get(`${this.apiUrl}/items/type`)
         this.types = typesResponse.data.data
       } catch (error) {
@@ -28,10 +108,12 @@ export const usePokemonStore = defineStore('pokemon', {
       }
     },
 
+    /**
+     * Récupère tous les Pokémon depuis l'API et les stocke dans l'état.
+     */
     async fetchPokemons () {
       this.isLoading = true
       try {
-        // Récupération des pokémons
         const response = await axios.get(`${this.apiUrl}/items/pokemon?fields=*,images.*,types.type_id.*`)
         this.pokemons = response.data.data
       } catch (error) {
@@ -41,14 +123,25 @@ export const usePokemonStore = defineStore('pokemon', {
       }
     },
 
+    /**
+     * Sélectionne un Pokémon à afficher en détail par son ID.
+     * @param {number} id - L'ID du Pokémon à sélectionner.
+     */
     selectPokemon (id) {
       this.selectedPokemon = this.pokemons.find(p => p.id === id) || null
     },
 
+    /**
+     * Charge la liste des Pokémon favoris depuis le localStorage.
+     */
     loadFavorites () {
       this.favorites = JSON.parse(localStorage.getItem('favorites')) || []
     },
 
+    /**
+     * Ajoute ou retire un Pokémon des favoris et met à jour le localStorage.
+     * @param {Object} pokemon - Le Pokémon à ajouter ou retirer des favoris.
+     */
     toggleFavorite (pokemon) {
       const index = this.favorites.findIndex(fav => fav.id === pokemon.id)
       if (index === -1) {
@@ -59,6 +152,11 @@ export const usePokemonStore = defineStore('pokemon', {
       localStorage.setItem('favorites', JSON.stringify(this.favorites))
     },
 
+    /**
+     * Vérifie si un Pokémon est dans les favoris.
+     * @param {Object} pokemon - Le Pokémon à vérifier.
+     * @returns {boolean} - `true` si le Pokémon est dans les favoris.
+     */
     isFavorite (pokemon) {
       return this.favorites.some(fav => fav.id === pokemon.id)
     },
