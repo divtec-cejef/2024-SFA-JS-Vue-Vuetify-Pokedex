@@ -100,6 +100,23 @@ export const usePokemonStore = defineStore('pokemon', {
     },
 
     /**
+     * Supprime un Pokémon en envoyant une requête DELETE à l'API.
+     * @param id - L'ID du Pokémon à supprimer
+     * @returns {Promise<void>}
+     */
+    async deletePokemon (id) {
+      this.isLoading = true
+      try {
+        await axios.delete(`${this.apiUrl}/items/pokemon/${id}`)
+        this.pokemons = this.pokemons.filter(p => p.id !== id)
+      } catch (error) {
+        console.error('Erreur lors de la suppression du Pokémon:', error)
+      } finally {
+        this.isLoading = false
+      }
+    },
+
+    /**
      * Récupère tous les types de Pokémon et les stocke dans l'état.
      */
     async fetchTypes () {
