@@ -1,26 +1,34 @@
 <template>
   <v-container>
-    <h2>Connexion</h2>
-    <v-form @submit.prevent="handleLogin">
-      <v-text-field
-        v-model="loginEmail"
-        label="Email"
-        required
-        type="email"
-      />
-      <v-text-field
-        v-model="loginPassword"
-        label="Mot de passe"
-        required
-        type="password"
-      />
-      <v-btn color="primary" type="submit">Se connecter</v-btn>
-    </v-form>
+    <v-sheet class="mx-auto bg-transparent" max-width="400">
+      <h1 class="mb-4">Connexion</h1>
+      <v-form @submit.prevent="handleLogin">
+        <!-- Champ d'email -->
+        <v-text-field
+          v-model="loginEmail"
+          label="Email"
+          required
+          type="email"
+        />
+        <!-- Champ de mot de passe -->
+        <v-text-field
+          v-model="loginPassword"
+          label="Mot de passe"
+          required
+          type="password"
+        />
+        <!-- Affichage du message d'erreur en cas d'échec de connexion -->
+        <v-alert
+          border="start"
+          class="mb-6"
+          color="warning"
+          text="Mauvais email ou mot de passe !"
+        />
+        <!-- Bouton de connexion -->
+        <v-btn color="primary" size="large" type="submit">Se connecter</v-btn>
+      </v-form>
+    </v-sheet>
 
-    <!-- Message de succès ou d'erreur de connexion -->
-    <v-alert v-if="loginMessage" :type="loginSuccess ? 'success' : 'error'">
-      {{ loginMessage }}
-    </v-alert>
   </v-container>
 </template>
 
