@@ -1,18 +1,17 @@
 <template>
   <!--
-  Indicateur de chargement lorsque les données du Pokémon sont en cours de chargement
-    * v-if="pokemonStore.isLoading" affiche ce composant uniquement si le chargement est en cours
-    * class="text-center" centre le spinner horizontalement
-    * cols="12" occupe toute la largeur disponible
-  -->
-  <v-col v-if="pokemonStore.isLoading" class="text-center" cols="12">
+    Conteneur pour l'indicateur de chargement
+      * v-if="pokemonStore.isLoading" affiche ce composant uniquement si le chargement est en cours
+      * class="text-center" centre le spinner horizontalement
+    -->
+  <v-container v-if="pokemonStore.isLoading" class="text-center">
     <v-progress-circular
       class="mx-auto"
       color="primary"
       indeterminate
       size="64"
     />
-  </v-col>
+  </v-container>
 
   <!--
   Conteneur principal affichant les détails du Pokémon une fois chargé
