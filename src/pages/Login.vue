@@ -1,23 +1,32 @@
 <template>
   <v-container>
+    <!-- Feuille de connexion centrée avec largeur maximale définie -->
     <v-sheet class="mx-auto bg-transparent" max-width="400">
+      <!-- Titre de la page de connexion -->
       <h1 class="mb-4">Connexion</h1>
+
+      <!-- Formulaire de connexion -->
       <v-form @submit.prevent="login">
-        <!-- Champ d'email -->
+        <!-- Champ d'email avec validation et accessibilité -->
         <v-text-field
           v-model="loginEmail"
+          aria-label="Champ de saisie pour l'email"
           label="Email"
           required
+          :rules="[validateEmail]"
           type="email"
         />
-        <!-- Champ de mot de passe -->
+        <!-- Champ de mot de passe avec validation et accessibilité -->
         <v-text-field
           v-model="loginPassword"
+          aria-label="Champ de saisie pour le mot de passe"
           label="Mot de passe"
           required
+          :rules="[validatePassword]"
           type="password"
         />
-        <!-- Affichage du message d'erreur en cas d'échec de connexion -->
+
+        <!-- Affichage du message d'erreur général en cas d'échec de connexion -->
         <v-alert
           v-if="errorMessage"
           border="start"
@@ -26,8 +35,10 @@
         >
           {{ errorMessage }}
         </v-alert>
-        <!-- Bouton de connexion -->
+
+        <!-- Bouton de connexion avec gestion de chargement -->
         <v-btn
+          aria-label="Bouton pour se connecter"
           color="primary"
           :loading="pokemonStore.isLoading"
           size="large"
@@ -35,7 +46,6 @@
         >Se connecter</v-btn>
       </v-form>
     </v-sheet>
-
   </v-container>
 </template>
 
@@ -44,9 +54,8 @@
   import { ref } from 'vue'
   import { usePokemonStore } from '@/stores/pokemonStore'
 
-  // Récupération du router pour la redirection
+  // Initialisation du router et de la route
   const router = useRouter()
-  // Récupération des paramètres de l'URL pour la redirection
   const route = useRoute()
 
   // Initialisation du store
@@ -56,26 +65,40 @@
   const loginEmail = ref('')
   const loginPassword = ref('')
 
-  // État pour le message et le statut de succès de la connexion
+  // Message d'erreur en cas d'échec de connexion
   const errorMessage = ref('')
 
   /**
    * Fonction de connexion
-   * @async
    * Utilise l'action login du store pour authentifier l'utilisateur
    */
   const login = async () => {
     const response = await pokemonStore.login(loginEmail.value, loginPassword.value)
     if (response.success) {
       // Rediriger l'utilisateur vers la page précédente ou la page d'accueil
-      router.push(route.query.redirect || '/') // route.query.redirect récupère le paramètre d'URL redirect
+      router.push(route.query.redirect || '/')
+      // Réinitialiser les champs après connexion
+      loginEmail.value = ''
+      loginPassword.value = ''
+      errorMessage.value = ''
     } else {
       // Afficher un message d'erreur
       errorMessage.value = response.message
     }
   }
+
+  // Règles de validation pour le champ email
+  const validateEmail = email => {
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    return emailPattern.test(email) || 'Veuillez entrer un email valide.'
+  }
+
+  // Règles de validation pour le champ mot de passe
+  const validatePassword = password => {
+    return password.length > 3 || 'Le mot de passe doit comporter au moins 4 caractères.'
+  }
 </script>
 
 <style scoped>
-/* Ajoutez ici des styles spécifiques à cette page si nécessaire */
+/* Styles spécifiques pour centrer et styliser la page */
 </style>

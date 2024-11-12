@@ -12,7 +12,7 @@ export const usePokemonStore = defineStore('pokemon', {
     imageUrl: 'https://localhost/assets', // URL de base pour récupérer les images
     types: [], // Liste des types de Pokémon obtenue depuis l'API
     pokemons: [], // Liste des Pokémon obtenue depuis l'API
-    selectedPokemon: null, // Pokémon actuellement sélectionné
+    selectedPokemon: null, // Pokémon actuellement sélectionné pour affichage en détail
     favorites: [], // Liste des Pokémon favoris
     token: null, // Token d'authentification pour les requêtes API sécurisées
   }),
@@ -43,7 +43,6 @@ export const usePokemonStore = defineStore('pokemon', {
      */
     async login (email, password) {
       this.isLoading = true
-
       try {
         const response = await axios.post(`${this.apiUrl}/auth/login`, {
           email,
@@ -80,19 +79,19 @@ export const usePokemonStore = defineStore('pokemon', {
     },
 
     /**
-     * Crée un nouveau Pokémon en envoyant les données à l'API
-     * @param data - Les données du Pokémon à créer
+     * Crée un nouveau Pokémon en envoyant les données à l'API.
+     * @param {Object} data - Les données du Pokémon à créer.
      * @returns {Promise<void>}
      */
     async createPokemon (data) {
       this.isLoading = true
       try {
         const response = await axios.post(`${this.apiUrl}/items/pokemon`, data)
+        // Ajoute le nouveau Pokémon à la liste locale
         this.pokemons.push(response.data.data)
       } catch (error) {
-        // Récupérer le message d'erreur spécifique de l'API s'il est disponible
+        // Récupère un message d'erreur spécifique si disponible, sinon un message par défaut
         const errorMessage = error.response?.data?.errors?.[0]?.message || 'Une erreur est survenue lors de la création du Pokémon.'
-        // Lever l'erreur avec le message détaillé
         throw new Error(errorMessage)
       } finally {
         this.isLoading = false
@@ -101,19 +100,19 @@ export const usePokemonStore = defineStore('pokemon', {
 
     /**
      * Supprime un Pokémon en envoyant une requête DELETE à l'API.
-     * @param id - L'ID du Pokémon à supprimer
+     * @param {number} id - L'ID du Pokémon à supprimer.
      * @returns {Promise<void>}
      */
     async deletePokemon (id) {
       this.isLoading = true
       try {
         await axios.delete(`${this.apiUrl}/items/pokemon/${id}`)
-        // Supprimer le Pokémon de la liste locale
+        // Supprime le Pokémon de la liste locale
         this.pokemons = this.pokemons.filter(p => p.id !== id)
-        // Supprimer le Pokémon des favoris s'il est présent
+        // Supprime également des favoris s'il y est présent
         this.favorites = this.favorites.filter(p => p.id !== id)
       } catch (error) {
-        throw new Error('Supression impossible !')
+        throw new Error('Suppression impossible !')
       } finally {
         this.isLoading = false
       }
@@ -175,6 +174,7 @@ export const usePokemonStore = defineStore('pokemon', {
       } else {
         this.favorites.splice(index, 1)
       }
+      // Sauvegarde la liste des favoris dans le localStorage
       localStorage.setItem('favorites', JSON.stringify(this.favorites))
     },
 
