@@ -7,14 +7,15 @@
   <v-container max-width="600px">
     <!--
     Titre de la page
-      * class="mb-6 text-center" ajoute une Marge en Bas de 6 unités et centre le texte
+      * class="mb-6" ajoute une Marge en Bas de 6 unités
+      * class="text-center" centre le texte
     -->
     <h1 class="mb-6 text-center">Le Monde Pokémon</h1>
 
     <!--
     Image de la carte du monde Pokémon
       * alt fournit une description pour l'accessibilité
-      * class="mb-6 cursor-pointer" ajoute une Marge en Bas de 6 unités et
+      * class="mb-6" ajoute une Marge en Bas de 6 unités et
       * class="cursor-pointer" classe "maison" déclarée dans le style du composant pour changer le curseur en main
       * contain ajuste l'image pour être entièrement contenue dans la zone définie
       * src définit le chemin de l'image
