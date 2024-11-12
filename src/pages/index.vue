@@ -4,12 +4,15 @@
       Pokédex
       <!-- bouton pour ajouter un pokémon -->
       <v-btn
+        aria-label="Ajouter un Pokémon"
         class="ml-4"
         color="primary"
-        fab
-        icon="mdi-plus"
+        icon
         @click="$router.push('pokemon/add')"
-      />
+      >
+        <v-icon>mdi-plus</v-icon>
+        <v-tooltip activator="parent">Ajouter un Pokémon</v-tooltip>
+      </v-btn>
     </h1>
     <pokemon-search v-model="search" />
     <v-row>
