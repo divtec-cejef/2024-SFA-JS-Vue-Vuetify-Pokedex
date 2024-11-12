@@ -81,7 +81,7 @@
         xxl="2"
       >
         <!--
-        composant de carte de pokémon
+        composant "maison" de carte de pokémon
           * :pokemon permet de passer le pokémon à afficher au composant via une prop
           * le composant PokemonCard est dans le dossier src/components/PokemonCard.vue
         -->

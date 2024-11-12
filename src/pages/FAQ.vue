@@ -1,14 +1,35 @@
 <template>
   <v-container>
+    <!--
+    Titre de la page FAQ
+      * class="mb-6" ajoute une Marge en Bas de 6 unités
+      * class="text-center" centre le texte
+    -->
     <h1 class="mb-6 text-center">Foire Aux Questions (FAQ)</h1>
+
+    <!--
+    Panneaux expansibles, accordéons, pour afficher les questions et réponses
+      * v-expansion-panels crée un conteneur pour les panneaux expansibles
+    -->
     <v-expansion-panels>
-      <v-expansion-panel
-        v-for="(item, i) in faqItems"
-        :key="i"
-      >
+      <!--
+      Boucle pour afficher chaque élément de la FAQ
+        * v-for permet de parcourir la liste faqItems
+        * :key attribue une clé unique à chaque panneau pour optimiser le rendu
+      -->
+      <v-expansion-panel v-for="(item, i) in faqItems" :key="i">
+        <!--
+        Titre de la question
+          * v-expansion-panel-title affiche le titre de la question dans le panneau
+        -->
         <v-expansion-panel-title>
           {{ item.question }}
         </v-expansion-panel-title>
+
+        <!--
+        Texte de la réponse
+          * v-expansion-panel-text affiche le texte de la réponse dans le panneau
+        -->
         <v-expansion-panel-text>
           {{ item.answer }}
         </v-expansion-panel-text>
@@ -20,6 +41,11 @@
 <script setup>
   import { ref } from 'vue'
 
+  /*
+    Liste des questions et réponses fréquemment posées (FAQ)
+      * faqItems est un tableau réactif contenant des objets { question, answer }
+      * ref() rend faqItems réactif, ce qui permet à Vue de mettre à jour l'interface si le contenu change
+  */
   const faqItems = ref([
     {
       question: "Qu'est-ce qu'un Pokédex ?",
@@ -47,7 +73,3 @@
     },
   ])
 </script>
-
-<style scoped>
-/* Vous pouvez ajouter des styles spécifiques ici si nécessaire */
-</style>
