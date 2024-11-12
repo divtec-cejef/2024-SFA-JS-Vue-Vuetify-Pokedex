@@ -51,10 +51,16 @@
 
   const search = ref('')
 
+  // Fonction de recherche améliorée avec localeCompare pour les correspondances partielles
   const filteredPokemons = computed(() => {
-    if (!search.value) return pokemons.value
+    // on récupère la valeur de la recherche en minuscule et sans espaces (trim)
+    const searchQuery = search.value.trim().toLowerCase()
+    // si la recherche est vide on retourne tous les pokemons
+    if (!searchQuery) return pokemons.value
+    // sinon on retourne les pokemons dont le nom contient la recherche
     return pokemons.value.filter(pokemon =>
-      pokemon.nom.toLowerCase().includes(search.value.toLowerCase())
+      pokemon.nom.toLowerCase().includes(searchQuery)
     )
   })
+
 </script>

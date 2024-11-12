@@ -22,7 +22,7 @@
 ### 3. `index.vue`
 
 - **Amélioration de la recherche** : Nettoyer la saisie utilisateur en supprimant les espaces en début et fin (`trim()`) pour éviter les recherches erronées.
-- **Accessibilité** : Ajouter un `aria-label` au bouton d’ajout de Pokémon (`v-btn`) pour améliorer l’accessibilité.
+- **Accessibilité** : ~~Ajouter un `aria-label` au bouton d’ajout de Pokémon (`v-btn`) pour améliorer l’accessibilité.~~
 - **Documentation interne** : Ajouter des commentaires pour clarifier la logique de filtrage et l’utilisation du store, facilitant la compréhension du fonctionnement du composant par les apprentis.
 
 ---
