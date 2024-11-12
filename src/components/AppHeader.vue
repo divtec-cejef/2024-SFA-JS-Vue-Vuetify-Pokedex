@@ -1,18 +1,38 @@
 <template>
-  <!-- Barre d'application plate avec navigation -->
+  <!--
+  Barre d'application plate
+    * flat supprime l'ombre sous la barre
+  -->
   <v-app-bar flat>
+    <!--
+    Conteneur de la barre d'application
+      * class="d-flex align-start align-center" aligne les éléments de manière flexible, alignés en haut et centrés verticalement
+    -->
     <v-container class="d-flex align-start align-center">
-      <!-- Logo cliquable ramenant à l'accueil -->
+      <!--
+      Logo de l'application cliquable
+        * class="mr-4 pa-0 cursor-pointer" ajoute une marge à droite, retire le padding, et change le curseur pour indiquer la cliquabilité
+        * image définit le chemin vers le logo (Pokeball) de l'application
+        * size="64" définit la taille de l'avatar
+        * @click redirige vers la page d'accueil
+      -->
       <v-avatar
         class="mr-4 pa-0 cursor-pointer"
         image="@/assets/pokeball.svg"
         size="64"
         @click="$router.push('/')"
       />
-      <!-- Titre de l'application -->
+
+      <!-- Titre de l'application affiché dans la barre -->
       <v-toolbar-title>Pokedex</v-toolbar-title>
 
-      <!-- Liens de navigation dynamiques issus de la liste `menuItems` -->
+      <!--
+      Liens de navigation générés dynamiquement
+        * v-for parcourt chaque élément dans menuItems pour créer un lien de navigation
+        * :key utilise link.title pour définir une clé unique par lien
+        * :icon affiche l'icône spécifiée pour chaque lien
+        * :to utilise le chemin vers la route spécifiée pour chaque lien
+      -->
       <v-btn
         v-for="link in menuItems"
         :key="link.title"
@@ -20,13 +40,24 @@
         :to="link.path"
       />
 
-      <!-- Bouton Login ou Logout selon l'état de connexion de l'utilisateur -->
+      <!--
+      Bouton de déconnexion
+        * v-if="store.token" affiche le bouton si l'utilisateur est connecté (store.token existe)
+        * icon="mdi-logout" affiche l'icône de déconnexion
+        * @click déclenche la fonction de déconnexion (logout)
+      -->
       <v-btn
         v-if="store.token"
         icon="mdi-logout"
         @click="logout"
       />
-      <!-- Si pas connecté, affiche le bouton Login -->
+
+      <!--
+      Bouton de connexion (affiché si l'utilisateur n'est pas connecté)
+        * v-else affiche ce bouton seulement si store.token n'existe pas
+        * icon="mdi-login" affiche l'icône de connexion
+        * @click redirige vers la page de connexion
+      -->
       <v-btn
         v-else
         icon="mdi-login"
@@ -34,7 +65,12 @@
       />
     </v-container>
   </v-app-bar>
-  <!-- Notification de déconnexion -->
+
+  <!--
+  Notification de déconnexion réussie
+    * v-model="snackbar" contrôle la visibilité du snackbar
+    * color="success" applique une couleur de succès (verte) au snackbar
+  -->
   <v-snackbar
     v-model="snackbar"
     color="success"
@@ -51,7 +87,13 @@
   // Utilisation du store pour gérer l'état de connexion de l'utilisateur
   const store = usePokemonStore()
 
-  // Définition des éléments de menu avec leurs icônes et chemins
+  /*
+Définition des éléments de menu pour la navigation
+  - Chaque élément contient :
+    * title : le titre du lien
+    * path : le chemin de la route
+    * icon : l'icône du lien
+*/
   const menuItems = ref([
     { title: 'Accueil', path: '/', icon: 'mdi-pokeball' },
     { title: 'Favoris', path: '/favoris', icon: 'mdi-heart' },
@@ -59,10 +101,15 @@
     { title: 'Kanto', path: '/kantomap', icon: 'mdi-map' },
   ])
 
-  // État pour afficher la notification de déconnexion
+  // État pour contrôler l'affichage du snackbar de déconnexion
   const snackbar = ref(false)
 
-  // Fonction de déconnexion
+  /*
+Fonction de déconnexion
+  - Affiche le snackbar de déconnexion
+  - Déconnecte l'utilisateur en appelant la méthode logout() du store
+  - Redirige l'utilisateur vers la page d'accueil après la déconnexion
+*/
   function logout () {
     snackbar.value = true // Afficher la notification de déconnexion
     store.logout() // Appeler la méthode de déconnexion du store

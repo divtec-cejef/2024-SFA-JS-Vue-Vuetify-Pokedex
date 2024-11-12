@@ -16,7 +16,7 @@
     Image de la carte du monde Pokémon
       * alt fournit une description pour l'accessibilité
       * class="mb-6" ajoute une Marge en Bas de 6 unités et
-      * class="cursor-pointer" classe "maison" déclarée dans le style du composant pour changer le curseur en main
+      * class="cursor-pointer" change le curseur pour indiquer que l'image est cliquable
       * contain ajuste l'image pour être entièrement contenue dans la zone définie
       * src définit le chemin de l'image
       * @click déclenche l'ouverture du dialogue d'image
@@ -102,10 +102,3 @@
     dialog.value = true
   }
 </script>
-
-<style scoped>
- /* changer le curseur en main au survol pour indiquer que l'élément est cliquable */
-.cursor-pointer {
-  cursor: pointer;
-}
-</style>
