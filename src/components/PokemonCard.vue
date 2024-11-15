@@ -6,7 +6,7 @@
       <pokemon-types-chips :pokemon="pokemon" />
       <v-card-text>Level: {{ pokemon.level }}</v-card-text>
       <v-card-actions>
-        <v-btn icon @click.prevent="pokemonStore.toggleFavorite()">
+        <v-btn icon @click.prevent="pokemonStore.toggleFavorite(pokemon)">
           <v-icon :color="pokemonStore.isFavorite(pokemon)? 'red' : ''">
             {{ pokemonStore.isFavorite(pokemon) ? 'mdi-heart' : 'mdi-heart-outline' }}
           </v-icon>
@@ -20,7 +20,7 @@
   import { usePokemonStore } from '@/stores/pokemonStore'
   const pokemonStore = usePokemonStore()
 
-  const props = defineProps({
+  defineProps({
     pokemon: {
       type: Object,
       required: true,
