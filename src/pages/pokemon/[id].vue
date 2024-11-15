@@ -4,13 +4,8 @@
       <v-img contain height="300px" :src="`/images/${selectedPokemon.img}`" />
       <v-card-title>{{ selectedPokemon.name }}</v-card-title>
       <v-card-subtitle>
-        Niveau : {{ selectedPokemon.level }} -
-        Types:
-        <TypeChip
-          v-for="typeId in selectedPokemon.types"
-          :key="typeId"
-          :type-id="typeId"
-        />
+        <div class="mb-2">Niveau : {{ selectedPokemon.level }}</div>
+        <div class="mb-2">Types: <pokemon-types-chips :pokemon="selectedPokemon" /></div>
       </v-card-subtitle>
       <v-card-text>
         <p>{{ selectedPokemon.description }}</p>
@@ -44,7 +39,7 @@
 </template>
 
 <script setup>
-  import TypeChip from '@/components/TypeChip.vue'
+  import PokemonTypesChips from '@/components/PokemonTypesChips.vue'
   import { onMounted } from 'vue'
   import { useRoute } from 'vue-router'
   import { storeToRefs } from 'pinia'

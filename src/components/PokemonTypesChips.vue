@@ -1,5 +1,7 @@
 <template>
   <v-chip
+    v-for="typeId in pokemon.types"
+    :key="typeId"
     class="ma-1"
     :color="pokemonStore.getTypeById(typeId).color"
     text-color="white"
@@ -14,8 +16,8 @@
 
   // Définition des props du composant
   defineProps({
-    typeId: { // Id du type du Pokémon à afficher
-      type: Number,
+    pokemon: { // Pokémon dont on veut afficher les types
+      type: Object,
       required: true,
     },
   })

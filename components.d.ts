@@ -10,8 +10,10 @@ declare module 'vue' {
     AppHeader: typeof import('./src/components/AppHeader.vue')['default']
     PokemonCard: typeof import('./src/components/PokemonCard.vue')['default']
     PokemonSearch: typeof import('./src/components/PokemonSearch.vue')['default']
+    PokemonTypesChips: typeof import('./src/components/PokemonTypesChips.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    TypeChip: typeof import('./src/components/TypeChip.vue')['default']
+    TypeChip: typeof import('@/components/TypeChips.vue')['default']
+    TypeChips: typeof import('@/components/PokemonTypesChips.vue')['default']
   }
 }
