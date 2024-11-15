@@ -6,15 +6,11 @@
       <v-card-subtitle>
         Niveau : {{ selectedPokemon.level }} -
         Types:
-        <v-chip
+        <TypeChip
           v-for="typeId in selectedPokemon.types"
           :key="typeId"
-          class="ma-1"
-          :color="pokemonStore.getTypeById(typeId).color"
-          text-color="white"
-        >
-          {{ pokemonStore.getTypeById(typeId).name }}
-        </v-chip>
+          :type-id="typeId"
+        />
       </v-card-subtitle>
       <v-card-text>
         <p>{{ selectedPokemon.description }}</p>
@@ -48,6 +44,7 @@
 </template>
 
 <script setup>
+  import TypeChip from '@/components/TypeChip.vue'
   import { onMounted } from 'vue'
   import { useRoute } from 'vue-router'
   import { storeToRefs } from 'pinia'
