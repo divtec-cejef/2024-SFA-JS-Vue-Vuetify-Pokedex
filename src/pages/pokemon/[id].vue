@@ -3,7 +3,19 @@
     <v-card>
       <v-img contain height="300px" :src="`/images/${selectedPokemon.img}`" />
       <v-card-title>{{ selectedPokemon.name }}</v-card-title>
-      <v-card-subtitle>Type: {{ selectedPokemon.type }} | Level: {{ selectedPokemon.level }}</v-card-subtitle>
+      <v-card-subtitle>
+        Niveau : {{ selectedPokemon.level }} -
+        Types:
+        <v-chip
+          v-for="typeId in selectedPokemon.types"
+          :key="typeId"
+          class="ma-1"
+          :color="pokemonStore.getTypeById(typeId).color"
+          text-color="white"
+        >
+          {{ pokemonStore.getTypeById(typeId).name }}
+        </v-chip>
+      </v-card-subtitle>
       <v-card-text>
         <p>{{ selectedPokemon.description }}</p>
         <v-divider class="my-3" />

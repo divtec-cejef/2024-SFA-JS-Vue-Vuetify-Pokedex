@@ -4,20 +4,20 @@
     <v-card-title>{{ pokemon.name }}</v-card-title>
     <v-card-subtitle>
       <v-chip
-        v-for="type in pokemon.type.split(',')"
-        :key="type"
+        v-for="typeId in pokemon.types"
+        :key="typeId"
         class="ma-1"
-        :color="getTypeColor(type)"
+        :color="pokemonStore.getTypeById(typeId).color"
         text-color="white"
       >
-        {{ type }}
+        {{ pokemonStore.getTypeById(typeId).name }}
       </v-chip>
     </v-card-subtitle>
     <v-card-text>Level: {{ pokemon.level }}</v-card-text>
     <v-card-actions>
-      <v-btn icon @click.prevent="toggleFavorite">
-        <v-icon :color="isFavorite ? 'red' : ''">
-          {{ isFavorite ? 'mdi-heart' : 'mdi-heart-outline' }}
+      <v-btn icon @click.prevent="pokemonStore.toggleFavorite()">
+        <v-icon :color="pokemonStore.isFavorite(pokemon)? 'red' : ''">
+          {{ pokemonStore.isFavorite(pokemon) ? 'mdi-heart' : 'mdi-heart-outline' }}
         </v-icon>
       </v-btn>
     </v-card-actions>
@@ -25,8 +25,8 @@
 </template>
 
 <script setup>
-  import { computed } from 'vue'
   import { usePokemonStore } from '@/stores/pokemonStore'
+  const pokemonStore = usePokemonStore()
 
   const props = defineProps({
     pokemon: {
@@ -35,14 +35,4 @@
     },
   })
 
-  const pokemonStore = usePokemonStore()
-  const isFavorite = computed(() => pokemonStore.isFavorite(props.pokemon))
-
-  function toggleFavorite () {
-    pokemonStore.toggleFavorite(props.pokemon)
-  }
-
-  function getTypeColor (type) {
-    return pokemonStore.getTypeColor(type)
-  }
 </script>

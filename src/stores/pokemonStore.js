@@ -1,32 +1,54 @@
+/**
+ * @file Gestionnaire de magasin pour les Pokémon.
+ * Utilise Pinia pour gérer les types de Pokémon, la liste des Pokémon,
+ * et les fonctionnalités de sélection et de favoris.
+ * @version 1.0
+ * @since 2024-01-31
+ */
+
 import { defineStore } from 'pinia'
 
-const typeColors = {
-  Électrique: '#FFD700',
-  Plante: '#78C850',
-  Poison: '#A040A0',
-  Feu: '#F08030',
-  Eau: '#6890F0',
-  Normal: '#A8A878',
-  Fée: '#EE99AC',
-  Spectre: '#705898',
-  Combat: '#C03028',
-  Vol: '#A890F0',
-  Glace: '#98D8D8',
-  Roche: '#B8A038',
-  Sol: '#E0C068',
-  Psy: '#F85888',
-}
+/**
+ * Tableau des types de Pokémon.
+ * @type {Array<{id: number, name: string, color: string}>}
+ */
+const types = [
+  { id: 1, name: 'Électrique', color: '#FFD700' },
+  { id: 2, name: 'Plante', color: '#78C850' },
+  { id: 3, name: 'Poison', color: '#A040A0' },
+  { id: 4, name: 'Feu', color: '#F08030' },
+  { id: 5, name: 'Eau', color: '#6890F0' },
+  { id: 6, name: 'Normal', color: '#A8A878' },
+  { id: 7, name: 'Fée', color: '#EE99AC' },
+  { id: 8, name: 'Spectre', color: '#705898' },
+  { id: 9, name: 'Combat', color: '#C03028' },
+  { id: 10, name: 'Vol', color: '#A890F0' },
+  { id: 11, name: 'Glace', color: '#98D8D8' },
+  { id: 12, name: 'Roche', color: '#B8A038' },
+  { id: 13, name: 'Sol', color: '#E0C068' },
+  { id: 14, name: 'Psy', color: '#F85888' },
+]
+
+/**
+ * Tableau des Pokémons
+ * @pokemon {Array<{id: number, name: string, types: number[], level: number, img: string, description: string, height: number, weight: number, abilities: string[], stats: {hp: number, attack: number, defense: number, speed: number}}>}
+ */
 const pokemons = [
   {
     id: 1,
     name: 'Pikachu',
-    type: 'Électrique',
+    types: [
+      1,
+    ],
     level: 35,
     img: 'pikachu.png',
-    description: 'Pikachu stocke de l\'électricité dans ses joues. Il peut produire des décharges électriques puissantes.',
+    description: "Pikachu stocke de l'électricité dans ses joues. Il peut produire des décharges électriques puissantes.",
     height: 0.4,
     weight: 6,
-    abilities: ['Statik', 'Paratonnerre'],
+    abilities: [
+      'Statik',
+      'Paratonnerre',
+    ],
     stats: {
       hp: 35,
       attack: 55,
@@ -37,13 +59,18 @@ const pokemons = [
   {
     id: 2,
     name: 'Bulbizarre',
-    type: 'Plante,Poison',
+    types: [
+      2,
+      3,
+    ],
     level: 15,
     img: 'bulbizarre.png',
     description: 'Il y a une graine sur son dos depuis sa naissance. Elle grossit un peu chaque jour.',
     height: 0.7,
     weight: 6.9,
-    abilities: ['Engrais'],
+    abilities: [
+      'Engrais',
+    ],
     stats: {
       hp: 45,
       attack: 49,
@@ -54,13 +81,17 @@ const pokemons = [
   {
     id: 3,
     name: 'Salamèche',
-    type: 'Feu',
+    types: [
+      4,
+    ],
     level: 20,
     img: 'salameche.png',
-    description: 'La flamme au bout de sa queue indique l\'humeur de ce Pokémon. Elle vacille quand Salamèche est content.',
+    description: "La flamme au bout de sa queue indique l'humeur de ce Pokémon. Elle vacille quand Salamèche est content.",
     height: 0.6,
     weight: 8.5,
-    abilities: ['Brasier'],
+    abilities: [
+      'Brasier',
+    ],
     stats: {
       hp: 39,
       attack: 52,
@@ -71,13 +102,17 @@ const pokemons = [
   {
     id: 4,
     name: 'Carapuce',
-    type: 'Eau',
+    types: [
+      5,
+    ],
     level: 10,
     img: 'carapuce.png',
     description: 'Carapuce est une petite tortue bipède de couleur bleue. Il possède une carapace majoritairement brune avec un contour blanc.',
     height: 0.5,
     weight: 9,
-    abilities: ['Torrent'],
+    abilities: [
+      'Torrent',
+    ],
     stats: {
       hp: 44,
       attack: 48,
@@ -88,13 +123,19 @@ const pokemons = [
   {
     id: 5,
     name: 'Rondoudou',
-    type: 'Normal,Fée',
+    types: [
+      6,
+      7,
+    ],
     level: 25,
     img: 'rondoudou.png',
-    description: 'Quand ses grands yeux s\'illuminent, il chante une mystérieuse berceuse qui endort ses ennemis.',
+    description: "Quand ses grands yeux s'illuminent, il chante une mystérieuse berceuse qui endort ses ennemis.",
     height: 0.5,
     weight: 5.5,
-    abilities: ['Joli Sourire', 'Battant'],
+    abilities: [
+      'Joli Sourire',
+      'Battant',
+    ],
     stats: {
       hp: 115,
       attack: 45,
@@ -105,13 +146,18 @@ const pokemons = [
   {
     id: 6,
     name: 'Ectoplasma',
-    type: 'Spectre,Poison',
+    types: [
+      8,
+      3,
+    ],
     level: 45,
     img: 'ectoplasma.png',
-    description: 'Ectoplasma peut hypnotiser son adversaire en le fixant de ses yeux rouges. Il attaque ensuite en se cachant dans l\'ombre de l\'ennemi.',
+    description: "Ectoplasma peut hypnotiser son adversaire en le fixant de ses yeux rouges. Il attaque ensuite en se cachant dans l'ombre de l'ennemi.",
     height: 1.5,
     weight: 40.5,
-    abilities: ['Lévitation'],
+    abilities: [
+      'Lévitation',
+    ],
     stats: {
       hp: 60,
       attack: 65,
@@ -122,13 +168,19 @@ const pokemons = [
   {
     id: 7,
     name: 'Évoli',
-    type: 'Normal,Combat',
+    types: [
+      6,
+      9,
+    ],
     level: 22,
     img: 'evoli.png',
     description: 'Évoli possède une structure génétique instable qui se transforme selon son environnement.',
     height: 0.3,
     weight: 6.5,
-    abilities: ['Adaptabilité', 'Anticipation'],
+    abilities: [
+      'Adaptabilité',
+      'Anticipation',
+    ],
     stats: {
       hp: 55,
       attack: 55,
@@ -139,13 +191,18 @@ const pokemons = [
   {
     id: 8,
     name: 'Dracaufeu',
-    type: 'Feu,Vol',
+    types: [
+      4,
+      10,
+    ],
     level: 50,
     img: 'dracaufeu.png',
-    description: 'Dracaufeu parcourt les cieux pour trouver des adversaires à sa mesure. Il crache de puissantes flammes capables de faire fondre n\'importe quoi.',
+    description: "Dracaufeu parcourt les cieux pour trouver des adversaires à sa mesure. Il crache de puissantes flammes capables de faire fondre n'importe quoi.",
     height: 1.7,
     weight: 90.5,
-    abilities: ['Brasier'],
+    abilities: [
+      'Brasier',
+    ],
     stats: {
       hp: 78,
       attack: 84,
@@ -156,13 +213,18 @@ const pokemons = [
   {
     id: 9,
     name: 'Florizarre',
-    type: 'Plante,Poison',
+    types: [
+      2,
+      3,
+    ],
     level: 55,
     img: 'florizarre.png',
     description: 'Sa plante donne une grosse fleur quand elle absorbe les rayons du soleil. Il est toujours à la recherche des endroits les plus ensoleillés.',
     height: 2,
     weight: 100,
-    abilities: ['Engrais'],
+    abilities: [
+      'Engrais',
+    ],
     stats: {
       hp: 80,
       attack: 82,
@@ -173,13 +235,17 @@ const pokemons = [
   {
     id: 10,
     name: 'Tortank',
-    type: 'Eau',
+    types: [
+      5,
+    ],
     level: 52,
     img: 'tortank.png',
-    description: 'Il écrase ses adversaires de tout son poids pour les faire évanouir. Il rentre dans sa carapace s\'il se sent en danger.',
+    description: "Il écrase ses adversaires de tout son poids pour les faire évanouir. Il rentre dans sa carapace s'il se sent en danger.",
     height: 1.6,
     weight: 85.5,
-    abilities: ['Torrent'],
+    abilities: [
+      'Torrent',
+    ],
     stats: {
       hp: 79,
       attack: 83,
@@ -187,144 +253,67 @@ const pokemons = [
       speed: 78,
     },
   },
-  {
-    id: 11,
-    name: 'Mélofée',
-    type: 'Fée',
-    level: 18,
-    img: 'melofee.png',
-    description: 'On dit que ceux qui voient danser un groupe de Mélofée sous la pleine lune connaîtront un grand bonheur.',
-    height: 0.6,
-    weight: 7.5,
-    abilities: ['Joli Sourire', 'Garde Magik'],
-    stats: {
-      hp: 70,
-      attack: 45,
-      defense: 48,
-      speed: 35,
-    },
-  },
-  {
-    id: 12,
-    name: 'Raichu',
-    type: 'Électrique',
-    level: 40,
-    img: 'raichu.png',
-    description: 'Sa longue queue agit comme une prise de terre pour le protéger du courant à haute tension généré dans son corps.',
-    height: 0.8,
-    weight: 30,
-    abilities: ['Statik', 'Paratonnerre'],
-    stats: {
-      hp: 60,
-      attack: 90,
-      defense: 55,
-      speed: 110,
-    },
-  },
-  {
-    id: 13,
-    name: 'Magicarpe',
-    type: 'Eau',
-    level: 5,
-    img: 'magicarpe.png',
-    description: 'Un Pokémon pathétiquement faible. Il peut juste faire des ronds dans l\'eau ou s\'éclabousser.',
-    height: 0.9,
-    weight: 10,
-    abilities: ['Glissade'],
-    stats: {
-      hp: 20,
-      attack: 10,
-      defense: 55,
-      speed: 80,
-    },
-  },
-  {
-    id: 14,
-    name: 'Lokhlass',
-    type: 'Eau,Glace',
-    level: 35,
-    img: 'lokhlass.png',
-    description: 'Ce Pokémon d\'une grande intelligence comprend le langage humain. Il aime transporter les gens sur son dos.',
-    height: 2.5,
-    weight: 220,
-    abilities: ['Absorb Eau', 'Coque Armure'],
-    stats: {
-      hp: 130,
-      attack: 85,
-      defense: 80,
-      speed: 60,
-    },
-  },
-  {
-    id: 15,
-    name: 'Onix',
-    type: 'Roche,Sol',
-    level: 30,
-    img: 'onix.png',
-    description: 'Onix vit généralement sous terre. Il cherche de la nourriture en creusant à plus de 80 km/h.',
-    height: 8.8,
-    weight: 210,
-    abilities: ['Tête de Roc', 'Fermeté'],
-    stats: {
-      hp: 35,
-      attack: 45,
-      defense: 160,
-      speed: 70,
-    },
-  },
-  {
-    id: 16,
-    name: 'Ronflex',
-    type: 'Normal',
-    level: 45,
-    img: 'ronflex.png',
-    description: 'Son estomac peut digérer n\'importe quelle sorte de nourriture, même quand elle est moisie.',
-    height: 2.1,
-    weight: 460,
-    abilities: ['Immunité', 'Isograisse'],
-    stats: {
-      hp: 160,
-      attack: 110,
-      defense: 65,
-      speed: 30,
-    },
-  },
-  {
-    id: 17,
-    name: 'Mewtwo',
-    type: 'Psy',
-    level: 70,
-    img: 'mewtwo.png',
-    description: 'Mewtwo est un Pokémon créé par manipulation génétique. Cependant, bien que les connaissances scientifiques des humains aient réussi à créer son corps, elles n\'ont pas pu doter Mewtwo d\'un cœur sensible.',
-    height: 2,
-    weight: 122,
-    abilities: ['Pression'],
-    stats: {
-      hp: 106,
-      attack: 110,
-      defense: 90,
-      speed: 130,
-    },
-  },
 ]
 
+/* Magasin Pinia pour gérer les données des Pokémon. */
 export const usePokemonStore = defineStore('pokemon', {
+
+  /* État initial des données du magasin. */
   state: () => ({
-    typeColors,
-    pokemons,
-    selectedPokemon: null,
-    favorites: [],
+    types, // Liste des types de Pokémon
+    pokemons, // Liste des Pokémon
+    selectedPokemon: null, // Pokémon sélectionné
+    favorites: [], // Liste des Pokémon favoris
   }),
+
+  /* Getters pour accéder aux données du magasin */
   getters: {
+    /**
+     * Compte le nombre de Pokémon favoris.
+     * @param {Object} state - L'état actuel du magasin.
+     * @returns {number} Le nombre de favoris.
+     */
     favoritesCount: state => state.favorites.length,
+
+    /**
+     * Récupère un Pokémon par son identifiant.
+     * @param state - L'état actuel du magasin.
+     * @returns {object} Le Pokémon correspondant à l'identifiant.
+     */
+    getTypeById: state => id => {
+      return state.types.find(type => type.id === id)
+    },
+
+    /**
+     * Indique si l'objet pokémon passé en paramètre est favori.
+     */
+    isFavorite: state => pokemon => {
+      return state.favorites.some(fav => fav.id === pokemon.id)
+    },
   },
+  /**
+   * Actions pour modifier l'état du magasin.
+   */
   actions: {
+    /**
+     * Sélectionne un Pokémon par son identifiant.
+     * @param {number} id - Identifiant du Pokémon.
+     */
     selectPokemon (id) {
       this.selectedPokemon = this.pokemons.find(p => p.id === id) || null
     },
+
+    /**
+     * Charge la liste des Pokémon favoris depuis le `localStorage`.
+     */
     loadFavorites () {
       this.favorites = JSON.parse(localStorage.getItem('favorites')) || []
     },
+
+    /**
+     * Ajoute ou retire un Pokémon des favoris.
+     * @param {Object} pokemon - Objet Pokémon à ajouter ou retirer des favoris.
+     */
     toggleFavorite (pokemon) {
       const index = this.favorites.findIndex(fav => fav.id === pokemon.id)
       if (index === -1) {
@@ -333,12 +322,6 @@ export const usePokemonStore = defineStore('pokemon', {
         this.favorites.splice(index, 1)
       }
       localStorage.setItem('favorites', JSON.stringify(this.favorites))
-    },
-    isFavorite (pokemon) {
-      return this.favorites.some(fav => fav.id === pokemon.id)
-    },
-    getTypeColor (type) {
-      return this.typeColors[type] || '#A8A878' // Couleur par défaut si non trouvée
     },
   },
 })
