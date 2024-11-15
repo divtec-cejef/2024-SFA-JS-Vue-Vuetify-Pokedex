@@ -1,20 +1,20 @@
 <template>
   <!--
-  Barre d'application fixe en haut de la page
-    * flat : supprime l'ombre pour un style minimaliste
+  Barre d'application plate
+    * flat supprime l'ombre sous la barre
   -->
   <v-app-bar flat>
     <!--
-    Conteneur pour aligner le contenu de la barre d'application
-      * class="d-flex align-start align-center" aligne le contenu à gauche et au centre verticalement
+    Conteneur de la barre d'application
+      * class="d-flex align-start align-center" aligne les éléments de manière flexible, alignés en haut et centrés verticalement
     -->
     <v-container class="d-flex align-start align-center">
       <!--
-      Avatar cliquable affichant une Pokéball
-        * image charge l'image de la Pokéball depuis les assets
+      Logo de l'application cliquable
+        * class="mr-4 pa-0 cursor-pointer" ajoute une marge à droite, retire le padding, et change le curseur pour indiquer la cliquabilité
+        * image définit le chemin vers le logo (Pokeball) de l'application
         * size="64" définit la taille de l'avatar
-        * class="mr-4 pa-0 cursor-pointer" ajoute une marge à droite, supprime le padding, et rend le curseur interactif
-        * @click redirige vers la page d'accueil via le routeur Vue
+        * @click redirige vers la page d'accueil
       -->
       <v-avatar
         class="mr-4 pa-0 cursor-pointer"
@@ -23,17 +23,15 @@
         @click="$router.push('/')"
       />
 
-      <!--
-      Titre principal de la barre d'application
-      -->
+      <!-- Titre de l'application affiché dans la barre -->
       <v-toolbar-title>Pokedex</v-toolbar-title>
 
       <!--
-      Boutons générés dynamiquement pour les éléments du menu
-        * v-for itère sur les éléments de menuItems
-        * :key utilise un identifiant unique basé sur le titre de chaque élément
-        * :icon applique une icône spécifique à chaque bouton
-        * :to configure un lien vers le chemin spécifié
+      Liens de navigation générés dynamiquement
+        * v-for parcourt chaque élément dans menuItems pour créer un lien de navigation
+        * :key utilise link.title pour définir une clé unique par lien
+        * :icon affiche l'icône spécifiée pour chaque lien
+        * :to utilise le chemin vers la route spécifiée pour chaque lien
       -->
       <v-btn
         v-for="link in menuItems"
@@ -41,43 +39,80 @@
         :icon="link.icon"
         :to="link.path"
       />
+
+      <!--
+      Bouton de déconnexion
+        * v-if="store.token" affiche le bouton si l'utilisateur est connecté (store.token existe)
+        * icon="mdi-logout" affiche l'icône de déconnexion
+        * @click déclenche la fonction de déconnexion (logout)
+      -->
+      <v-btn
+        v-if="store.token"
+        icon="mdi-logout"
+        @click="logout"
+      />
+
+      <!--
+      Bouton de connexion (affiché si l'utilisateur n'est pas connecté)
+        * v-else affiche ce bouton seulement si store.token n'existe pas
+        * icon="mdi-login" affiche l'icône de connexion
+        * @click redirige vers la page de connexion
+      -->
+      <v-btn
+        v-else
+        icon="mdi-login"
+        @click="$router.push('/login')"
+      />
     </v-container>
   </v-app-bar>
+
+  <!--
+  Notification de déconnexion réussie
+    * v-model="snackbar" contrôle la visibilité du snackbar
+    * color="success" applique une couleur de succès (verte) au snackbar
+  -->
+  <v-snackbar
+    v-model="snackbar"
+    color="success"
+  >
+    Déconnexion réussie !
+  </v-snackbar>
 </template>
 
 <script setup>
-/*
-Importation de ref depuis Vue pour créer une propriété réactive
-*/
+  import router from '@/router'
   import { ref } from 'vue'
+  import { usePokemonStore } from '@/stores/pokemonStore'
+
+  // Utilisation du store pour gérer l'état de connexion de l'utilisateur
+  const store = usePokemonStore()
 
   /*
-Déclaration réactive des éléments du menu de navigation
-  - Chaque objet représente un bouton dans la barre d'application
-    * title : texte descriptif du lien (non affiché ici mais utile pour les clés et extensions futures)
-    * path : chemin de la route vers laquelle le lien redirige
-    * icon : nom de l'icône Vuetify affichée dans le bouton
+Définition des éléments de menu pour la navigation
+  - Chaque élément contient :
+    * title : le titre du lien
+    * path : le chemin de la route
+    * icon : l'icône du lien
 */
   const menuItems = ref([
-    {
-      title: 'Accueil',
-      path: '/',
-      icon: 'mdi-pokeball',
-    },
-    {
-      title: 'Favoris',
-      path: '/favoris',
-      icon: 'mdi-heart',
-    },
-    {
-      title: 'FAQ',
-      path: '/faq',
-      icon: 'mdi-frequently-asked-questions',
-    },
-    {
-      title: 'Kanto',
-      path: '/kantomap',
-      icon: 'mdi-map',
-    },
+    { title: 'Accueil', path: '/', icon: 'mdi-pokeball' },
+    { title: 'Favoris', path: '/favoris', icon: 'mdi-heart' },
+    { title: 'FAQ', path: '/faq', icon: 'mdi-frequently-asked-questions' },
+    { title: 'Kanto', path: '/kantomap', icon: 'mdi-map' },
   ])
+
+  // État pour contrôler l'affichage du snackbar de déconnexion
+  const snackbar = ref(false)
+
+  /*
+Fonction de déconnexion
+- Affiche le snackbar de déconnexion
+- Déconnecte l'utilisateur en appelant la méthode logout() du store
+- Redirige l'utilisateur vers la page d'accueil après la déconnexion
+*/
+  function logout () {
+    snackbar.value = true // Afficher la notification de déconnexion
+    store.logout() // Appeler la méthode de déconnexion du store
+    router.push('/') // Rediriger l'utilisateur vers la page d'accueil
+  }
 </script>
