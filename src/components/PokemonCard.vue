@@ -1,30 +1,83 @@
 <template>
+  <!--
+  Carte Pokémon cliquable qui redirige vers une page de détails
+    * :to utilise un lien dynamique basé sur l'identifiant unique du Pokémon (pokemon.id)
+  -->
   <v-card :to="`/pokemon/${pokemon.id}`">
+    <!--
+    Image du Pokémon
+      * contain ajuste l'image pour être entièrement contenue dans la zone définie
+      * height="200px" fixe la hauteur de l'image pour un affichage uniforme
+      * :src charge dynamiquement l'image à partir du chemin 'images' et du nom de fichier du Pokémon
+    -->
     <v-img contain height="200px" :src="`images/${pokemon.img}`" />
+
+    <!--
+    Titre de la carte affichant le nom du Pokémon
+      * Utilise une interpolation Vue pour afficher pokemon.name
+    -->
     <v-card-title>{{ pokemon.name }}</v-card-title>
+
+    <!-- Sous-titre de la carte contenant les informations supplémentaires -->
     <v-card-subtitle>
+      <!--
+      Composant affichant tous les types du Pokémon sous forme de puces
+        * :pokemon passe l'objet Pokémon complet en tant que propriété au composant enfant
+      -->
       <pokemon-types-chips :pokemon="pokemon" />
+
+      <!--
+      Texte indiquant le niveau du Pokémon
+        * Niveau affiché avec une structure texte simple
+      -->
       <v-card-text>Level: {{ pokemon.level }}</v-card-text>
+
+      <!--
+      Actions de la carte : inclut un bouton pour ajouter/enlever des favoris
+        * Appelle une fonction du magasin pour basculer l'état de favori
+      -->
       <v-card-actions>
+        <!--
+        Bouton icône pour basculer l'état de favori du Pokémon
+          * @click.prevent empêche l'action par défaut et appelle pokemonStore.toggleFavorite
+        -->
         <v-btn icon @click.prevent="pokemonStore.toggleFavorite(pokemon)">
-          <v-icon :color="pokemonStore.isFavorite(pokemon)? 'red' : ''">
+          <!--
+          Icône dynamique affichant un cœur plein ou vide selon l'état de favori
+            * :color applique la couleur rouge si le Pokémon est marqué comme favori
+            * Vérifie l'état via pokemonStore.isFavorite
+          -->
+          <v-icon :color="pokemonStore.isFavorite(pokemon) ? 'red' : ''">
             {{ pokemonStore.isFavorite(pokemon) ? 'mdi-heart' : 'mdi-heart-outline' }}
           </v-icon>
         </v-btn>
       </v-card-actions>
-    </v-card-subtitle></v-card>
+    </v-card-subtitle>
+  </v-card>
 </template>
 
 <script setup>
+  /*
+  Importation des dépendances nécessaires
+    - PokemonTypesChips : Composant enfant utilisé pour afficher les types d'un Pokémon
+    - usePokemonStore : Magasin Pinia pour gérer les données et interactions des Pokémon
+  */
   import PokemonTypesChips from '@/components/PokemonTypesChips.vue'
   import { usePokemonStore } from '@/stores/pokemonStore'
+
+  // Initialisation du magasin Pokémon
   const pokemonStore = usePokemonStore()
 
+  /*
+  Définition des propriétés attendues par le composant
+    - pokemon : Objet représentant un Pokémon
+      * type Object : Vérifie que la propriété est un objet
+      * required : Rend cette propriété obligatoire pour le bon fonctionnement du composant
+  */
   defineProps({
     pokemon: {
       type: Object,
       required: true,
     },
   })
-
 </script>
