@@ -72,8 +72,8 @@
    * Fonction de connexion
    * Utilise l'action login du store pour authentifier l'utilisateur
    */
-  const login = async () => {
-    const response = await pokemonStore.login(loginEmail.value, loginPassword.value)
+  function login () {
+    const response = pokemonStore.login(loginEmail.value, loginPassword.value)
     if (response.success) {
       // Rediriger l'utilisateur vers la page précédente ou la page d'accueil
       router.push(route.query.redirect || '/')

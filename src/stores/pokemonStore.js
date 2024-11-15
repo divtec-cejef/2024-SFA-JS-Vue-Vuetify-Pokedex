@@ -311,6 +311,10 @@ export const usePokemonStore = defineStore('pokemon', {
         }
       }
     },
+
+    logout () {
+      this.authenticated = false
+    },
     /**
      * Sélectionne un Pokémon par son identifiant.
      * @param {number} id - Identifiant du Pokémon.

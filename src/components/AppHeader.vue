@@ -42,19 +42,19 @@
 
       <!--
       Bouton de déconnexion
-        * v-if="store.token" affiche le bouton si l'utilisateur est connecté (store.token existe)
+        * v-if="pokemonStore.authenticated" affiche le bouton si l'utilisateur est connecté
         * icon="mdi-logout" affiche l'icône de déconnexion
         * @click déclenche la fonction de déconnexion (logout)
       -->
       <v-btn
-        v-if="store.token"
+        v-if="pokemonStore.authenticated"
         icon="mdi-logout"
         @click="logout"
       />
 
       <!--
       Bouton de connexion (affiché si l'utilisateur n'est pas connecté)
-        * v-else affiche ce bouton seulement si store.token n'existe pas
+        * v-else affiche ce bouton seulement si pokemonStore.authenticated n'existe pas
         * icon="mdi-login" affiche l'icône de connexion
         * @click redirige vers la page de connexion
       -->
@@ -84,8 +84,8 @@
   import { ref } from 'vue'
   import { usePokemonStore } from '@/stores/pokemonStore'
 
-  // Utilisation du store pour gérer l'état de connexion de l'utilisateur
-  const store = usePokemonStore()
+  // Utilisation du pokemonStore pour gérer l'état de connexion de l'utilisateur
+  const pokemonStore = usePokemonStore()
 
   /*
 Définition des éléments de menu pour la navigation
@@ -107,12 +107,12 @@ Définition des éléments de menu pour la navigation
   /*
 Fonction de déconnexion
 - Affiche le snackbar de déconnexion
-- Déconnecte l'utilisateur en appelant la méthode logout() du store
+- Déconnecte l'utilisateur en appelant la méthode logout() du pokemonStore
 - Redirige l'utilisateur vers la page d'accueil après la déconnexion
 */
   function logout () {
     snackbar.value = true // Afficher la notification de déconnexion
-    store.logout() // Appeler la méthode de déconnexion du store
+    pokemonStore.logout() // Appeler la méthode de déconnexion du pokemonStore
     router.push('/') // Rediriger l'utilisateur vers la page d'accueil
   }
 </script>
