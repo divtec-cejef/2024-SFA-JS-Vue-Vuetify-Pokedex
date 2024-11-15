@@ -10,10 +10,6 @@
       <v-card-text>
         <p>{{ selectedPokemon.description }}</p>
         <v-divider class="my-3" />
-        <p>Height: {{ selectedPokemon.height }} m</p>
-        <p>Weight: {{ selectedPokemon.weight }} kg</p>
-        <p>Abilities: {{ selectedPokemon.abilities.join(', ') }}</p>
-        <v-divider class="my-3" />
         <h3>Stats</h3>
         <v-list-item v-for="(value, key) in selectedPokemon.stats" :key="key">
           <v-list-item-title>{{ key.toUpperCase() }}: {{ value }}</v-list-item-title>
