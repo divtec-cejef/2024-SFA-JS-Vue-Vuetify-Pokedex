@@ -15,26 +15,47 @@
 
       <!-- Formulaire d'ajout de Pokémon -->
       <v-form @submit.prevent="addPokemon">
-        <!-- Champ pour l'ID du Pokédex -->
+        <!-- Champ pour le nom du Pokémon -->
         <v-text-field
-          v-model.number="pokemonData.pokedexId"
-          label="ID du Pokédex"
+          v-model="pokemonData.name"
+          label="Nom"
+          required
+        />
+        <!-- Champ pour le niveau du Pokédex -->
+        <v-text-field
+          v-model.number="pokemonData.level"
+          label="Niveau"
           required
           type="number"
         />
-        <!-- Champ pour le slug du Pokémon -->
-        <v-text-field
-          v-model="pokemonData.slug"
-          label="Slug"
-          required
-        />
-        <!-- Champ pour le nom du Pokémon -->
-        <v-text-field
-          v-model="pokemonData.nom"
-          label="Nom du Pokémon"
+
+        <!-- Champ pour la description du Pokémon -->
+        <v-textarea
+          v-model="pokemonData.description"
+          label="Description"
           required
         />
 
+        <!-- Groupe de cases à cocher pour les types de Pokémon -->
+        <fieldset class="pa-6 mb-6">
+          <legend class="font-weight-bold">Types</legend>
+          <v-row>
+            <v-col
+              v-for="type in pokemonStore.types"
+              :key="type.id"
+              class="pa-0 ma-0"
+              cols="4"
+            >
+              <v-checkbox
+                v-model="pokemonData.types"
+                cols="2"
+                density="compact"
+                :label="type.name"
+                :value="type.id"
+              />
+            </v-col>
+          </v-row>
+        </fieldset>
         <!-- Message d'erreur d'ajout affiché en cas d'échec -->
         <v-alert
           v-if="addError"
@@ -47,7 +68,13 @@
         </v-alert>
 
         <!-- Bouton pour soumettre le formulaire d'ajout -->
-        <v-btn color="primary" type="submit">Ajouter le Pokémon</v-btn>
+        <v-btn
+          color="primary"
+          size="large"
+          type="submit"
+        >
+          Ajouter le Pokémon
+        </v-btn>
       </v-form>
 
       <!-- Notification de succès d'ajout -->
@@ -70,9 +97,10 @@
 
   // Objet contenant les champs du formulaire d'ajout de Pokémon
   const pokemonData = ref({
-    pokedexId: null, // ID numérique du Pokédex du Pokémon
-    slug: '', // Slug du Pokémon
-    nom: '', // Nom du Pokémon
+    name: null,
+    level: '',
+    description: '',
+    types: [],
   })
 
   // État pour gérer les erreurs lors de l'ajout de Pokémon
@@ -91,10 +119,10 @@
       addError.value = null
       addSuccess.value = false
       // Appelle la fonction createPokemon du store pour ajouter le Pokémon
-      await pokemonStore.createPokemon(pokemonData.value)
+      await pokemonStore.addPokemon(pokemonData.value)
       addSuccess.value = true
       // Réinitialise les champs du formulaire après un ajout réussi
-      pokemonData.value = { pokedexId: null, slug: '', nom: '' }
+      pokemonData.value = { name: '', level: '', description: '', types: [] }
     } catch (error) {
       // Enregistre le message d'erreur en cas d'échec de l'ajout
       addError.value = error.message

@@ -43,12 +43,6 @@ const pokemons = [
     level: 35,
     img: 'pikachu.png',
     description: "Pikachu stocke de l'électricité dans ses joues. Il peut produire des décharges électriques puissantes.",
-    height: 0.4,
-    weight: 6,
-    abilities: [
-      'Statik',
-      'Paratonnerre',
-    ],
     stats: {
       hp: 35,
       attack: 55,
@@ -66,11 +60,6 @@ const pokemons = [
     level: 15,
     img: 'bulbizarre.png',
     description: 'Il y a une graine sur son dos depuis sa naissance. Elle grossit un peu chaque jour.',
-    height: 0.7,
-    weight: 6.9,
-    abilities: [
-      'Engrais',
-    ],
     stats: {
       hp: 45,
       attack: 49,
@@ -87,11 +76,6 @@ const pokemons = [
     level: 20,
     img: 'salameche.png',
     description: "La flamme au bout de sa queue indique l'humeur de ce Pokémon. Elle vacille quand Salamèche est content.",
-    height: 0.6,
-    weight: 8.5,
-    abilities: [
-      'Brasier',
-    ],
     stats: {
       hp: 39,
       attack: 52,
@@ -108,11 +92,6 @@ const pokemons = [
     level: 10,
     img: 'carapuce.png',
     description: 'Carapuce est une petite tortue bipède de couleur bleue. Il possède une carapace majoritairement brune avec un contour blanc.',
-    height: 0.5,
-    weight: 9,
-    abilities: [
-      'Torrent',
-    ],
     stats: {
       hp: 44,
       attack: 48,
@@ -130,12 +109,6 @@ const pokemons = [
     level: 25,
     img: 'rondoudou.png',
     description: "Quand ses grands yeux s'illuminent, il chante une mystérieuse berceuse qui endort ses ennemis.",
-    height: 0.5,
-    weight: 5.5,
-    abilities: [
-      'Joli Sourire',
-      'Battant',
-    ],
     stats: {
       hp: 115,
       attack: 45,
@@ -153,11 +126,6 @@ const pokemons = [
     level: 45,
     img: 'ectoplasma.png',
     description: "Ectoplasma peut hypnotiser son adversaire en le fixant de ses yeux rouges. Il attaque ensuite en se cachant dans l'ombre de l'ennemi.",
-    height: 1.5,
-    weight: 40.5,
-    abilities: [
-      'Lévitation',
-    ],
     stats: {
       hp: 60,
       attack: 65,
@@ -175,12 +143,6 @@ const pokemons = [
     level: 22,
     img: 'evoli.png',
     description: 'Évoli possède une structure génétique instable qui se transforme selon son environnement.',
-    height: 0.3,
-    weight: 6.5,
-    abilities: [
-      'Adaptabilité',
-      'Anticipation',
-    ],
     stats: {
       hp: 55,
       attack: 55,
@@ -198,11 +160,6 @@ const pokemons = [
     level: 50,
     img: 'dracaufeu.png',
     description: "Dracaufeu parcourt les cieux pour trouver des adversaires à sa mesure. Il crache de puissantes flammes capables de faire fondre n'importe quoi.",
-    height: 1.7,
-    weight: 90.5,
-    abilities: [
-      'Brasier',
-    ],
     stats: {
       hp: 78,
       attack: 84,
@@ -220,11 +177,6 @@ const pokemons = [
     level: 55,
     img: 'florizarre.png',
     description: 'Sa plante donne une grosse fleur quand elle absorbe les rayons du soleil. Il est toujours à la recherche des endroits les plus ensoleillés.',
-    height: 2,
-    weight: 100,
-    abilities: [
-      'Engrais',
-    ],
     stats: {
       hp: 80,
       attack: 82,
@@ -241,11 +193,6 @@ const pokemons = [
     level: 52,
     img: 'tortank.png',
     description: "Il écrase ses adversaires de tout son poids pour les faire évanouir. Il rentre dans sa carapace s'il se sent en danger.",
-    height: 1.6,
-    weight: 85.5,
-    abilities: [
-      'Torrent',
-    ],
     stats: {
       hp: 79,
       attack: 83,
@@ -254,7 +201,6 @@ const pokemons = [
     },
   },
 ]
-
 /* Magasin Pinia pour gérer les données des Pokémon. */
 export const usePokemonStore = defineStore('pokemon', {
 
@@ -311,9 +257,20 @@ export const usePokemonStore = defineStore('pokemon', {
         }
       }
     },
-
     logout () {
       this.authenticated = false
+    },
+
+    addPokemon (pokemon) {
+      // Génération de l'identifiant (méthode simple et peu fiable)
+      pokemon.id = this.pokemons.length + 1
+      // Vérification des données du Pokémon
+      if (!pokemon.name || !pokemon.types || !pokemon.level) {
+        return { success: false, message: 'Données manquantes' }
+      } else {
+        this.pokemons.push(pokemon)
+        return { success: true, message: 'Pokémon ajouté avec succès' }
+      }
     },
     /**
      * Sélectionne un Pokémon par son identifiant.
