@@ -210,7 +210,6 @@ export const usePokemonStore = defineStore('pokemon', {
     pokemons, // Liste des Pokémon
     selectedPokemon: null, // Pokémon sélectionné
     favorites: [], // Liste des Pokémon favoris
-    authenticated: false, // Indique si l'utilisateur est authentifié
   }),
 
   /* Getters pour accéder aux données du magasin */
@@ -242,25 +241,6 @@ export const usePokemonStore = defineStore('pokemon', {
    * Actions pour modifier l'état du magasin.
    */
   actions: {
-    login (email, password) {
-      if (email === 'bulbi@pokemon.com' && password === 'bulbi') {
-        this.authenticated = true
-        return {
-          success: true,
-          message: 'Connexion réussie',
-        }
-      } else {
-        this.authenticated = false
-        return {
-          success: false,
-          message: 'Mauvais email ou mot de passe !',
-        }
-      }
-    },
-    logout () {
-      this.authenticated = false
-    },
-
     addPokemon (pokemon) {
       // Génération de l'identifiant (méthode simple et peu fiable)
       pokemon.id = this.pokemons.length + 1
