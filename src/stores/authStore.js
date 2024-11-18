@@ -1,39 +1,31 @@
 import { defineStore } from 'pinia'
 
 /*
-Ce magasin n'utilise pas de véritable API pour l'authentification.
-Il utilise des données factices pour simuler la connexion et la déconnexion.
-Ces données sont utilisées pour illustrer le fonctionnement d'un magasin d'authentification.
-En pratique, vous devriez utiliser une API d'authentification réelle.
+Magasin d'authentification factice utilisant des données simulées
+  - Simule la connexion et la déconnexion d'un utilisateur.
+  - Illustratif pour démontrer le fonctionnement d'un magasin Pinia.
+  - Remarque : en production, une API réelle d'authentification devrait être utilisée.
 */
 
-// Utilisateur factice pour la simulation de connexion
+// Données factices pour la simulation de connexion
 const utilisateurFactice = {
-  email: 'sacha@pokemon.com', // Email utilisé pour la connexion simulée
-  name: 'Sacha Ketchum', // Nom de l'utilisateur simulé
+  email: 'sacha@pokemon.com', // Email utilisé pour la connexion simulée.
+  name: 'Sacha Ketchum', // Nom de l'utilisateur simulé.
 }
 
-// Mot de passe factice pour la simulation de connexion
-const passwordFactice = 'pika' // Mot de passe correspondant à l'utilisateur factice
-
-// Jeton factice pour la simulation de connexion
-/*
-Ce jeton est supposé être généré par le serveur d'authentification
-après une connexion réussie. Il est ensuite utilisé pour authentifier
-les requêtes ultérieures envoyées au serveur.
-*/
-const tokenFactice = '0b042934e5df02c9786efb364d946e64'
+const passwordFactice = 'pika' // Mot de passe associé à l'utilisateur factice.
+const tokenFactice = '0b042934e5df02c9786efb364d946e64' // Jeton factice simulant une session active.
 
 /*
-Définition du magasin Pinia pour l'authentification
+Définition du magasin Pinia pour gérer l'état d'authentification
   - Nom du magasin : 'auth'
-  - Contient l'état, les actions et les getters relatifs à l'authentification
+  - Fournit des états, actions, et getters pour gérer la connexion et la déconnexion.
 */
 export const useAuthStore = defineStore('auth', {
   /*
   État initial du magasin
-    - user : Informations sur l'utilisateur actuellement connecté (null si non connecté)
-    - token : Jeton d'authentification (null si non connecté)
+    - user : Représente les informations de l'utilisateur connecté (null si non connecté).
+    - token : Jeton d'authentification (null si non connecté).
   */
   state: () => ({
     user: null,
@@ -41,20 +33,20 @@ export const useAuthStore = defineStore('auth', {
   }),
 
   /*
-  Actions : Fonctions qui modifient l'état du magasin
+  Actions : Fonctions permettant de modifier l'état du magasin
+    - Inclut des méthodes pour simuler la connexion et la déconnexion.
   */
   actions: {
     /*
-    Action pour simuler une connexion
-      - email : Adresse email saisie par l'utilisateur
-      - password : Mot de passe saisi par l'utilisateur
-      - Vérifie si les identifiants correspondent aux données factices
-      - En cas de succès : met à jour l'état (user et token) et retourne un message de succès
-      - En cas d'échec : retourne un message d'erreur
+    Simule une connexion utilisateur
+      - email : Adresse email saisie par l'utilisateur.
+      - password : Mot de passe saisi par l'utilisateur.
+      - Si les identifiants correspondent aux données factices, met à jour `user` et `token`.
+      - Retourne un message de succès ou d'échec en fonction des informations saisies.
     */
     login (email, password) {
       if (email === utilisateurFactice.email && password === passwordFactice) {
-        // Connexion réussie
+        // Succès de la connexion : Mise à jour de l'utilisateur et du token.
         this.user = utilisateurFactice
         this.token = tokenFactice
         return {
@@ -62,6 +54,7 @@ export const useAuthStore = defineStore('auth', {
           message: 'Connexion réussie',
         }
       } else {
+        // Échec de la connexion : Réinitialisation de l'état.
         this.user = null
         this.token = null
         return {
@@ -72,9 +65,9 @@ export const useAuthStore = defineStore('auth', {
     },
 
     /*
-    Action pour simuler une déconnexion
-      - Réinitialise l'état en supprimant les informations de l'utilisateur et le jeton
-      - Retourne un message de confirmation
+    Simule une déconnexion utilisateur
+      - Réinitialise l'état `user` et `token` pour déconnecter l'utilisateur.
+      - Retourne un message de confirmation de déconnexion.
     */
     logout () {
       this.user = null
@@ -87,13 +80,14 @@ export const useAuthStore = defineStore('auth', {
   },
 
   /*
-  Getters : Fonctions dérivées permettant d'accéder à des informations calculées basées sur l'état
+  Getters : Propriétés dérivées basées sur l'état du magasin
+    - Fournit une méthode pour vérifier si un utilisateur est authentifié.
   */
   getters: {
     /*
-    Vérifie si l'utilisateur est authentifié
-      - Retourne true si un token est présent, sinon false
-      - Utilise !!state.token pour convertir le token en une valeur booléenne
+    Vérifie si un utilisateur est connecté
+      - Retourne `true` si un token est présent, sinon `false`.
+      - Utilise `!!state.token` pour convertir le token en booléen.
     */
     isAuthenticated: state => !!state.token,
   },

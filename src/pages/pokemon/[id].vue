@@ -1,5 +1,5 @@
 <template>
-  <v-container v-if="selectedPokemon">
+  <v-container v-if="pokemonLoaded">
     <v-card>
       <v-img contain height="300px" :src="`/images/${selectedPokemon.img}`" />
       <v-card-title>{{ selectedPokemon.name }}</v-card-title>
@@ -14,7 +14,7 @@
         <v-list-item v-for="(value, key) in selectedPokemon.stats" :key="key">
           <v-list-item-title>{{ key.toUpperCase() }}: {{ value }}</v-list-item-title>
           <v-progress-linear
-            :color="getStatColor(key)"
+            :color="pokemonStore.getStatColor(key)"
             height="25"
             :model-value="value"
           >
@@ -35,35 +35,25 @@
 </template>
 
 <script setup>
-  import PokemonTypesChips from '@/components/PokemonTypesChips.vue'
-  import { onMounted } from 'vue'
+  import { computed, onMounted } from 'vue'
   import { useRoute, useRouter } from 'vue-router'
   import { storeToRefs } from 'pinia'
   import { usePokemonStore } from '@/stores/pokemonStore'
+  import PokemonTypesChips from '@/components/PokemonTypesChips.vue'
 
-  const router = useRouter() // Outil de routage
-  const route = useRoute() // Informations sur la route actuelle
+  const router = useRouter()
+  const route = useRoute()
   const pokemonStore = usePokemonStore()
   const { selectedPokemon } = storeToRefs(pokemonStore)
-  const { selectPokemon, toggleFavorite, isFavorite } = pokemonStore
+  const { toggleFavorite, isFavorite, selectPokemonById } = pokemonStore
 
-  onMounted(() => {
-    // Teste si l'id du Pokémon existe dans le magasin des Pokémon
-    // Sinon on redirige l'utilisateur vers la page 404 [...path].vue
-    if (!pokemonStore.pokemons.find(pokemon => pokemon.id === route.params.id)) {
+  const pokemonId = computed(() => route.params.id)
+  const pokemonLoaded = computed(() => !!selectedPokemon.value)
+
+  onMounted(async () => {
+    const pokemonExists = await selectPokemonById(pokemonId.value)
+    if (!pokemonExists) {
       router.push('/404')
     }
-    // Charge le pokémon correspondant à l'id dans le 'état selectedPokemon du magasin
-    selectPokemon(route.params.id)
   })
-
-  const getStatColor = stat => {
-    const colors = {
-      hp: 'green',
-      attack: 'red',
-      defense: 'blue',
-      speed: 'yellow',
-    }
-    return colors[stat] || 'grey'
-  }
 </script>
