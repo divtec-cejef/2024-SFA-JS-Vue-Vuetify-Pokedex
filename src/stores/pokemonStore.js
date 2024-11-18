@@ -1,17 +1,18 @@
 /**
  * @file Gestionnaire de magasin pour les Pokémon.
- * Utilise Pinia pour gérer les types, la liste des Pokémon, ainsi que les fonctionnalités
- * de sélection, de favoris et d'affichage des couleurs associées aux statistiques.
- * @version 1.0
+ * Utilise Pinia pour gérer les types de Pokémon, la liste des Pokémon,
+ * ainsi que des fonctionnalités comme la sélection et les favoris.
+ * Fournit également des outils esthétiques (couleurs associées aux statistiques).
+ * @version 1.1
  * @since 2024-01-31
  */
 
 import { defineStore } from 'pinia'
-import { v4 as uuidv4 } from 'uuid' // Bibliothèque pour générer des identifiants uniques (UUID).
+import { v4 as uuidv4 } from 'uuid' // Librairie pour générer des identifiants uniques (UUID).
 
 /**
  * Liste des types de Pokémon avec leurs couleurs associées.
- * Chaque type a un identifiant, un nom et une couleur.
+ * Chaque type possède un identifiant, un nom, et une couleur pour l'affichage visuel.
  * @type {Array<{id: number, name: string, color: string}>}
  */
 const types = [
@@ -33,8 +34,8 @@ const types = [
 
 /**
  * Liste des Pokémon avec leurs caractéristiques.
- * Chaque Pokémon a un identifiant unique (UUID), un nom, un ou plusieurs types,
- * des statistiques et une description.
+ * Chaque Pokémon possède un identifiant (UUID), un nom, un ou plusieurs types,
+ * des statistiques, et une description.
  * @type {Array<{id: string, name: string, types: number[], level: number, img: string, description: string, stats: {hp: number, attack: number, defense: number, speed: number}}>}
  */
 const pokemons = [
@@ -205,34 +206,35 @@ const pokemons = [
     },
   },
 ]
+
 /**
  * Couleurs associées aux statistiques des Pokémon.
- * Ces couleurs sont utilisées pour les représentations visuelles.
+ * Ces couleurs sont utilisées pour une représentation visuelle dans l'interface utilisateur.
  * @type {Object<string, string>}
  */
 const statColors = {
-  hp: '#FF5959', // Rouge doux pour la santé
-  attack: '#C03028', // Rouge sombre pour l'attaque
-  defense: '#6890F0', // Bleu clair pour la défense
-  speed: '#F08030', // Orange vif pour la vitesse
+  hp: '#FF5959', // Rouge doux pour la santé.
+  attack: '#C03028', // Rouge sombre pour l'attaque.
+  defense: '#6890F0', // Bleu clair pour la défense.
+  speed: '#F08030', // Orange vif pour la vitesse.
 }
 
 /**
  * Magasin Pinia pour gérer les données des Pokémon.
- * Fournit des fonctionnalités pour accéder, manipuler et afficher les données
- * des Pokémon, leurs types, leurs statistiques et leurs favoris.
+ * Fournit des fonctionnalités pour accéder, manipuler et afficher les données des Pokémon,
+ * ainsi que pour gérer les favoris.
  */
 export const usePokemonStore = defineStore('pokemon', {
-  // État initial du magasin
+  // État initial du magasin.
   state: () => ({
-    types, // Liste des types de Pokémon
-    pokemons, // Liste des Pokémon
-    selectedPokemon: null, // Pokémon actuellement sélectionné
-    favorites: [], // Liste des Pokémon favoris
-    statColors, // Couleurs associées aux statistiques
+    types, // Liste des types de Pokémon.
+    pokemons, // Liste des Pokémon.
+    selectedPokemon: null, // Pokémon actuellement sélectionné.
+    favorites: [], // Liste des Pokémon favoris.
+    statColors, // Couleurs associées aux statistiques.
   }),
 
-  // Getters : Fonctions calculées basées sur l'état
+  // Getters pour accéder aux données calculées.
   getters: {
     /**
      * Récupère le nombre total de Pokémon favoris.
@@ -263,7 +265,7 @@ export const usePokemonStore = defineStore('pokemon', {
     getStatColor: state => stat => state.statColors[stat.toLowerCase()] || 'grey',
   },
 
-  // Actions : Méthodes pour manipuler l'état
+  // Actions pour modifier l'état.
   actions: {
     /**
      * Ajoute un nouveau Pokémon à la liste.
@@ -278,7 +280,7 @@ export const usePokemonStore = defineStore('pokemon', {
       if (this.pokemons.some(p => p.name.toLowerCase() === pokemon.name.toLowerCase())) {
         return { success: false, message: 'Le nom du Pokémon est déjà utilisé' }
       }
-      pokemon.id = uuidv4() // Génération d'un identifiant unique
+      pokemon.id = uuidv4() // Génère un identifiant unique.
       this.pokemons.push(pokemon)
       return { success: true, message: 'Pokémon ajouté avec succès' }
     },
@@ -289,25 +291,20 @@ export const usePokemonStore = defineStore('pokemon', {
      * @returns {boolean} `true` si le Pokémon est trouvé, sinon `false`.
      */
     selectPokemonById (id) {
-      // Recherche le Pokémon dans la liste et le sélectionne s'il est trouvé
       const pokemon = this.pokemons.find(p => p.id === id)
-      // Si trouvé
       if (pokemon) {
-        this.selectedPokemon = pokemon // Change le Pokémon sélectionné
+        this.selectedPokemon = pokemon
         return true
       }
-      // Si non trouvé, on retourne false
       return false
     },
 
     /**
-     * Charge la liste des favoris depuis le `localStorage'.
+     * Charge la liste des favoris depuis le `localStorage`.
      * Supprime les favoris obsolètes qui ne sont plus dans la liste actuelle.
      */
     loadFavorites () {
-      // Récupère les favoris depuis le `localStorage` ou initialise un tableau vide
       this.favorites = JSON.parse(localStorage.getItem('favorites')) || []
-      // Supprime les favoris obsolètes qui ne sont plus dans la liste actuelle
       this.favorites = this.favorites.filter(fav => this.pokemons.some(p => p.id === fav.id))
     },
 
@@ -316,15 +313,12 @@ export const usePokemonStore = defineStore('pokemon', {
      * @param {Object} pokemon - Pokémon à ajouter ou retirer.
      */
     toggleFavorite (pokemon) {
-      // Vérifie si le Pokémon est déjà dans les favoris et retourne son index ou -1 si non trouvé
       const index = this.favorites.findIndex(fav => fav.id === pokemon.id)
-      // Si pas trouvé
       if (index === -1) {
-        this.favorites.push(pokemon) // Ajoute le Pokémon aux favoris
+        this.favorites.push(pokemon)
       } else {
-        this.favorites.splice(index, 1) // Retire le Pokémon des favoris
+        this.favorites.splice(index, 1)
       }
-      // Sauvegarde les favoris dans le `localStorage`
       localStorage.setItem('favorites', JSON.stringify(this.favorites))
     },
   },
