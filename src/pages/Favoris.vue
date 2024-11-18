@@ -11,7 +11,7 @@
     Grille pour afficher les cartes des Pokémon favoris
       * v-if="getFavorites.length > 0" affiche la grille uniquement si la liste des favoris n'est pas vide
     -->
-    <v-row v-if="getFavorites.length > 0">
+    <v-row v-if="favorites.length > 0">
       <!--
       Boucle pour afficher chaque Pokémon favori
        * v-for permet de parcourir les pokémons favoris
@@ -24,7 +24,7 @@
         https://vuetifyjs.com/en/components/grids/
       -->
       <v-col
-        v-for="pokemon in getFavorites"
+        v-for="pokemon in favorites"
         :key="pokemon.id"
         cols="12"
         lg="3"
@@ -62,7 +62,7 @@
 </template>
 
 <script setup>
-// Importation des outils et composants nécessaires
+  // Importation des outils et composants nécessaires
   import { usePokemonStore } from '@/stores/pokemonStore'
   import PokemonCard from '@/components/PokemonCard.vue'
 
@@ -70,5 +70,6 @@
   const pokemonStore = usePokemonStore()
 
   // Récupération de la liste des favoris via la méthode getFavorites du magasin
-  const { getFavorites } = pokemonStore
+  // On utilise computed pour que la liste soit réactive
+  const favorites = computed(() => pokemonStore.getFavorites)
 </script>

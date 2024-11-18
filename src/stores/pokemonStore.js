@@ -272,6 +272,29 @@ export const usePokemonStore = defineStore('pokemon', {
     },
 
     /**
+     * Supprime un Pokémon de la liste et des favoris s'il est trouvé.
+     * @param pokemonId - Id du pokémon à supprimer.
+     * @returns {{success: boolean, message: string}} - Résultat de l'opération avec succès ou message d'erreur.
+     */
+    deletePokemon (pokemonId) {
+      const index = this.pokemons.findIndex(p => p.id === pokemonId)
+      // Supprime le Pokémon de la liste s'il est trouvé.
+      if (index !== -1) {
+        this.pokemons.splice(index, 1)
+      } else {
+        return { success: false, message: 'Pokémon introuvable' }
+      }
+      // Supprime le Pokémon des favoris s'il est favori.
+      const favIndex = this.favorites.findIndex(favId => favId === pokemonId)
+      if (favIndex !== -1) {
+        this.favorites.splice(favIndex, 1)
+        localStorage.setItem('favorites', JSON.stringify(this.favorites))
+      }
+      // Retourne un message de succès.
+      return { success: true, message: 'Pokémon supprimé avec succès' }
+    },
+
+    /**
      * Sélectionne un Pokémon à partir de son identifiant.
      * @param {string} id - Identifiant du Pokémon.
      * @returns {boolean} `true` si le Pokémon est trouvé, sinon `false`.
