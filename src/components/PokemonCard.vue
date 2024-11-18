@@ -83,3 +83,26 @@
     },
   })
 </script>
+
+<style scoped>
+/* Animation pour le battement du cœur */
+.mdi-heart {
+  animation: heartbeat 1s ease-in-out;
+}
+
+@keyframes heartbeat {
+  0%, 100% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(1.3);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  75% {
+    transform: scale(1.4);
+  }
+}
+
+</style>

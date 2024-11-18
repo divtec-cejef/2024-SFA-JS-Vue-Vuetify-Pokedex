@@ -94,12 +94,12 @@ Définition des éléments de menu pour la navigation
     * path : le chemin de la route
     * icon : l'icône du lien
 */
-  const menuItems = ref([
+  const menuItems = [
     { title: 'Accueil', path: '/', icon: 'mdi-pokeball' },
     { title: 'Favoris', path: '/favoris', icon: 'mdi-heart' },
     { title: 'FAQ', path: '/faq', icon: 'mdi-frequently-asked-questions' },
     { title: 'Kanto', path: '/kantomap', icon: 'mdi-map' },
-  ])
+  ]
 
   // État pour contrôler l'affichage du snackbar de déconnexion
   const snackbar = ref(false)
