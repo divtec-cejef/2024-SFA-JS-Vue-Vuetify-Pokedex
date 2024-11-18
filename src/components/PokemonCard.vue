@@ -95,13 +95,30 @@
     transform: scale(1);
   }
   25% {
-    transform: scale(1.3);
+    transform: scale(1.5);
   }
   50% {
     transform: scale(1.1);
   }
   75% {
-    transform: scale(1.4);
+    transform: scale(2);
+  }
+}
+
+/* Animation pour la suppression des favoris */
+.mdi-heart-outline {
+  animation: shrink 0.6s ease-in-out;
+}
+
+@keyframes shrink {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.1);
+  }
+  100% {
+    transform: scale(1);
   }
 }
 
