@@ -20,8 +20,11 @@
       * :key="image" : Associe une clé unique à chaque élément basé sur son nom.
       * append-icon="image === selectedImage ? 'mdi-check' : 'mdi-plus'" : affiche un plus ou une coche en fonction de l'état de sélection.
       * aria-label="Cliquer pour sélectionner l'image" : Texte d'accessibilité pour les lecteurs d'écran.
+      * aria-pressed="image === selectedImage" : Indique si l'image est sélectionnée pour les lecteurs d'écran.
       * class="ma-1" : Ajoute une marge uniforme autour de chaque puce pour espacer visuellement.$
+      * :class="{ selected: image === selectedImage }" : Applique la classe 'selected' si l'image est sélectionnée.
       * :color="image === selectedImage ? 'primary' : ''" : Applique la couleur 'primary' si l'image est sélectionnée.
+      * role="button" : Indique que la puce est cliquable.
       * size="small" : Réduit la taille des puces pour qu'elles occupent moins d'espace.
       * @click="selectImage(image)" : Appelle la fonction selectImage du composant qui définit l'image sélectionnée et émet un événement.
     -->
@@ -30,8 +33,11 @@
       :key="image"
       :append-icon="image === selectedImage ? 'mdi-check' : 'mdi-plus'"
       aria-label="Cliquer pour sélectionner l'image"
+      :aria-pressed="image === selectedImage"
       class="ma-1"
+      :class="{ selected: image === selectedImage }"
       :color="image === selectedImage ? 'primary' : ''"
+      role="button"
       size="small"
       @click="selectImage(image)"
     >
@@ -73,5 +79,28 @@
 </script>
 
 <style scoped>
-/* Pas de styles spécifiques pour ce composant */
+/* Applique l'animation à la puce sélectionnée */
+.selected {
+  animation: selectAnimation 0.3s ease-in-out;
+}
+
+  /* Animation pour une puce sélectionnée */
+@keyframes selectAnimation {
+  0% {
+    transform: scale(1) translateX(0);
+  }
+  25% {
+    transform: scale(1.1) translateX(-2px);
+  }
+  50% {
+    transform: scale(1.2) translateX(2px);
+  }
+  75% {
+    transform: scale(1.1) translateX(-2px);
+  }
+  100% {
+    transform: scale(1) translateX(0);
+  }
+}
+
 </style>
