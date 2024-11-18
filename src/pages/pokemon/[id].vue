@@ -59,18 +59,7 @@
           * v-list-item : Affiche chaque statistique sous forme d'élément de liste.
         -->
         <h3>Stats</h3>
-        <v-list-item v-for="(value, key) in selectedPokemon.stats" :key="key">
-          <!-- Titre de la statistique avec sa valeur -->
-          <v-list-item-title>{{ key.toUpperCase() }}: {{ value }}</v-list-item-title>
-          <!-- Barre de progression représentant visuellement la valeur de la statistique -->
-          <v-progress-linear
-            :color="pokemonStore.getStatColor(key)"
-            height="25"
-            :model-value="value"
-          >
-            <strong>{{ value }}</strong>
-          </v-progress-linear>
-        </v-list-item>
+        <pokemon-stats :stats="selectedPokemon.stats" />
       </v-card-text>
 
       <!--
@@ -96,7 +85,9 @@
 </template>
 
 <script setup>
-/*
+  import PokemonStats from '@/components/PokemonStats.vue'
+
+  /*
 Importation des dépendances nécessaires
 */
   import { computed, onMounted } from 'vue'

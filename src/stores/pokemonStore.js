@@ -2,7 +2,6 @@
  * @file Gestionnaire de magasin pour les Pokémon.
  * Utilise Pinia pour gérer les types de Pokémon, la liste des Pokémon,
  * ainsi que des fonctionnalités comme la sélection et les favoris.
- * Fournit également des outils esthétiques (couleurs associées aux statistiques).
  * @version 1.1
  * @since 2024-01-31
  */
@@ -208,18 +207,6 @@ const pokemons = [
 ]
 
 /**
- * Couleurs associées aux statistiques des Pokémon.
- * Ces couleurs sont utilisées pour une représentation visuelle dans l'interface utilisateur.
- * @type {Object<string, string>}
- */
-const statColors = {
-  hp: '#FF5959', // Rouge doux pour la santé.
-  attack: '#C03028', // Rouge sombre pour l'attaque.
-  defense: '#6890F0', // Bleu clair pour la défense.
-  speed: '#F08030', // Orange vif pour la vitesse.
-}
-
-/**
  * Magasin Pinia pour gérer les données des Pokémon.
  * Fournit des fonctionnalités pour accéder, manipuler et afficher les données des Pokémon,
  * ainsi que pour gérer les favoris.
@@ -231,7 +218,6 @@ export const usePokemonStore = defineStore('pokemon', {
     pokemons, // Liste des Pokémon.
     selectedPokemon: null, // Pokémon actuellement sélectionné.
     favorites: [], // Liste des Pokémon favoris.
-    statColors, // Couleurs associées aux statistiques.
   }),
 
   // Getters pour accéder aux données calculées.
@@ -256,13 +242,6 @@ export const usePokemonStore = defineStore('pokemon', {
      * @returns {boolean} `true` si le Pokémon est favori, sinon `false`.
      */
     isFavorite: state => pokemon => state.favorites.some(fav => fav.id === pokemon.id),
-
-    /**
-     * Récupère la couleur associée à une statistique donnée.
-     * @param {Object} state - L'état actuel du magasin.
-     * @returns {string} La couleur associée à la statistique ou 'grey' si non trouvée.
-     */
-    getStatColor: state => stat => state.statColors[stat.toLowerCase()] || 'grey',
   },
 
   // Actions pour modifier l'état.
