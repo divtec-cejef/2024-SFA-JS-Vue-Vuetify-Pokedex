@@ -7,6 +7,7 @@
  */
 
 import { defineStore } from 'pinia'
+import { v4 as uuidv4 } from 'uuid'
 
 /**
  * Tableau des types de Pokémon.
@@ -35,7 +36,7 @@ const types = [
  */
 const pokemons = [
   {
-    id: 1,
+    id: '5566710e-29c7-43cc-ba04-46415a63e1ef',
     name: 'Pikachu',
     types: [
       1,
@@ -51,7 +52,7 @@ const pokemons = [
     },
   },
   {
-    id: 2,
+    id: '36289749-333c-4c29-aa9c-cae432eeabcb',
     name: 'Bulbizarre',
     types: [
       2,
@@ -68,7 +69,7 @@ const pokemons = [
     },
   },
   {
-    id: 3,
+    id: 'e6b24211-9016-46e2-b35e-50c8755add54',
     name: 'Salamèche',
     types: [
       4,
@@ -84,7 +85,7 @@ const pokemons = [
     },
   },
   {
-    id: 4,
+    id: '8bb39dba-4e85-4f28-b943-474da5c188db',
     name: 'Carapuce',
     types: [
       5,
@@ -100,7 +101,7 @@ const pokemons = [
     },
   },
   {
-    id: 5,
+    id: 'a6171313-2035-4a89-90a2-dfa8dc0deefe',
     name: 'Rondoudou',
     types: [
       6,
@@ -117,7 +118,7 @@ const pokemons = [
     },
   },
   {
-    id: 6,
+    id: '06ea20b3-3923-455c-b507-acf7d2c025b8',
     name: 'Ectoplasma',
     types: [
       8,
@@ -134,7 +135,7 @@ const pokemons = [
     },
   },
   {
-    id: 7,
+    id: 'cebcebb3-2c37-43ae-a8d2-bb64156d54d4',
     name: 'Évoli',
     types: [
       6,
@@ -151,7 +152,7 @@ const pokemons = [
     },
   },
   {
-    id: 8,
+    id: '20687952-9306-4113-aeb4-16b36b77fdfc',
     name: 'Dracaufeu',
     types: [
       4,
@@ -168,7 +169,7 @@ const pokemons = [
     },
   },
   {
-    id: 9,
+    id: 'c7f21895-d59f-401e-b0f8-49bd94ccd09c',
     name: 'Florizarre',
     types: [
       2,
@@ -185,7 +186,7 @@ const pokemons = [
     },
   },
   {
-    id: 10,
+    id: 'f749b5c4-4ffe-4151-a913-09f1ce791c24',
     name: 'Tortank',
     types: [
       5,
@@ -201,6 +202,7 @@ const pokemons = [
     },
   },
 ]
+
 /* Magasin Pinia pour gérer les données des Pokémon. */
 export const usePokemonStore = defineStore('pokemon', {
 
@@ -259,7 +261,7 @@ export const usePokemonStore = defineStore('pokemon', {
       }
       // Si tout est correct, ajouter le Pokémon
       // Génération de l'identifiant (méthode simple et peu fiable)
-      pokemon.id = this.pokemons.length + 1
+      pokemon.id = uuidv4()
       this.pokemons.push(pokemon)
       return { success: true, message: 'Pokémon ajouté avec succès' }
     },

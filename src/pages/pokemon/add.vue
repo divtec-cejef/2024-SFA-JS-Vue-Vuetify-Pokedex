@@ -103,9 +103,12 @@ et par le magasin auth dans le fichier stores/authStore.js
   import SelectImageTest from '@/components/SelectImageTest.vue'
   import { ref } from 'vue'
   import { usePokemonStore } from '@/stores/pokemonStore'
+  import { useRouter } from 'vue-router'
 
   // Utilisation du store Pokemon
   const pokemonStore = usePokemonStore()
+  // Utilisation de la routeur pour rediriger l'utilisateur
+  const router = useRouter()
 
   // Objet contenant les champs du formulaire d'ajout de Pokémon
   const pokemonData = ref({
@@ -147,6 +150,8 @@ et par le magasin auth dans le fichier stores/authStore.js
       description: '',
       types: [],
     }
+    // Redirige l'utilisateur vers la page d'accueil
+    router.push('/')
     // Affiche le message de succès
     msgSucces.value = true
     // Stoppe la fonction pour éviter l'exécution du code suivant

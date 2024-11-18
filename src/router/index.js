@@ -23,11 +23,11 @@ const protectedRoutes = [
   '/pokemon/add',
   // Ajouter d'autres routes protégées ici
 ]
-// Récupérer le magasin d'authentification
-const authStore = useAuthStore()
 
 // Guardien (Guard) global pour vérifier l'authentification sur les routes spécifiques
 router.beforeEach((to, from, next) => {
+  // Récupérer le magasin d'authentification
+  const authStore = useAuthStore()
   // Si la route est protégée et que l'utilisateur n'est PAS authentifié
   if (protectedRoutes.includes(to.path) && !authStore.isAuthenticated) {
     // Rediriger vers la page de connexion path: '/login'
