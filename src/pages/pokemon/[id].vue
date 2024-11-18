@@ -139,3 +139,17 @@
     }
   })
 </script>
+
+<style scoped>
+  /* Animation pour le battement du cœur */
+.mdi-heart {
+  /* L'animation 'heartbeat' est définie dans le fichier global src/style/styles.css */
+  animation: heartbeat 1s ease-in-out;
+}
+
+/* Animation pour la suppression des favoris */
+.mdi-heart-outline {
+  /* L'animation 'shrink' est définie dans le fichier global src/style/styles.css */
+  animation: shrink 0.6s ease-in-out;
+}
+</style>

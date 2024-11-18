@@ -241,7 +241,7 @@ export const usePokemonStore = defineStore('pokemon', {
      * @param {Object} state - L'état actuel du magasin.
      * @returns {boolean} `true` si le Pokémon est favori, sinon `false`.
      */
-    isFavorite: state => pokemon => state.favorites.some(fav => fav.id === pokemon.id),
+    isFavorite: state => pokemon => state.favorites.some(favId => favId === pokemon.id),
 
     /**
      * Récupère les Pokémon dont l'identifiant est dans la liste des favoris.

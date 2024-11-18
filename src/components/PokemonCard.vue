@@ -87,39 +87,13 @@
 <style scoped>
 /* Animation pour le battement du cœur */
 .mdi-heart {
+  /* L'animation 'heartbeat' est définie dans le fichier global src/style/styles.css */
   animation: heartbeat 1s ease-in-out;
-}
-
-@keyframes heartbeat {
-  0%, 100% {
-    transform: scale(1);
-  }
-  25% {
-    transform: scale(1.5);
-  }
-  50% {
-    transform: scale(1.1);
-  }
-  75% {
-    transform: scale(2);
-  }
 }
 
 /* Animation pour la suppression des favoris */
 .mdi-heart-outline {
+  /* L'animation 'shrink' est définie dans le fichier global src/style/styles.css */
   animation: shrink 0.6s ease-in-out;
 }
-
-@keyframes shrink {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(0.1);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-
 </style>

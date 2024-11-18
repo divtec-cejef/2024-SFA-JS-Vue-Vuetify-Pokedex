@@ -81,26 +81,7 @@
 <style scoped>
 /* Applique l'animation à la puce sélectionnée */
 .selected {
+  /* L'animation 'selectAnimation' est définie dans le fichier global src/style/styles.css */
   animation: selectAnimation 0.3s ease-in-out;
 }
-
-  /* Animation pour une puce sélectionnée */
-@keyframes selectAnimation {
-  0% {
-    transform: scale(1) translateX(0);
-  }
-  25% {
-    transform: scale(1.1) translateX(-2px);
-  }
-  50% {
-    transform: scale(1.2) translateX(2px);
-  }
-  75% {
-    transform: scale(1.1) translateX(-2px);
-  }
-  100% {
-    transform: scale(1) translateX(0);
-  }
-}
-
 </style>
