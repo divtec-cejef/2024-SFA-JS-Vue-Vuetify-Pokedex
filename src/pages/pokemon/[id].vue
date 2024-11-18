@@ -50,10 +50,10 @@
   onMounted(() => {
     // Teste si l'id du Pokémon existe dans le magasin des Pokémon
     // Sinon on redirige l'utilisateur vers la page 404 [...path].vue
-    if (!selectedPokemon.value || selectedPokemon.value.id !== route.params.id) {
+    if (!pokemonStore.pokemons.find(pokemon => pokemon.id === route.params.id)) {
       router.push('/404')
     }
-    // Sélectionne le Pokémon correspondant à l'id de la route
+    // Charge le pokémon correspondant à l'id dans le 'état selectedPokemon du magasin
     selectPokemon(route.params.id)
   })
 

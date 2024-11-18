@@ -278,6 +278,9 @@ export const usePokemonStore = defineStore('pokemon', {
      */
     loadFavorites () {
       this.favorites = JSON.parse(localStorage.getItem('favorites')) || []
+      // Supprime les favoris qui ne sont plus dans la liste des Pokémon actuelle
+      // Ce problème peut se produire si les données des Pokémon changent ou si le `localStorage` est corrompu
+      this.favorites = this.favorites.filter(fav => this.pokemons.some(p => p.id === fav.id))
     },
 
     /**
