@@ -1,14 +1,40 @@
 <template>
+  <!--
+  Conteneur principal
+    * v-container : Conteneur Vuetify pour centraliser et aligner le contenu.
+  -->
   <v-container>
+    <!--
+    Titre principal
+      * class="mb-6 text-center" :
+        - mb-6 : Ajoute une marge inférieure de 6 unités.
+        - text-center : Centre le texte horizontalement.
+    -->
     <h1 class="mb-6 text-center">Foire Aux Questions (FAQ)</h1>
+
+    <!--
+    Panneaux d'expansion
+      * v-expansion-panels : Conteneur pour regrouper plusieurs panneaux d'expansion.
+    -->
     <v-expansion-panels>
-      <v-expansion-panel
-        v-for="(item, i) in faqItems"
-        :key="i"
-      >
+      <!--
+      Panneau individuel
+        * v-for : Itère sur chaque élément de `faqItems` pour créer un panneau.
+        * :key="i" : Fournit une clé unique basée sur l'index de l'élément pour optimiser le rendu.
+      -->
+      <v-expansion-panel v-for="(item, i) in faqItems" :key="i">
+        <!--
+        Titre du panneau
+          * v-expansion-panel-title : Affiche la question dans l'en-tête cliquable du panneau.
+        -->
         <v-expansion-panel-title>
           {{ item.question }}
         </v-expansion-panel-title>
+
+        <!--
+        Texte du panneau
+          * v-expansion-panel-text : Contient la réponse affichée lorsque le panneau est ouvert.
+        -->
         <v-expansion-panel-text>
           {{ item.answer }}
         </v-expansion-panel-text>
@@ -18,8 +44,10 @@
 </template>
 
 <script setup>
+// Importation de `ref` depuis Vue, permet de créer des données réactives.
   import { ref } from 'vue'
 
+  // Tableau réactif (ref) contenant les questions et réponses.
   const faqItems = ref([
     {
       question: "Qu'est-ce qu'un Pokédex ?",
@@ -49,5 +77,5 @@
 </script>
 
 <style scoped>
-/* Vous pouvez ajouter des styles spécifiques ici si nécessaire */
+/* Ajoutez des styles personnalisés si nécessaire */
 </style>

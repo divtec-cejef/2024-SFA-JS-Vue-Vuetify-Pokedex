@@ -78,7 +78,7 @@
 
 <script setup>
   // Importation des dépendances nécessaires
-  import { computed } from 'vue' // Importe computed pour créer une propriété calculée
+  import { computed, ref } from 'vue' // Importe computed pour créer une propriété calculée
   import { usePokemonStore } from '@/stores/pokemonStore' // Importe le magasin Pinia des Pokémons
   import PokemonCard from '@/components/PokemonCard.vue' // Importe le composant de carte des Pokémons
 
@@ -91,11 +91,11 @@
   /*
   Définition de la recherche utilisateur comme une propriété réactive
     * la donnée search et lié au champ de recherche grâce à v-model <v-text-field v-model="search" />
-    * defineModel rend la constant search réactive et l'initialise lune valeur par défaut vide ('')
+    * ref('') rend la constant search réactive et l'initialise lune valeur par défaut vide ('')
     * Cette liaison bidirectionnelle permet de mettre à jour la recherche en temps réel dans les deux sens.
       Si la valeur de search change, le champ de recherche est mis à jour et vice versa.
   */
-  const search = defineModel({ default: '' })
+  const search = ref('')
 
   /*
   Propriété calculée pour filtrer les Pokémon en fonction de la recherche
