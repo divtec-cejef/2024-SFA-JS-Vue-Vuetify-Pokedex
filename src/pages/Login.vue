@@ -40,7 +40,6 @@
         <v-btn
           aria-label="Bouton pour se connecter"
           color="primary"
-          :loading="pokemonStore.isLoading"
           size="large"
           type="submit"
         >Se connecter</v-btn>
@@ -50,16 +49,16 @@
 </template>
 
 <script setup>
+  import { useAuthStore } from '@/stores/authStore'
   import { useRoute, useRouter } from 'vue-router'
   import { ref } from 'vue'
-  import { usePokemonStore } from '@/stores/pokemonStore'
 
   // Initialisation du router et de la route
   const router = useRouter()
   const route = useRoute()
 
   // Initialisation du store
-  const pokemonStore = usePokemonStore()
+  const authStore = useAuthStore()
 
   // Champs du formulaire de connexion
   const loginEmail = ref('')
@@ -73,7 +72,7 @@
    * Utilise l'action login du store pour authentifier l'utilisateur
    */
   function login () {
-    const response = pokemonStore.login(loginEmail.value, loginPassword.value)
+    const response = authStore.login(loginEmail.value, loginPassword.value)
     if (response.success) {
       // Rediriger l'utilisateur vers la page précédente ou la page d'accueil
       router.push(route.query.redirect || '/')
