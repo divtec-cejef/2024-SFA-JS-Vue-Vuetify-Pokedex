@@ -9,12 +9,12 @@
 
     <!--
     Grille pour afficher les cartes des Pokémon favoris
-      * v-if="favorites.length > 0" affiche la grille uniquement si la liste des favoris n'est pas vide
+      * v-if="getFavorites.length > 0" affiche la grille uniquement si la liste des favoris n'est pas vide
     -->
-    <v-row v-if="favorites.length > 0">
+    <v-row v-if="getFavorites.length > 0">
       <!--
       Boucle pour afficher chaque Pokémon favori
-       * v-for permet de parcourir les pokémons
+       * v-for permet de parcourir les pokémons favoris
       * :key permet de donner une clé unique à chaque pokémon
       * cols définit la taille par défaut d'une colonne sur un maximum de 12 cols
         si on met cols="6" un colonne occupe au maximum la moitié de la grille (12/6=2)
@@ -24,7 +24,7 @@
         https://vuetifyjs.com/en/components/grids/
       -->
       <v-col
-        v-for="pokemon in favorites"
+        v-for="pokemon in getFavorites"
         :key="pokemon.id"
         cols="12"
         lg="3"
@@ -63,16 +63,12 @@
 
 <script setup>
 // Importation des outils et composants nécessaires
-  import { storeToRefs } from 'pinia'
   import { usePokemonStore } from '@/stores/pokemonStore'
   import PokemonCard from '@/components/PokemonCard.vue'
 
   // Récupération du magasin des Pokémon
   const pokemonStore = usePokemonStore()
 
-  /*
-  storeToRefs() permet de transformer les propriétés du magasin en données réactives (refs)
-  Ici, on extrait favorites du magasin pokemonStore
-  */
-  const { favorites } = storeToRefs(pokemonStore)
+  // Récupération de la liste des favoris via la méthode getFavorites du magasin
+  const { getFavorites } = pokemonStore
 </script>

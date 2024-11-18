@@ -217,18 +217,11 @@ export const usePokemonStore = defineStore('pokemon', {
     types, // Liste des types de Pokémon.
     pokemons, // Liste des Pokémon.
     selectedPokemon: null, // Pokémon actuellement sélectionné.
-    favorites: [], // Liste des Pokémon favoris.
+    favorites: [], // ID des Pokémon favoris.
   }),
 
   // Getters pour accéder aux données calculées.
   getters: {
-    /**
-     * Récupère le nombre total de Pokémon favoris.
-     * @param {Object} state - L'état actuel du magasin.
-     * @returns {number} Le nombre de favoris.
-     */
-    favoritesCount: state => state.favorites.length,
-
     /**
      * Récupère un type de Pokémon à partir de son identifiant.
      * @param {Object} state - L'état actuel du magasin.
@@ -237,11 +230,25 @@ export const usePokemonStore = defineStore('pokemon', {
     getTypeById: state => id => state.types.find(type => type.id === id),
 
     /**
+     * Récupère les Pokémon triés par nom dans l'ordre alphabétique.
+     * @param state - L'état act
+     * @returns {*} Liste des Pokémon triés par nom.
+     */
+    getPokemonsSortByNameASC: state => state.pokemons.sort((a, b) => a.name.localeCompare(b.name)),
+
+    /**
      * Vérifie si un Pokémon donné est dans la liste des favoris.
      * @param {Object} state - L'état actuel du magasin.
      * @returns {boolean} `true` si le Pokémon est favori, sinon `false`.
      */
     isFavorite: state => pokemon => state.favorites.some(fav => fav.id === pokemon.id),
+
+    /**
+     * Récupère les Pokémon dont l'identifiant est dans la liste des favoris.
+     * @param state - L'état actuel du magasin.
+     * @returns {*} Liste des Pokémon favoris.
+     */
+    getFavorites: state => state.favorites.map(id => state.getPokemonsSortByNameASC.find(p => p.id === id)),
   },
 
   // Actions pour modifier l'état.
@@ -285,7 +292,7 @@ export const usePokemonStore = defineStore('pokemon', {
      */
     loadFavorites () {
       this.favorites = JSON.parse(localStorage.getItem('favorites')) || []
-      this.favorites = this.favorites.filter(fav => this.pokemons.some(p => p.id === fav.id))
+      this.favorites = this.favorites.filter(idPokemeon => this.pokemons.some(p => p.id === idPokemeon))
     },
 
     /**
@@ -293,9 +300,9 @@ export const usePokemonStore = defineStore('pokemon', {
      * @param {Object} pokemon - Pokémon à ajouter ou retirer.
      */
     toggleFavorite (pokemon) {
-      const index = this.favorites.findIndex(fav => fav.id === pokemon.id)
+      const index = this.favorites.findIndex(fav => fav === pokemon.id)
       if (index === -1) {
-        this.favorites.push(pokemon)
+        this.favorites.push(pokemon.id)
       } else {
         this.favorites.splice(index, 1)
       }

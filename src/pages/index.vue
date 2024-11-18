@@ -1,13 +1,11 @@
 <template>
-  <!--
-  Conteneur principal pour structurer la disposition de la page
-  -->
+  <!-- Conteneur principal pour structurer la disposition de la page -->
   <v-container>
     <!--
-        Titre de la page
-          * mb-6 permet d'ajouter une Marge en Bas de 6 unités
-          * text-center permet de centrer le texte
-        -->
+    Titre de la page
+      * mb-6 permet d'ajouter une Marge en Bas de 6 unités
+      * text-center permet de centrer le texte
+    -->
     <h1 class="mb-6 text-center">
       Pokédex
       <!--
@@ -79,48 +77,37 @@
 </template>
 
 <script setup>
-/*
-Importation des dépendances nécessaires
-  - computed : permet de créer des propriétés calculées réactives
-  - storeToRefs : transforme les propriétés du magasin Pinia en refs réactifs
-  - usePokemonStore : accède au magasin des Pokémon
-  - PokemonCard : composant pour afficher les détails d'un Pokémon
-*/
-  import { computed } from 'vue'
-  import { storeToRefs } from 'pinia'
-  import { usePokemonStore } from '@/stores/pokemonStore'
-  import PokemonCard from '@/components/PokemonCard.vue'
+  // Importation des dépendances nécessaires
+  import { computed } from 'vue' // Importe computed pour créer une propriété calculée
+  import { usePokemonStore } from '@/stores/pokemonStore' // Importe le magasin Pinia des Pokémons
+  import PokemonCard from '@/components/PokemonCard.vue' // Importe le composant de carte des Pokémons
 
-  /*
-Initialisation du magasin Pokémon
-  - pokemonStore contient les données et fonctions relatives aux Pokémon
-*/
+  // Initialisation du magasin Pinia des Pokémons
   const pokemonStore = usePokemonStore()
 
-  /*
-Extraction des propriétés du magasin
-  - storeToRefs transforme pokemons en une donnée réactive (ref) pour faciliter son utilisation
-*/
-  const { pokemons } = storeToRefs(pokemonStore)
+  // Récupération des Pokémon triés par nom (ordre croissant) du magasin
+  const { getPokemonsSortByNameASC } = pokemonStore
 
   /*
-Définition de la recherche utilisateur comme une propriété réactive
-  - v-model est lié à search pour capturer les entrées de recherche
-  - defineModel initialise la recherche avec une valeur par défaut vide ('')
-*/
+  Définition de la recherche utilisateur comme une propriété réactive
+    * la donnée search et lié au champ de recherche grâce à v-model <v-text-field v-model="search" />
+    * defineModel rend la constant search réactive et l'initialise lune valeur par défaut vide ('')
+    * Cette liaison bidirectionnelle permet de mettre à jour la recherche en temps réel dans les deux sens.
+      Si la valeur de search change, le champ de recherche est mis à jour et vice versa.
+  */
   const search = defineModel({ default: '' })
 
   /*
-Propriété calculée pour filtrer les Pokémon en fonction de la recherche
-  - Utilise computed pour calculer uniquement si les dépendances (pokemons, search) changent
-  - La recherche est convertie en minuscules et espaces inutiles sont supprimés (trim)
-  - Si la recherche est vide, retourne tous les Pokémon
-  - Sinon, filtre les Pokémon dont le nom contient la chaîne de recherche
-*/
+  Propriété calculée pour filtrer les Pokémon en fonction de la recherche
+    * Utilise computed pour calculer uniquement si les dépendances (getPokemonsSortByNameASC, search) changent
+    * La recherche est convertie en minuscules et espaces inutiles sont supprimés (trim)
+    * Si la recherche est vide, retourne tous les Pokémons triés par nom
+    * Sinon, filtre les Pokémon dont le nom contient la chaîne de recherche
+  */
   const filteredPokemons = computed(() => {
     const searchQuery = search.value.trim().toLowerCase()
-    if (!searchQuery) return pokemons.value
-    return pokemons.value.filter(pokemon =>
+    if (!searchQuery) return getPokemonsSortByNameASC
+    return getPokemonsSortByNameASC.filter(pokemon =>
       pokemon.name.toLowerCase().includes(searchQuery)
     )
   })
