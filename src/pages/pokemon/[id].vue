@@ -2,20 +2,23 @@
   <!--
   Conteneur principal affichant les détails d'un Pokémon
     * v-container : Fournit un conteneur réactif pour le contenu.
+    * v-if="selectedPokemon" : Affiche le conteneur uniquement si le Pokémon est chargé.
   -->
-  <v-container>
+  <v-container v-if="selectedPokemon">
     <!--
     Carte principale du Pokémon
       * v-card : Fournit une mise en page structurée et stylisée pour les détails.
+      * pt-4 : Ajoute un padding en haut de la carte pour l'espacement.
     -->
-    <v-card>
+    <v-card class="pt-4">
       <!--
       Image du Pokémon
         * v-img : Affiche une image contenue dans un conteneur.
         * :src : Génère dynamiquement le chemin de l'image à partir de `selectedPokemon.img`.
         * contain : Ajuste l'image pour qu'elle s'inscrive dans le conteneur.
       -->
-      <v-img contain height="300px" :src="`/images/${selectedPokemon.img}`" />
+      <v-img v-if="selectedPokemon.img" contain height="300px" :src="`/images/${selectedPokemon.img}`" />
+      <v-img v-else contain height="300px" src="/images/pokeball.png" />
 
       <!--
       Titre de la carte affichant le nom du Pokémon
@@ -113,7 +116,10 @@ Importation des dépendances nécessaires
   const { selectedPokemon } = storeToRefs(pokemonStore)
   const { toggleFavorite, isFavorite, selectPokemonById } = pokemonStore
 
-  // Récupère l'ID du Pokémon depuis les paramètres de la route.
+  /*
+  Définition des propriétés calculées
+    - pokemonId : Récupère l'ID du Pokémon depuis les paramètres de la route.
+  */
   const pokemonId = computed(() => route.params.id)
 
   /*
@@ -122,7 +128,7 @@ Importation des dépendances nécessaires
     - Redirige vers une page 404 si le Pokémon n'existe pas.
   */
   onMounted(() => {
-    // Sélectionne le Pokémon correspondant à l'ID
+    // Sélectionne le Pokémon correspondant à l'ID et le charge dans selectedPokemon du magasin
     const pokemonExists = selectPokemonById(pokemonId.value)
     // Si le Pokémon n'existe pas, redirige vers une page 404
     if (!pokemonExists) {

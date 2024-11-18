@@ -2,15 +2,17 @@
   <!--
   Carte Pokémon cliquable qui redirige vers une page de détails
     * :to utilise un lien dynamique basé sur l'identifiant unique du Pokémon (pokemon.id)
+    *  pt-4 ajoute un padding en haut de la carte pour l'espacement
   -->
-  <v-card :to="`/pokemon/${pokemon.id}`">
+  <v-card class="pt-4" :to="`/pokemon/${pokemon.id}`">
     <!--
     Image du Pokémon
       * contain ajuste l'image pour être entièrement contenue dans la zone définie
       * height="200px" fixe la hauteur de l'image pour un affichage uniforme
       * :src charge dynamiquement l'image à partir du chemin 'images' et du nom de fichier du Pokémon
     -->
-    <v-img contain height="200px" :src="`images/${pokemon.img}`" />
+    <v-img v-if="pokemon.img" contain height="200px" :src="`images/${pokemon.img}`" />
+    <v-img v-else contain height="200px" src="/images/pokeball.png" />
 
     <!--
     Titre de la carte affichant le nom du Pokémon

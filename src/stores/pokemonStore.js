@@ -296,6 +296,7 @@ export const usePokemonStore = defineStore('pokemon', {
         this.selectedPokemon = pokemon
         return true
       }
+      this.selectedPokemon = null
       return false
     },
 
