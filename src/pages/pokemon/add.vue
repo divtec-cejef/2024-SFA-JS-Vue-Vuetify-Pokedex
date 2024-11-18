@@ -1,3 +1,8 @@
+<!--
+L'accès à cette page est réservé aux utilisateurs connectés
+La protection de la route est gérée par vue-router dans le fichier router/index.js lignes 18 à 42
+et par le magasin auth dans le fichier stores/authStore.js
+-->
 <template>
   <!--
   Conteneur principal pour le formulaire d'ajout de Pokémon
@@ -17,23 +22,29 @@
       <v-form @submit.prevent="addPokemon">
         <!-- Champ pour le nom du Pokémon -->
         <v-text-field
-          v-model="pokemonData.name"
+          v-model.trim="pokemonData.name"
           label="Nom"
-          required
         />
         <!-- Champ pour le niveau du Pokédex -->
         <v-text-field
           v-model.number="pokemonData.level"
           label="Niveau"
-          required
           type="number"
         />
+        <!-- Champ pour l'image du Pokémon -->
+        <v-text-field
+          v-model.trim="pokemonData.img"
+          class="pb-0 mb-0"
+          label="Image du pokémon"
+        />
+        <!-- Composant pour sélectionner une image de test -->
+        <!-- Affecte le nom de l'image sélectionnée à l'attribut pokemonData.img -->
+        <SelectImageTest @select="(imageTest) => pokemonData.img = imageTest" />
 
         <!-- Champ pour la description du Pokémon -->
         <v-textarea
-          v-model="pokemonData.description"
+          v-model.trim="pokemonData.description"
           label="Description"
-          required
         />
 
         <!-- Groupe de cases à cocher pour les types de Pokémon -->
@@ -58,13 +69,13 @@
         </fieldset>
         <!-- Message d'erreur d'ajout affiché en cas d'échec -->
         <v-alert
-          v-if="addError"
+          v-if="msgErreur"
           border="start"
           class="mb-6"
           color="warning"
           type="error"
         >
-          {{ addError }}
+          {{ msgErreur }}
         </v-alert>
 
         <!-- Bouton pour soumettre le formulaire d'ajout -->
@@ -79,7 +90,7 @@
 
       <!-- Notification de succès d'ajout -->
       <v-snackbar
-        v-model="addSuccess"
+        v-model="msgSucces"
         color="success"
       >
         Pokémon créé avec succès !
@@ -89,6 +100,7 @@
 </template>
 
 <script setup>
+  import SelectImageTest from '@/components/SelectImageTest.vue'
   import { ref } from 'vue'
   import { usePokemonStore } from '@/stores/pokemonStore'
 
@@ -104,29 +116,40 @@
   })
 
   // État pour gérer les erreurs lors de l'ajout de Pokémon
-  const addError = ref(null)
+  const msgErreur = ref(null)
   // État pour afficher le message de succès
-  const addSuccess = ref(false)
+  const msgSucces = ref(false)
 
   /**
    * Fonction pour ajouter un Pokémon
    * @async
    * Utilise l'action createPokemon du store pour ajouter un Pokémon
    */
-  const addPokemon = async () => {
-    try {
-      // Réinitialise les messages d'erreur et de succès avant de soumettre
-      addError.value = null
-      addSuccess.value = false
-      // Appelle la fonction createPokemon du store pour ajouter le Pokémon
-      await pokemonStore.addPokemon(pokemonData.value)
-      addSuccess.value = true
-      // Réinitialise les champs du formulaire après un ajout réussi
-      pokemonData.value = { name: '', level: '', description: '', types: [] }
-    } catch (error) {
-      // Enregistre le message d'erreur en cas d'échec de l'ajout
-      addError.value = error.message
+  function addPokemon () {
+    // Réinitialise les messages d'erreur et de succès
+    msgErreur.value = null
+    msgSucces.value = false
+
+    // Appelle l'action createPokemon du store pour ajouter un Pokémon et récupère la réponse
+    const reponse = pokemonStore.addPokemon(pokemonData.value)
+
+    // Si erreur lors de l'ajout, affiche le message d'erreur et stoppe la fonction
+    if (!reponse.success) {
+      // Affiche le message d'erreur
+      msgErreur.value = reponse.message
+      return
     }
+
+    // Réinitialise les champs du formulaire après un ajout réussi
+    pokemonData.value = {
+      name: '',
+      level: '',
+      description: '',
+      types: [],
+    }
+    // Affiche le message de succès
+    msgSucces.value = true
+    // Stoppe la fonction pour éviter l'exécution du code suivant
   }
 </script>
 

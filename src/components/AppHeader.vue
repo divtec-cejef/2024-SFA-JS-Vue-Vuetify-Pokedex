@@ -42,19 +42,19 @@
 
       <!--
       Bouton de déconnexion
-        * v-if="pokemonStore.authenticated" affiche le bouton si l'utilisateur est connecté
+        * v-if="authStore.isAuthenticated" affiche le bouton si l'utilisateur est connecté
         * icon="mdi-logout" affiche l'icône de déconnexion
         * @click déclenche la fonction de déconnexion (logout)
       -->
       <v-btn
-        v-if="pokemonStore.authenticated"
+        v-if="authStore.isAuthenticated"
         icon="mdi-logout"
         @click="logout"
       />
 
       <!--
       Bouton de connexion (affiché si l'utilisateur n'est pas connecté)
-        * v-else affiche ce bouton seulement si pokemonStore.authenticated n'existe pas
+        * v-else affiche ce bouton seulement si authStore.isAuthenticated n'existe pas
         * icon="mdi-login" affiche l'icône de connexion
         * @click redirige vers la page de connexion
       -->
@@ -81,11 +81,11 @@
 
 <script setup>
   import router from '@/router'
+  import { useAuthStore } from '@/stores/authStore'
   import { ref } from 'vue'
-  import { usePokemonStore } from '@/stores/pokemonStore'
 
-  // Utilisation du pokemonStore pour gérer l'état de connexion de l'utilisateur
-  const pokemonStore = usePokemonStore()
+  // Utilisation du authStore pour gérer l'état de connexion de l'utilisateur
+  const authStore = useAuthStore()
 
   /*
 Définition des éléments de menu pour la navigation
@@ -107,12 +107,12 @@ Définition des éléments de menu pour la navigation
   /*
 Fonction de déconnexion
 - Affiche le snackbar de déconnexion
-- Déconnecte l'utilisateur en appelant la méthode logout() du pokemonStore
+- Déconnecte l'utilisateur en appelant la méthode logout() du authStore
 - Redirige l'utilisateur vers la page d'accueil après la déconnexion
 */
   function logout () {
     snackbar.value = true // Afficher la notification de déconnexion
-    pokemonStore.logout() // Appeler la méthode de déconnexion du pokemonStore
+    authStore.logout() // Appeler la méthode de déconnexion du authStore
     router.push('/') // Rediriger l'utilisateur vers la page d'accueil
   }
 </script>

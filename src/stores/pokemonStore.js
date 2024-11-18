@@ -242,15 +242,26 @@ export const usePokemonStore = defineStore('pokemon', {
    */
   actions: {
     addPokemon (pokemon) {
+      // Vérification des données du Pokémon
+      if (!pokemon.name || !pokemon.level) {
+        return {
+          success: false,
+          message: 'Le nom et le niveau du Pokémon sont obligatoires',
+        }
+      }
+
+      // Si le nom du Pokémon est déjà utilisé
+      if (this.pokemons.some(p => p.name.toLowerCase() === pokemon.name.toLowerCase())) {
+        return {
+          success: false,
+          message: 'Le nom du Pokémon est déjà utilisé',
+        }
+      }
+      // Si tout est correct, ajouter le Pokémon
       // Génération de l'identifiant (méthode simple et peu fiable)
       pokemon.id = this.pokemons.length + 1
-      // Vérification des données du Pokémon
-      if (!pokemon.name || !pokemon.types || !pokemon.level) {
-        return { success: false, message: 'Données manquantes' }
-      } else {
-        this.pokemons.push(pokemon)
-        return { success: true, message: 'Pokémon ajouté avec succès' }
-      }
+      this.pokemons.push(pokemon)
+      return { success: true, message: 'Pokémon ajouté avec succès' }
     },
     /**
      * Sélectionne un Pokémon par son identifiant.

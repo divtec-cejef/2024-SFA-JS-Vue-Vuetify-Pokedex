@@ -4,7 +4,7 @@
  * Automatic routes for `./src/pages/*.vue`
  */
 
-import { usePokemonStore } from '@/stores/pokemonStore'
+import { useAuthStore } from '@/stores/authStore'
 // Composables
 import { createRouter, createWebHistory } from 'vue-router/auto'
 import { setupLayouts } from 'virtual:generated-layouts'
@@ -15,25 +15,33 @@ const router = createRouter({
   routes: setupLayouts(routes),
 })
 
-// Définir un tableau contenant les chemins des routes protégées
+/****************************************************************************************
+ * Début de la Gestion de la navigation protégée
+ ****************************************************************************************/
+// Tableau contenant les chemins des routes protégées, nécessitant une authentification
 const protectedRoutes = [
   '/pokemon/add',
   // Ajouter d'autres routes protégées ici
 ]
+// Récupérer le magasin d'authentification
+const authStore = useAuthStore()
 
-// Guard global pour vérifier l'authentification sur les routes spécifiques
+// Guardien (Guard) global pour vérifier l'authentification sur les routes spécifiques
 router.beforeEach((to, from, next) => {
-  const pokemonStore = usePokemonStore()
-
-  // Vérifier si la route fait partie des routes protégées et si l'utilisateur est non authentifié
-  if (protectedRoutes.includes(to.path) && !pokemonStore.authenticated) {
-    // Rediriger vers la page de connexion et mémoriser la route ciblée
+  // Si la route est protégée et que l'utilisateur n'est PAS authentifié
+  if (protectedRoutes.includes(to.path) && !authStore.isAuthenticated) {
+    // Rediriger vers la page de connexion path: '/login'
+    // et passe la route demandée en paramètre query: { redirect: to.fullPath },
+    // cela permettra de revnoyer l'utilisateur vers la page demandée après la connexion
     next({ path: '/login', query: { redirect: to.fullPath } })
   } else {
-    // Sinon, autoriser la navigation
+    // Sinon on laisse passer
     next()
   }
 })
+/**************************************************************************************
+ * Fin de Gestion de la navigation protégée
+ *********************************************************************************** */
 
 // Workaround for https://github.com/vitejs/vite/issues/11804
 router.onError((err, to) => {

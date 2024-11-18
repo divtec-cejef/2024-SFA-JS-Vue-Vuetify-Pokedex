@@ -13,6 +13,8 @@ declare module 'vue' {
     PokemonTypesChips: typeof import('./src/components/PokemonTypesChips.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SelectImageTest: typeof import('./src/components/SelectImageTest.vue')['default']
+    SelectImageTestPokemon: typeof import('./src/components/SelectImageTestPokemon.vue')['default']
     TypeChip: typeof import('@/components/TypeChips.vue')['default']
     TypeChips: typeof import('@/components/PokemonTypesChips.vue')['default']
   }
