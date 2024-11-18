@@ -37,16 +37,23 @@
 <script setup>
   import PokemonTypesChips from '@/components/PokemonTypesChips.vue'
   import { onMounted } from 'vue'
-  import { useRoute } from 'vue-router'
+  import { useRoute, useRouter } from 'vue-router'
   import { storeToRefs } from 'pinia'
   import { usePokemonStore } from '@/stores/pokemonStore'
 
-  const route = useRoute()
+  const router = useRouter() // Outil de routage
+  const route = useRoute() // Informations sur la route actuelle
   const pokemonStore = usePokemonStore()
   const { selectedPokemon } = storeToRefs(pokemonStore)
   const { selectPokemon, toggleFavorite, isFavorite } = pokemonStore
 
   onMounted(() => {
+    // Teste si l'id du Pokémon existe dans le magasin des Pokémon
+    // Sinon on redirige l'utilisateur vers la page 404 [...path].vue
+    if (!selectedPokemon.value || selectedPokemon.value.id !== route.params.id) {
+      router.push('/404')
+    }
+    // Sélectionne le Pokémon correspondant à l'id de la route
     selectPokemon(route.params.id)
   })
 
