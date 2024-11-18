@@ -26,7 +26,7 @@
       * large rend le bouton plus visible et centré
       * @click="$router.push('/')" redirige vers la page d'accueil
     -->
-    <v-btn color="primary" large @click="$router.push('/')">
+    <v-btn color="primary" large to="/">
       Retour à l'accueil
     </v-btn>
   </v-container>

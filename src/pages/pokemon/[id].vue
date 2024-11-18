@@ -47,7 +47,7 @@
   const { selectPokemon, toggleFavorite, isFavorite } = pokemonStore
 
   onMounted(() => {
-    selectPokemon(parseInt(route.params.id))
+    selectPokemon(route.params.id)
   })
 
   const getStatColor = stat => {

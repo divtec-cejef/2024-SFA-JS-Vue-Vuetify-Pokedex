@@ -54,7 +54,7 @@
       Bouton pour retourner à la liste des Pokémon
         * @click navigue vers la liste des Pokémon
       -->
-      <v-btn @click="$router.push('/pokemon')">
+      <v-btn to="/">
         Retourner à la liste des Pokémon
       </v-btn>
     </v-alert>
