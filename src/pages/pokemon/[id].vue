@@ -102,9 +102,9 @@
 </template>
 
 <script setup>
-/*
-Importation des dépendances
-*/
+  /*
+  Importation des dépendances
+  */
   import { onMounted } from 'vue'
   import { useRoute, useRouter } from 'vue-router'
   import { storeToRefs } from 'pinia'
@@ -113,23 +113,27 @@ Importation des dépendances
   import PokemonStats from '@/components/PokemonStats.vue'
 
   // Initialisation des outils de navigation et du magasin Pinia
-  const router = useRouter()
-  const route = useRoute()
-  const pokemonStore = usePokemonStore()
+  const router = useRouter() // Récupère le routeur pour la navigation
+  const route = useRoute() // Récupère les informations de la route actuelle
+  const pokemonStore = usePokemonStore() // Récupère le magasin des Pokémon
 
-  // Extraction des propriétés réactives depuis le magasin
+  // Création de données réactives (refs) depuis lea données (state) du magasin
   const { selectedPokemon } = storeToRefs(pokemonStore)
+  // Récupération des actions et méthodes du magasin des Pokémon
   const { toggleFavorite, isFavorite, selectPokemonById } = pokemonStore
-
-  // Récupération de l'ID du Pokémon depuis les paramètres de l'URL
-  const pokemonId = route.params.id
 
   /*
   Chargement du Pokémon à l'initialisation du composant
     - Si l'ID ne correspond à aucun Pokémon, redirection vers une page 404.
   */
   onMounted(() => {
-    const pokemonExists = selectPokemonById(pokemonId.value)
+    // Le nom de ce fichier pokemon/[id].vue créer une route dynamique avec un paramètre `id`
+    // route.params.id permet de récupérer la valeur de l'ID dans l'URL
+    // Par exemple, pour l'URL `/pokemon/25-pika`, route.params.id vaudra `25-pika`
+    const idPokemon = route.params.id
+    // Vérification et récupération du Pokémon avec l'ID fourni
+    const pokemonExists = selectPokemonById(idPokemon)
+    // Si le Pokémon n'existe pas, redirection vers une page 404
     if (!pokemonExists) {
       router.push('/404') // Redirection en cas d'ID invalide
     }
