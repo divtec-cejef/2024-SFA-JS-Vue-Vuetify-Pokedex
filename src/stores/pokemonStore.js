@@ -2,7 +2,7 @@
  * @file Gestionnaire de magasin pour les Pokémon.
  * Utilise Pinia pour gérer les types de Pokémon, la liste des Pokémon,
  * ainsi que des fonctionnalités comme la sélection et les favoris.
- * @version 1.1
+ * @version 1.2
  * @since 2024-01-31
  */
 
@@ -37,7 +37,7 @@ const types = [
  * des statistiques, et une description.
  * @type {Array<{id: string, name: string, types: number[], level: number, img: string, description: string, stats: {hp: number, attack: number, defense: number, speed: number}}>}
  */
-const pokemons = [
+const defaultPokemons = [
   {
     id: '5566710e-29c7-43cc-ba04-46415a63e1ef',
     name: 'Pikachu',
@@ -215,7 +215,8 @@ export const usePokemonStore = defineStore('pokemon', {
   // État initial du magasin.
   state: () => ({
     types, // Liste des types de Pokémon.
-    pokemons, // Liste des Pokémon.
+    // On charge la liste de pokémons depuis le localStorage si elle existe, sinon on utilise la liste par défaut.
+    pokemons: JSON.parse(localStorage.getItem('pokemons')) || defaultPokemons,
     selectedPokemon: null, // Pokémon actuellement sélectionné.
     favorites: [], // ID des Pokémon favoris.
   }),
@@ -260,7 +261,6 @@ export const usePokemonStore = defineStore('pokemon', {
      * @returns {Object} Résultat de l'opération avec succès ou message d'erreur.
      */
     addPokemon (pokemon) {
-      //   TODO ajouter localstorage pour les nouveaux pokemons et les favoris
       if (!pokemon.name || !pokemon.level) {
         return { success: false, message: 'Le nom et le niveau du Pokémon sont obligatoires' }
       }
@@ -268,7 +268,11 @@ export const usePokemonStore = defineStore('pokemon', {
         return { success: false, message: 'Le nom du Pokémon est déjà utilisé' }
       }
       pokemon.id = uuidv4() // Génère un identifiant unique.
+      // Ajoute le Pokémon dans le tableau
       this.pokemons.push(pokemon)
+      // Remplace le tableau des pokemons dans le localstorage
+      localStorage.setItem('pokemons', JSON.stringify(this.pokemons))
+      // Retourne un message de succés
       return { success: true, message: 'Pokémon ajouté avec succès' }
     },
 
@@ -281,7 +285,10 @@ export const usePokemonStore = defineStore('pokemon', {
       const index = this.pokemons.findIndex(p => p.id === pokemonId)
       // Supprime le Pokémon de la liste s'il est trouvé.
       if (index !== -1) {
+        // Supprime le pokemon du tableau
         this.pokemons.splice(index, 1)
+        // Remplace le tableau des pokemons dans le localstorage
+        localStorage.setItem('pokemons', JSON.stringify(this.pokemons))
       } else {
         return { success: false, message: 'Pokémon introuvable' }
       }
