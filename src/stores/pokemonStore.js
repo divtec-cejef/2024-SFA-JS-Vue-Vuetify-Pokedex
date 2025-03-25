@@ -277,6 +277,39 @@ export const usePokemonStore = defineStore('pokemon', {
     },
 
     /**
+     * Met à jour les informations d’un Pokémon existant dans la liste, puis met à jour le localStorage.
+     * @param {Object} updatedPokemon - Le Pokémon contenant les nouvelles informations (avec son id).
+     * @returns {Object} Résultat de l'opération avec succès ou message d'erreur.
+     */
+    updatePokemon (updatedPokemon) {
+      // On recherche l'index du Pokémon à modifier.
+      const index = this.pokemons.findIndex(p => p.id === updatedPokemon.id)
+
+      // Si le Pokémon n'est pas trouvé, on retourne une erreur.
+      if (index === -1) {
+        return { success: false, message: 'Pokémon introuvable' }
+      }
+
+      // Optionnel : si on souhaite vérifier que le nouveau nom n'est pas déjà pris par un autre Pokémon :
+      // - on peut faire une recherche en excluant l'actuel Pokémon
+      const duplicateName = this.pokemons.some(
+        p => p.id !== updatedPokemon.id && p.name.toLowerCase() === updatedPokemon.name.toLowerCase()
+      )
+      if (duplicateName) {
+        return { success: false, message: 'Le nom du Pokémon est déjà utilisé par un autre' }
+      }
+
+      // Mise à jour des informations du Pokémon
+      this.pokemons[index] = { ...this.pokemons[index], ...updatedPokemon }
+
+      // On enregistre les modifications dans le localStorage
+      localStorage.setItem('pokemons', JSON.stringify(this.pokemons))
+
+      // Retourne un message de succès.
+      return { success: true, message: 'Pokémon modifié avec succès' }
+    },
+
+    /**
      * Supprime un Pokémon de la liste et des favoris s'il est trouvé.
      * @param pokemonId - Id du pokémon à supprimer.
      * @returns {{success: boolean, message: string}} - Résultat de l'opération avec succès ou message d'erreur.
