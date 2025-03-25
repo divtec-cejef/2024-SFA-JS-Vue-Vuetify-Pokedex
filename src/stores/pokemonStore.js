@@ -254,6 +254,26 @@ export const usePokemonStore = defineStore('pokemon', {
      * @returns {*} Liste des Pokémon favoris.
      */
     getFavorites: state => state.favorites.map(id => state.getPokemonsSortByNameASC.find(p => p.id === id)),
+
+    /**
+     * Getter qui renvoie le nombre total de Pokémon dans la liste.
+     * Pratique pour afficher un compteur ou des statistiques simples.
+     * @param {Object} state - L'état actuel du magasin.
+     * @returns {number} Le nombre total de Pokémon enregistrés.
+     */
+    totalPokemons: state => {
+      return state.pokemons.length
+    },
+
+    /**
+     * Getter qui renvoie le nombre total de Pokémon marqués comme favoris.
+     * Permet d'afficher facilement un compteur de favoris.
+     * @param {Object} state - L'état actuel du magasin.
+     * @returns {number} Le nombre de favoris.
+     */
+    totalFavorites: state => {
+      return state.favorites.length
+    },
   },
 
   // Actions pour modifier l'état.
