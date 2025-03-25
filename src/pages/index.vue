@@ -86,7 +86,7 @@
   const pokemonStore = usePokemonStore()
 
   // Récupération des Pokémon triés par nom (ordre croissant) du magasin
-  const { getPokemonsSortByNameASC } = pokemonStore
+  const { pokemons } = pokemonStore
 
   /*
   Définition de la recherche utilisateur comme une propriété réactive
@@ -97,6 +97,19 @@
   */
   const search = ref('')
 
+  /**
+   * Fonction qui retourne une ** COPIE ** tableau de Pokéomons triés par Nom ascendant (ASC)
+   * @returns {*}
+   */
+  function getPokemonsSortByNameASC () {
+    /*
+    Crée une copie afin de ne pas modifier le tableau des pokemons dans le magasin
+    [...pokemons] créer un nouveau tableau composé du contenu du tableau pokemon
+    Cette action est nécessaire, car la méthode sort modifie le tableau source.
+    */
+    return [...pokemons].sort((a, b) => a.name.localeCompare(b.name))
+  }
+
   /*
   Propriété calculée pour filtrer les Pokémon en fonction de la recherche
     * Utilise computed pour calculer uniquement si les dépendances (getPokemonsSortByNameASC, search) changent
@@ -106,8 +119,8 @@
   */
   const filteredPokemons = computed(() => {
     const searchQuery = search.value.trim().toLowerCase()
-    if (!searchQuery) return getPokemonsSortByNameASC
-    return getPokemonsSortByNameASC.filter(pokemon =>
+    if (!searchQuery) return getPokemonsSortByNameASC()
+    return getPokemonsSortByNameASC().filter(pokemon =>
       pokemon.name.toLowerCase().includes(searchQuery)
     )
   })

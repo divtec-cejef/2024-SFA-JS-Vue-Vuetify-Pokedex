@@ -231,11 +231,15 @@ export const usePokemonStore = defineStore('pokemon', {
     getTypeById: state => id => state.types.find(type => type.id === id),
 
     /**
-     * Récupère les Pokémon triés par nom dans l'ordre alphabétique.
-     * @param state - L'état act
-     * @returns {*} Liste des Pokémon triés par nom.
+     * Getter qui renvoie un Pokémon complet (objet) à partir de son identifiant.
+     * On peut ainsi éviter de réécrire state.pokemons.find(...) dans chaque composant.
+     * @param {Object} state - L'état actuel du magasin.
+     * @returns {function(string): object|undefined} La fonction qui prend un ID
+     * et renvoie le Pokémon correspondant ou undefined s'il n'existe pas.
      */
-    getPokemonsSortByNameASC: state => state.pokemons.sort((a, b) => a.name.localeCompare(b.name)),
+    getPokemonById: state => id => {
+      return state.pokemons.find(pokemon => pokemon.id === id)
+    },
 
     /**
      * Vérifie si un Pokémon donné est dans la liste des favoris.
