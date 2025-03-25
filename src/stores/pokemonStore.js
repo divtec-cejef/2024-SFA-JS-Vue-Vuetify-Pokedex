@@ -287,56 +287,47 @@ export const usePokemonStore = defineStore('pokemon', {
   actions: {
     /**
      * Ajoute un nouveau Pokémon à la liste.
-     * Vérifie que le nom et le niveau sont valides et que le nom est unique.
+     * Version simplifiée : on vérifie uniquement que le nom et le niveau sont présents.
      * @param {Object} pokemon - Objet Pokémon à ajouter.
-     * @returns {Object} Résultat de l'opération avec succès ou message d'erreur.
+     * @returns {{success: boolean, message: string}}
      */
     addPokemon (pokemon) {
+      // Validation ultra-basique
       if (!pokemon.name || !pokemon.level) {
         return { success: false, message: 'Le nom et le niveau du Pokémon sont obligatoires' }
       }
-      if (this.pokemons.some(p => p.name.toLowerCase() === pokemon.name.toLowerCase())) {
-        return { success: false, message: 'Le nom du Pokémon est déjà utilisé' }
-      }
-      pokemon.id = uuidv4() // Génère un identifiant unique.
-      // Ajoute le Pokémon dans le tableau
+
+      // Génération d’un identifiant unique
+      pokemon.id = uuidv4()
+
+      // Ajout au tableau
       this.pokemons.push(pokemon)
-      // Remplace le tableau des pokemons dans le localstorage
+
+      // Sauvegarde locale
       localStorage.setItem('pokemons', JSON.stringify(this.pokemons))
-      // Retourne un message de succés
+
       return { success: true, message: 'Pokémon ajouté avec succès' }
     },
 
     /**
-     * Met à jour les informations d’un Pokémon existant dans la liste, puis met à jour le localStorage.
-     * @param {Object} updatedPokemon - Le Pokémon contenant les nouvelles informations (avec son id).
-     * @returns {Object} Résultat de l'opération avec succès ou message d'erreur.
+     * Met à jour les informations d’un Pokémon existant dans la liste.
+     * Version simplifiée : on ne fait plus de vérification de nom dupliqué.
+     * @param {Object} updatedPokemon - Nouveau contenu du Pokémon, incluant son id.
+     * @returns {{success: boolean, message: string}}
      */
     updatePokemon (updatedPokemon) {
-      // On recherche l'index du Pokémon à modifier.
+      // On retrouve le Pokémon via son id
       const index = this.pokemons.findIndex(p => p.id === updatedPokemon.id)
-
-      // Si le Pokémon n'est pas trouvé, on retourne une erreur.
       if (index === -1) {
         return { success: false, message: 'Pokémon introuvable' }
       }
 
-      // Optionnel : si on souhaite vérifier que le nouveau nom n'est pas déjà pris par un autre Pokémon :
-      // - on peut faire une recherche en excluant l'actuel Pokémon
-      const duplicateName = this.pokemons.some(
-        p => p.id !== updatedPokemon.id && p.name.toLowerCase() === updatedPokemon.name.toLowerCase()
-      )
-      if (duplicateName) {
-        return { success: false, message: 'Le nom du Pokémon est déjà utilisé par un autre' }
-      }
-
-      // Mise à jour des informations du Pokémon
+      // Fusion du contenu : on écrase les champs existants par ceux du nouvel objet
       this.pokemons[index] = { ...this.pokemons[index], ...updatedPokemon }
 
-      // On enregistre les modifications dans le localStorage
+      // Sauvegarde locale
       localStorage.setItem('pokemons', JSON.stringify(this.pokemons))
 
-      // Retourne un message de succès.
       return { success: true, message: 'Pokémon modifié avec succès' }
     },
 
