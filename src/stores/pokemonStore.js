@@ -249,11 +249,19 @@ export const usePokemonStore = defineStore('pokemon', {
     isFavorite: state => pokemon => state.favorites.some(favId => favId === pokemon.id),
 
     /**
-     * Récupère les Pokémon dont l'identifiant est dans la liste des favoris.
-     * @param state - L'état actuel du magasin.
-     * @returns {*} Liste des Pokémon favoris.
+     * Récupère la liste complète des Pokémon favoris en mappant chaque ID
+     * sur l'objet Pokémon correspondant.
+     * Si `find()` ne trouve rien, il renvoie undefined ; le .filter(Boolean)
+     * élimine tous les éléments "falsy" (undefined, null, etc.) afin de ne
+     * garder que les Pokémon valides.
+     * @param {Object} state - L'état actuel du magasin.
+     * @returns {Array} Liste des Pokémon favoris.
      */
-    getFavorites: state => state.favorites.map(id => state.getPokemonsSortByNameASC.find(p => p.id === id)),
+    getFavorites: state => {
+      return state.favorites
+        .map(id => state.pokemons.find(p => p.id === id))
+        .filter(Boolean)
+    },
 
     /**
      * Getter qui renvoie le nombre total de Pokémon dans la liste.
