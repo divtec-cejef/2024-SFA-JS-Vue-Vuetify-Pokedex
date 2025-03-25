@@ -66,7 +66,7 @@
           * :stats : Passe les statistiques du Pokémon en tant que propriété réactive.
         -->
         <h3>Stats</h3>
-        <pokemon-stats :stats="selectedPokemon.stats" />
+        <pokemon-stats v-if="selectedPokemon.stats" :stats="selectedPokemon.stats" />
       </v-card-text>
 
       <!--
@@ -105,9 +105,8 @@
   /*
   Importation des dépendances
   */
-  import { onMounted } from 'vue'
+  import { onMounted, ref } from 'vue'
   import { useRoute, useRouter } from 'vue-router'
-  import { storeToRefs } from 'pinia'
   import { usePokemonStore } from '@/stores/pokemonStore'
   import PokemonTypesChips from '@/components/PokemonTypesChips.vue'
   import PokemonStats from '@/components/PokemonStats.vue'
@@ -116,12 +115,11 @@
   const router = useRouter() // Récupère le routeur pour la navigation
   const route = useRoute() // Récupère les informations de la route actuelle
   const pokemonStore = usePokemonStore() // Récupère le magasin des Pokémon
-
-  // Création de données réactives (refs) depuis lea données (state) du magasin
-  const { selectedPokemon } = storeToRefs(pokemonStore)
   // Récupération des actions et méthodes du magasin des Pokémon
-  const { toggleFavorite, isFavorite, selectPokemonById } = pokemonStore
+  const { toggleFavorite, isFavorite, getPokemonById } = pokemonStore
 
+  // Pokémon sélectionné pour afficher les détails
+  const selectedPokemon = ref(null)
   /*
   Chargement du Pokémon à l'initialisation du composant
     - Si l'ID ne correspond à aucun Pokémon, redirection vers une page 404.
@@ -132,9 +130,9 @@
     // Par exemple, pour l'URL `/pokemon/25-pika`, route.params.id vaudra `25-pika`
     const idPokemon = route.params.id
     // Vérification et récupération du Pokémon avec l'ID fourni
-    const pokemonExists = selectPokemonById(idPokemon)
+    selectedPokemon.value = getPokemonById(idPokemon)
     // Si le Pokémon n'existe pas, redirection vers une page 404
-    if (!pokemonExists) {
+    if (!selectedPokemon.value) {
       router.push('/404') // Redirection en cas d'ID invalide
     }
   })

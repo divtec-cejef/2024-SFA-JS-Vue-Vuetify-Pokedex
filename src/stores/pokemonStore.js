@@ -217,7 +217,6 @@ export const usePokemonStore = defineStore('pokemon', {
     types, // Liste des types de Pokémon.
     // On charge la liste de pokémons depuis le localStorage si elle existe, sinon on utilise la liste par défaut.
     pokemons: JSON.parse(localStorage.getItem('pokemons')) || defaultPokemons,
-    selectedPokemon: null, // Pokémon actuellement sélectionné.
     favorites: [], // ID des Pokémon favoris.
   }),
 
@@ -365,21 +364,6 @@ export const usePokemonStore = defineStore('pokemon', {
       }
       // Retourne un message de succès.
       return { success: true, message: 'Pokémon supprimé avec succès' }
-    },
-
-    /**
-     * Sélectionne un Pokémon à partir de son identifiant.
-     * @param {string} id - Identifiant du Pokémon.
-     * @returns {boolean} `true` si le Pokémon est trouvé, sinon `false`.
-     */
-    selectPokemonById (id) {
-      const pokemon = this.pokemons.find(p => p.id === id)
-      if (pokemon) {
-        this.selectedPokemon = pokemon
-        return true
-      }
-      this.selectedPokemon = null
-      return false
     },
 
     /**
