@@ -260,6 +260,7 @@ export const usePokemonStore = defineStore('pokemon', {
      * @returns {Object} Résultat de l'opération avec succès ou message d'erreur.
      */
     addPokemon (pokemon) {
+      //   TODO ajouter localstorage pour les nouveaux pokemons et les favoris
       if (!pokemon.name || !pokemon.level) {
         return { success: false, message: 'Le nom et le niveau du Pokémon sont obligatoires' }
       }

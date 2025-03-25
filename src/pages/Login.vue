@@ -126,6 +126,7 @@
       // Redirection vers la page précédente ou l'accueil
       router.push(route.query.redirect || '/')
       // Réinitialisation des champs et message
+      // Todo: éviter l'affihage des erreurs avant redirection
       loginEmail.value = ''
       loginPassword.value = ''
       errorMessage.value = ''
