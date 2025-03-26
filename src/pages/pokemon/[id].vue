@@ -19,7 +19,7 @@
         * height="300px" : Fixe une hauteur de 300px pour l'image.
         * :src="`/images/${selectedPokemon.img}`" : Génère dynamiquement le chemin de l'image du Pokémon.
       -->
-      <v-img v-if="selectedPokemon.img" contain height="300px" :src="`/images/${selectedPokemon.img}`" />
+      <v-img v-if="selectedPokemon.img" contain height="300px" :src="`./images/${selectedPokemon.img}`" />
       <!--
       Image par défaut affichée lorsque l'image du Pokémon n'est pas disponible.
         * src="/images/pokeball.png" : Chemin statique vers l'image par défaut.
