@@ -105,6 +105,8 @@
 
   /**
    * Propriété calculée qui filtre les Pokémon **déjà triés** en fonction de la recherche.
+   * On a séparé les méthodes de tri et de filtre pour éviter de recalculer le tri à chaque recherche.
+   * Ce qui va améliorer les performances de l'application.
    */
   const filteredPokemons = computed(() => {
     // Récupère la valeur de recherche sans les espaces inutiles et en minuscules
