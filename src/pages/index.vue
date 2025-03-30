@@ -110,18 +110,29 @@
     return [...pokemons].sort((a, b) => a.name.localeCompare(b.name))
   }
 
-  /*
-  Propriété calculée pour filtrer les Pokémon en fonction de la recherche
-    * Utilise computed pour calculer uniquement si les dépendances (getPokemonsSortByNameASC, search) changent
-    * La recherche est convertie en minuscules et espaces inutiles sont supprimés (trim)
-    * Si la recherche est vide, retourne tous les Pokémons triés par nom
-    * Sinon, filtre les Pokémon dont le nom contient la chaîne de recherche
-  */
+  /**
+   * Propriété calculée qui retourne une **COPIE triée** des Pokémon par nom.
+   * Cela permet de centraliser l’opération de tri, qui est **coûteuse** si appelée souvent.
+   * Comme on utilise un computed, elle ne sera recalculée que si `pokemonStore.pokemons` change.
+   */
+  const sortedPokemons = computed(() =>
+    [...pokemonStore.pokemons].sort((a, b) => a.name.localeCompare(b.name))
+  )
+
+  /**
+   * Propriété calculée qui filtre les Pokémon **déjà triés** en fonction de la recherche.
+   */
   const filteredPokemons = computed(() => {
+    // Récupère la valeur de recherche sans les espaces inutiles et en minuscules
     const searchQuery = search.value.trim().toLowerCase()
-    if (!searchQuery) return getPokemonsSortByNameASC()
-    return getPokemonsSortByNameASC().filter(pokemon =>
+    // Si la recherche est vide, retourne les Pokémon triés
+    if (!searchQuery) {
+      return sortedPokemons.value
+    }
+    // Sinon, filtre les Pokémon triés par nom en fonction de la recherche
+    return sortedPokemons.value.filter(pokemon =>
       pokemon.name.toLowerCase().includes(searchQuery)
     )
   })
+
 </script>
