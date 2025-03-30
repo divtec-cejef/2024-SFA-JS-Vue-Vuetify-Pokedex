@@ -19,7 +19,7 @@
         * height="300px" : Fixe une hauteur de 300px pour l'image.
         * :src="`/images/${selectedPokemon.img}`" : Génère dynamiquement le chemin de l'image du Pokémon.
       -->
-      <v-img v-if="selectedPokemon.img" contain height="300px" :src="`/images/${selectedPokemon.img}`" />
+      <v-img v-if="selectedPokemon.img" contain height="300px" :src="getImageUrl(selectedPokemon.img)" />
       <!--
       Image par défaut affichée lorsque l'image du Pokémon n'est pas disponible.
         * src="/images/pokeball.png" : Chemin statique vers l'image par défaut.
@@ -103,10 +103,11 @@
 
 <script setup>
   /*
-  Importation des dépendances
+    Importation des dépendances
   */
   import { onMounted, ref } from 'vue'
   import { useRoute, useRouter } from 'vue-router'
+  import { getImageUrl } from '@/utils/imageUrl'
   import { usePokemonStore } from '@/stores/pokemonStore'
   import PokemonTypesChips from '@/components/PokemonTypesChips.vue'
   import PokemonStats from '@/components/PokemonStats.vue'

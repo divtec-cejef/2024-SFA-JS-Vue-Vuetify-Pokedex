@@ -14,7 +14,7 @@
       * height="200px" : Définit une hauteur fixe pour une présentation uniforme.
       * :src : Lien dynamique vers l'image.
     -->
-    <v-img v-if="pokemon.img" contain height="200px" :src="`/images/${pokemon.img}`" />
+    <v-img v-if="pokemon.img" contain height="200px" :src="getImageUrl(pokemon.img)" />
     <v-img v-else contain height="200px" src="/images/pokeball.png" />
 
     <!--
@@ -124,6 +124,7 @@
   import PokemonTypesChips from '@/components/PokemonTypesChips.vue'
   import { usePokemonStore } from '@/stores/pokemonStore'
   import { useAuthStore } from '@/stores/authStore'
+  import { getImageUrl } from '@/utils/imageUrl'
   import { ref } from 'vue'
 
   // Initialisation des magasins Pinia
