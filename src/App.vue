@@ -39,14 +39,19 @@
   import MenuPrincipal from '@/components/AppHeader.vue'
   // Importation du lifecycle hook `onMounted` pour exécuter du code après que le composant a été monté
   import { onMounted } from 'vue'
-  // Importation du magasin Pinia pour gérer les données des Pokémon
+  // Importation des magasins d'état pour l'authentification et les Pokémon
+  import { useAuthStore } from '@/stores/authStore'
   import { usePokemonStore } from '@/stores/pokemonStore'
 
   // Actions à effectuer après le montage du composant (onMounted)
   onMounted(() => {
+    // Récupération du magasin d'Authentification
+    const authStore = useAuthStore()
+    // Récupération du token d'authentification depuis le localStorage
+    authStore.loadToken()
+
     // Récupération du magasin des Pokémon
     const pokemonStore = usePokemonStore()
-
     // Chargement des favoris depuis le localStorage
     pokemonStore.loadFavorites()
   })

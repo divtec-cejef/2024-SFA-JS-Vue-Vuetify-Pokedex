@@ -176,7 +176,7 @@
   // Objet pour stocker les données du formulaire
   const pokemonData = ref({
     name: '', // Nom du Pokémon
-    level: '', // Niveau du Pokémon
+    level: null, // Niveau du Pokémon
     description: '', // Description du Pokémon
     types: [], // Types sélectionnés
   })
@@ -203,7 +203,8 @@
     // Réinitialise les données après succès
     pokemonData.value = { name: '', level: '', description: '', types: [] }
     msgSucces.value = true
-    router.push('/')
+    // Redirige vers la page d'accueil après un court délai de 500ms
+    setTimeout(() => router.push('/'), 500)
   }
 </script>
 

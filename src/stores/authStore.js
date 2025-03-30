@@ -53,6 +53,8 @@ export const useAuthStore = defineStore('auth', {
         // Mise à jour de l'état en cas de succès.
         this.user = utilisateurFactice
         this.token = tokenFactice
+        // Stockage du jeton d'authentification dans le stockage local.
+        localStorage.setItem('token', this.token)
         return {
           success: true,
           message: 'Connexion réussie',
@@ -61,6 +63,8 @@ export const useAuthStore = defineStore('auth', {
         // Réinitialisation de l'état en cas d'échec.
         this.user = null
         this.token = null
+        // Suppression du jeton d'authentification du stockage local.
+        localStorage.removeItem('token')
         return {
           success: false,
           message: 'Mauvais email ou mot de passe !',
@@ -76,9 +80,23 @@ export const useAuthStore = defineStore('auth', {
     logout () {
       this.user = null
       this.token = null
+      // Suppression du jeton d'authentification du stockage local.
+      localStorage.removeItem('token')
       return {
         success: true,
         message: 'Déconnexion réussie',
+      }
+    },
+    /**
+     * Charge le jeton d'authentification à partir du stockage local.
+     * Utilisé pour maintenir la connexion lors du rechargement de la page.
+     */
+    loadToken () {
+      /* Chargement factice du jeton d'authentification à partir du stockage local. */
+      const token = localStorage.getItem('token')
+      if (token) {
+        this.user = utilisateurFactice
+        this.token = token
       }
     },
   },

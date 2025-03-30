@@ -85,9 +85,6 @@
   // Initialisation du magasin Pinia des Pokémons
   const pokemonStore = usePokemonStore()
 
-  // Récupération des Pokémon triés par nom (ordre croissant) du magasin
-  const { pokemons } = pokemonStore
-
   /*
   Définition de la recherche utilisateur comme une propriété réactive
     * la donnée search et lié au champ de recherche grâce à v-model <v-text-field v-model="search" />
@@ -96,19 +93,6 @@
       Si la valeur de search change, le champ de recherche est mis à jour et vice versa.
   */
   const search = ref('')
-
-  /**
-   * Fonction qui retourne une ** COPIE ** tableau de Pokéomons triés par Nom ascendant (ASC)
-   * @returns {*}
-   */
-  function getPokemonsSortByNameASC () {
-    /*
-    Crée une copie afin de ne pas modifier le tableau des pokemons dans le magasin
-    [...pokemons] créer un nouveau tableau composé du contenu du tableau pokemon
-    Cette action est nécessaire, car la méthode sort modifie le tableau source.
-    */
-    return [...pokemons].sort((a, b) => a.name.localeCompare(b.name))
-  }
 
   /**
    * Propriété calculée qui retourne une **COPIE triée** des Pokémon par nom.
