@@ -5,7 +5,7 @@
     * :to : Génère dynamiquement un lien basé sur l'identifiant unique du Pokémon (`pokemon.id`).
     * class="pt-4" : Ajoute un padding en haut (4 unités) pour espacer le contenu.
   -->
-  <v-card class="pt-4" :to="`/pokemon/${pokemon.id}`">
+  <v-card class="pt-4" :to="`/pokemons/${pokemon.id}`">
     <!--
     Image du Pokémon ou image par défaut si aucune image n'est fournie.
       * v-img : Composant Vuetify pour afficher des images avec mise à l'échelle.
@@ -14,8 +14,8 @@
       * height="200px" : Définit une hauteur fixe pour une présentation uniforme.
       * :src : Lien dynamique vers l'image.
     -->
-    <v-img v-if="pokemon.img" contain height="200px" :src="`images/${pokemon.img}`" />
-    <v-img contain height="200px" src="./images/pokeball.png" />
+    <v-img v-if="pokemon.img" contain height="200px" :src="`/images/${pokemon.img}`" />
+    <v-img v-else contain height="200px" src="/images/pokeball.png" />
 
     <!--
     Titre de la carte affichant le nom du Pokémon.

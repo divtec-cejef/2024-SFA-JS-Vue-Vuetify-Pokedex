@@ -24,7 +24,7 @@ declare module 'vue-router/auto-routes' {
     '/Favoris': RouteRecordInfo<'/Favoris', '/Favoris', Record<never, never>, Record<never, never>>,
     '/KantoMap': RouteRecordInfo<'/KantoMap', '/KantoMap', Record<never, never>, Record<never, never>>,
     '/Login': RouteRecordInfo<'/Login', '/Login', Record<never, never>, Record<never, never>>,
+    '/pokemons/[id]/': RouteRecordInfo<'/pokemons/[id]/', '/pokemons/:id', { id: ParamValue<true> }, { id: ParamValue<false> }>,
     '/pokemons/create': RouteRecordInfo<'/pokemons/create', '/pokemons/create', Record<never, never>, Record<never, never>>,
-    '/pokemons/id/': RouteRecordInfo<'/pokemons/id/', '/pokemons/id', Record<never, never>, Record<never, never>>,
   }
 }
