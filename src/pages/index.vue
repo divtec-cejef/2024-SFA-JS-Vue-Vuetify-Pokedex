@@ -20,7 +20,7 @@
         class="ml-4"
         color="primary"
         icon="mdi-plus"
-        @click="$router.push('pokemon/add')"
+        @click="$router.push('pokemons/create')"
       />
     </h1>
 

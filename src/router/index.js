@@ -20,7 +20,7 @@ const router = createRouter({
  ****************************************************************************************/
 // Tableau contenant les chemins des routes protégées, nécessitant une authentification
 const protectedRoutes = [
-  '/pokemon/add',
+  '/pokemons/create',
   // Ajouter d'autres routes protégées ici
 ]
 
