@@ -32,7 +32,7 @@ router.beforeEach((to, from, next) => {
   if (protectedRoutes.includes(to.path) && !authStore.isAuthenticated) {
     // Rediriger vers la page de connexion (path: '/login')
     // et passe la route demandée en paramètre (query: { redirect: to.fullPath }),
-    // cela permettra de revnoyer l'utilisateur vers la page demandée après la connexion
+    // cela permettra de renvoyer l'utilisateur vers la page demandée après la connexion
     next({ path: '/login', query: { redirect: to.fullPath } })
   } else {
     // Sinon, on laisse passer
