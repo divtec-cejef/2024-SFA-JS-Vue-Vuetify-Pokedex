@@ -1,4 +1,6 @@
 import os
+# Pour exécuter ce script, ouvrir un terminal et exécuter la commande suivante :
+# python export-app.py
 
 # Utiliser le répertoire courant comme racine du projet
 racine_projet = os.getcwd()

@@ -15,7 +15,7 @@
       * :src : Lien dynamique vers l'image.
     -->
     <v-img v-if="pokemon.img" contain height="200px" :src="`images/${pokemon.img}`" />
-    <v-img v-else contain height="200px" src="/images/pokeball.png" />
+    <v-img contain height="200px" src="/images/pokeball.png" />
 
     <!--
     Titre de la carte affichant le nom du Pokémon.
