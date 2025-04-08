@@ -1,5 +1,5 @@
 # 📕 Exercice Pokédex Vuetify
-
+![screeshot-final.png](public/screeshot-final.png)
 ## 🧭 Introduction
 
 Dans cet exercice, vous allez créer un **Pokédex interactif** avec **Vue.js**, **Vuetify** et **Pinia**.
