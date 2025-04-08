@@ -374,6 +374,151 @@ Vous pouvez dupliquer les `v-col` si vous voulez tester l’affichage avec plusi
 
 ### 🧩 Étape 6 – Se connecter au magasin Pinia
 
+#### 🌟 Qu’est-ce que Pinia ?
+
+Pinia est le système officiel de **gestion d’état** pour les applications Vue.js. Il permet de stocker et manipuler des données **partagées entre plusieurs composants**, comme une mini-base de données locale dans le navigateur.
+
+C’est particulièrement utile dans des projets où plusieurs composants doivent accéder à des **données communes**, comme ici dans une application Pokédex.
+
+---
+
+##### 🧠 À quoi sert un "magasin" Pinia ?
+
+Un **magasin Pinia** (ou store) est un module qui regroupe :
+
+- ✅ des **données** (state),
+- 🔍 des **accès intelligents** à ces données (getters),
+- ⚙️ des **fonctions pour modifier ces données** (actions).
+
+On y centralise toute la logique métier, ce qui rend l’application plus claire, modulaire et facile à maintenir.
+
+---
+
+##### 📦 Exemple concret : le magasin des Pokémon
+
+Dans notre projet Pokédex, nous avons un seul store `usePokemonStore` qui gère :
+
+- la **liste des Pokémon** (avec leurs types, niveaux, images, stats...),
+- la **gestion des favoris**,
+- les **ajouts / modifications / suppressions** de Pokémon,
+- la **sauvegarde dans le `localStorage`** pour garder les données même après fermeture du navigateur.
+
+Voici un aperçu de sa structure générale :
+
+```js
+export const usePokemonStore = defineStore('pokemon', {
+  state: () => ({
+    types,           // Liste des types (Feu, Eau, Plante, etc.)
+    pokemons,        // Liste des Pokémon (chargée depuis localStorage ou liste par défaut)
+    favorites: [],   // Liste des IDs favoris
+  }),
+  getters: {
+    getTypeById,     // Trouve un type à partir de son ID
+    getPokemonById,  // Trouve un Pokémon par son ID
+    isFavorite,      // Vérifie si un Pokémon est favori
+    getFavorites,    // Liste complète des Pokémon favoris
+    totalPokemons,   // Nombre total de Pokémon
+    totalFavorites,  // Nombre de favoris
+  },
+  actions: {
+    addPokemon,      // Ajouter un nouveau Pokémon
+    updatePokemon,   // Modifier un Pokémon existant
+    deletePokemon,   // Supprimer un Pokémon
+    toggleFavorite,  // Ajouter ou retirer des favoris
+    loadFavorites,   // Charger les favoris depuis le localStorage
+  },
+})
+```
+
+---
+
+##### 🧾 Détails des **états** (`state`)
+
+- `types` : liste fixe des types avec noms et couleurs.
+- `pokemons` : tableau d’objets Pokémon. Il est initialisé depuis le `localStorage`, sinon on utilise une liste par défaut.
+- `favorites` : tableau d’IDs des Pokémon favoris.
+
+---
+
+##### 🔍 Détails des **getters**
+
+Ce sont des fonctions qui permettent d'accéder facilement à des infos dérivées :
+
+| Getter              | Utilité |
+|---------------------|---------|
+| `getTypeById(id)`   | Trouver un type (Feu, Eau...) par son ID |
+| `getPokemonById(id)`| Obtenir un Pokémon complet par son ID |
+| `isFavorite(pokemon)`| Savoir si un Pokémon est marqué comme favori |
+| `getFavorites()`    | Récupérer la liste complète des Pokémon favoris |
+| `totalPokemons`     | Compter le nombre total de Pokémon |
+| `totalFavorites`    | Compter le nombre de favoris |
+
+---
+
+##### ⚙️ Détails des **actions**
+
+Ce sont les fonctions que l’on peut appeler pour **modifier l’état** du magasin :
+
+###### ➕ `addPokemon(pokemon)`
+- Ajoute un Pokémon à la liste.
+- Génère un identifiant unique.
+- Sauvegarde dans le localStorage.
+
+###### ✏️ `updatePokemon(updatedPokemon)`
+- Met à jour les infos d’un Pokémon existant.
+- Ne vérifie pas les doublons de nom.
+
+###### ❌ `deletePokemon(pokemonId)`
+- Supprime un Pokémon de la liste.
+- Et aussi des favoris s’il y était.
+
+###### ⭐ `toggleFavorite(pokemon)`
+- Si le Pokémon est déjà favori, il est retiré.
+- Sinon, il est ajouté.
+- Le tableau est ensuite sauvegardé dans le `localStorage`.
+
+###### 📥 `loadFavorites()`
+- Recharge la liste des favoris au démarrage de l’app.
+- Supprime ceux qui ne sont plus valides (ex. Pokémon supprimé).
+
+---
+
+##### 💾 LocalStorage : garder les données entre deux sessions
+
+Grâce à `localStorage`, la liste des Pokémon et des favoris est **persistante**. Même après avoir fermé le navigateur, l’utilisateur retrouve ses ajouts et favoris au prochain chargement.
+
+---
+
+##### ✅ Exemple d’utilisation dans un composant
+
+```js
+<script setup>
+import { usePokemonStore } from '@/stores/pokemon'
+
+const pokemonStore = usePokemonStore()
+
+const allPokemons = pokemonStore.pokemons
+const favoris = pokemonStore.getFavorites()
+const total = pokemonStore.totalPokemons
+
+function ajouterFavori(pokemon) {
+  pokemonStore.toggleFavorite(pokemon)
+}
+</script>
+```
+
+---
+
+##### 🧩 Conclusion
+
+Ce magasin Pinia rend l'application Pokédex **organisée, évolutive et facile à utiliser**. On peut très facilement :
+
+- **accéder aux données** depuis n’importe quel composant,
+- **gérer les favoris**,
+- **ajouter ou modifier** un Pokémon,
+- **sauvegarder les données** dans le navigateur.
+---
+
 C’est le moment de **récupérer les données depuis le magasin `pokemonStore`**, qui contient déjà une liste de Pokémon dans sa version par défaut.
 
 #### 🎯 Objectifs
