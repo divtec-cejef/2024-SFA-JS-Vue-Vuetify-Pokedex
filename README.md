@@ -530,4 +530,227 @@ Une **carte Pokémon réutilisable** et propre, utilisée dans `index.vue` avec 
 
 ---
 
+Parfait ! Voici l’**étape 9** rédigée avec le même soin pédagogique : elle guide les apprentis à filtrer dynamiquement la liste des Pokémon en fonction d’un champ de recherche.
 
+---
+
+### 🧩 Étape 9 – Ajouter la recherche dynamique
+
+Vous avez déjà un champ de recherche visible dans votre page d’accueil. Dans cette étape, vous allez le **connecter à une logique** qui permet de **filtrer dynamiquement** les Pokémon affichés, en fonction du nom saisi.
+
+---
+
+#### 🎯 Objectifs
+
+- Lier le champ de recherche à une variable réactive
+- Créer une propriété calculée (`computed`) pour filtrer la liste
+- Parcourir la liste filtrée dans la grille
+
+---
+
+#### 📌 À faire
+
+1. Dans la section `<script setup>` de `index.vue`, créez une variable réactive pour stocker la recherche :
+
+```js
+import { ref, computed } from 'vue'
+
+const search = ref('')
+```
+
+2. Liez cette variable au champ `v-text-field` :
+
+```vue
+<v-text-field
+  v-model="search"
+  label="Rechercher un Pokémon"
+  prepend-icon="mdi-magnify"
+  clearable
+/>
+```
+
+3. Créez une propriété calculée qui filtre la liste des Pokémon :
+
+```js
+const filteredPokemons = computed(() => {
+  const query = search.value.toLowerCase().trim()
+  return pokemonStore.pokemons.filter(pokemon =>
+    pokemon.name.toLowerCase().includes(query)
+  )
+})
+```
+
+4. Dans la boucle `v-for`, remplacez `pokemonStore.pokemons` par `filteredPokemons` :
+
+```vue
+<v-col
+  v-for="pokemon in filteredPokemons"
+  :key="pokemon.id"
+  ...
+>
+  <PokemonCard :pokemon="pokemon" />
+</v-col>
+```
+
+---
+
+#### 🧠 Explication
+
+- `v-model="search"` relie le champ à une variable
+- `computed` est recalculé **uniquement si la recherche change**
+- `filter()` renvoie une nouvelle liste de Pokémon dont le nom contient le texte tapé
+- `.toLowerCase()` permet une recherche **insensible à la casse**
+
+---
+
+📘 Ressources :
+- [🔍 Vue – computed](https://vuejs.org/guide/essentials/computed.html)
+- [🧠 MDN – Array.prototype.filter()](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Global_Objects/Array/filter)
+
+---
+
+### 🧩 Étape 10 – Trier les Pokémon par ordre alphabétique
+
+Avant d’ajouter les favoris, vous allez améliorer l’affichage de la liste des Pokémon en les triant par ordre alphabétique.
+
+#### 🎯 Objectifs
+
+- Afficher les Pokémon **dans l’ordre alphabétique** (A → Z)
+- Conserver la compatibilité avec le champ de **recherche dynamique**
+
+---
+
+#### 📌 À faire
+
+1. Ouvrez `index.vue`
+2. Dans la section `<script setup>`, entre `pokemonStore.pokemons` et `filteredPokemons`, ajoutez une nouvelle propriété calculée `sortedPokemons` :
+
+```js
+const sortedPokemons = computed(() => {
+  return [...pokemonStore.pokemons].sort((a, b) =>
+    a.name.localeCompare(b.name)
+  )
+})
+```
+
+💡 On utilise `[...]` pour créer une **copie** du tableau, afin de ne pas modifier l’original dans le store.
+
+3. Modifiez `filteredPokemons` pour qu’il filtre **la liste triée** :
+
+```js
+const filteredPokemons = computed(() => {
+  const query = search.value.toLowerCase().trim()
+  return sortedPokemons.value.filter(pokemon =>
+    pokemon.name.toLowerCase().includes(query)
+  )
+})
+```
+
+4. La boucle dans le template (`v-for="pokemon in filteredPokemons"`) reste inchangée ✅
+
+---
+
+#### ✅ Résultat attendu
+
+- Les Pokémon apparaissent **classés par nom** même si on ne tape rien
+- La recherche continue à fonctionner normalement
+
+---
+
+#### 💡 Pourquoi séparer le tri et la recherche ?
+
+Vous pourriez techniquement **faire le tri et la recherche dans une seule fonction `computed`**, mais ce n’est **pas recommandé**, et voici pourquoi :
+
+##### 🔹 1. Meilleure lisibilité
+En séparant :
+- `sortedPokemons` → trie les Pokémon
+- `filteredPokemons` → applique la recherche
+
+➡️ Chaque fonction fait **une seule chose** clairement. C’est plus facile à comprendre, à lire, à modifier.
+
+##### 🔹 2. Meilleures performances
+Si la recherche change, **seul le filtre est recalculé**.  
+Si les Pokémon changent, le tri est refait **une seule fois**, et la recherche s'applique sur le résultat.
+
+➡️ Vue réagit mieux, et vous évitez des recalculs inutiles.
+
+##### 🔹 3. Réutilisabilité
+Le tableau trié (`sortedPokemons`) pourrait aussi être utilisé ailleurs (par exemple dans une autre page ou une stat).
+
+➡️ Vous évitez de dupliquer la logique de tri dans plusieurs endroits.
+
+---
+
+📘 Ressources utiles :
+- [🔠 JS – String.prototype.localeCompare()](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Global_Objects/String/localeCompare)
+
+🎯 Vous pouvez maintenant passer à l’étape suivante pour gérer les favoris (👉 Étape 11).
+
+---
+
+### 🧩 Étape 11 – Ajouter un système de favoris
+
+Dans cette étape, vous allez permettre à l’utilisateur de **marquer un Pokémon comme favori**. Cette action doit être visible (via une icône ❤️) et mémorisée (stockée dans le store Pinia).
+
+---
+
+#### 🎯 Objectifs
+
+- Utiliser une **icône de type cœur** pour marquer un favori
+- Permettre à l’utilisateur de **ajouter ou retirer un favori**
+- Mettre à jour l’état via une fonction du store
+- Afficher l’état visuel du favori (plein ou vide)
+
+---
+
+#### 📌 À faire
+
+##### 1. Préparer le composant `PokemonCard.vue`
+
+Dans le fichier `PokemonCard.vue` :
+
+- Importez `usePokemonStore()` dans `<script setup>`
+- Appelez-le pour avoir accès aux méthodes et aux données
+- Ajoutez un bouton dans la carte, avec une icône conditionnelle :
+
+```vue
+<v-btn icon @click.prevent="pokemonStore.toggleFavorite(pokemon)">
+  <v-icon :color="pokemonStore.isFavorite(pokemon) ? 'red' : ''">
+    {{ pokemonStore.isFavorite(pokemon) ? 'mdi-heart' : 'mdi-heart-outline' }}
+  </v-icon>
+</v-btn>
+```
+
+##### 2. Comprendre le fonctionnement
+
+Dans le fichier `pokemonStore.js`, deux fonctions sont déjà prêtes :
+
+- `toggleFavorite(pokemon)` : ajoute ou supprime le Pokémon des favoris
+- `isFavorite(pokemon)` : retourne `true` si le Pokémon est favori
+
+📦 Ces fonctions sont déjà connectées au `localStorage`, ce qui permet de **mémoriser vos favoris** même après un rafraîchissement de la page !
+
+---
+
+#### 🧠 Comportement attendu
+
+- Un clic sur l’icône change son état :
+  - ❤️ devient 🤍 (et inversement)
+- L’icône est **rouge si favori**
+- Le changement est immédiat et réactif
+
+---
+
+#### 🧪 Test
+
+1. Cliquez sur plusieurs cœurs pour ajouter des favoris
+2. Rafraîchissez la page
+3. Vérifiez que les favoris sont conservés
+
+---
+
+📘 Ressources utiles :
+- [💡 Vuetify – Boutons avec icônes](https://vuetifyjs.com/en/components/buttons/#icon)
+- [❤️ Material Design Icons](https://pictogrammers.com/library/mdi/?q=heart)
+
+---
