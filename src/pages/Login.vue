@@ -41,6 +41,7 @@
         <v-text-field
           v-model="loginEmail"
           aria-label="Champ de saisie pour l'email"
+          autofocus
           label="Email"
           required
           :rules="[validateEmail]"

@@ -10,7 +10,7 @@
       * text-color="white" : Rend le texte des puces blanc pour un meilleur contraste.
     -->
     <v-chip
-      v-for="type in thisPokemonTypes"
+      v-for="type in pokemonTypes"
       :key="type.id"
       class="ma-1"
       :color="type?.color || 'grey'"
@@ -50,7 +50,7 @@ Récupération des types associés au Pokémon
   - Parcourt les identifiants des types (`props.pokemon.types`) et récupère leurs données depuis le magasin.
   - Fournit un tableau de types avec leurs propriétés (`name`, `color`, etc.).
 */
-  const thisPokemonTypes = computed(() =>
+  const pokemonTypes = computed(() =>
     props.pokemon.types.map(typeId => pokemonStore.getTypeById(typeId))
   )
 </script>

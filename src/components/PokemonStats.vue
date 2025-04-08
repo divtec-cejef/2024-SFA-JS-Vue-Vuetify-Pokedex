@@ -41,7 +41,6 @@
     attack: '#C03028', // Rouge sombre pour l'attaque.
     defense: '#6890F0', // Bleu clair pour la défense.
     speed: '#F08030', // Orange vif pour la vitesse.
-    special: '#78C850', // Vert pour les capacités spéciales.
   }
 </script>
 

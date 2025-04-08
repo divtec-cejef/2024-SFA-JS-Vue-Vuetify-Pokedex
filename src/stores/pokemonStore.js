@@ -363,7 +363,7 @@ export const usePokemonStore = defineStore('pokemon', {
      */
     loadFavorites () {
       this.favorites = JSON.parse(localStorage.getItem('favorites')) || []
-      this.favorites = this.favorites.filter(idPokemeon => this.pokemons.some(p => p.id === idPokemeon))
+      this.favorites = this.favorites.filter(idPokemon => this.pokemons.some(p => p.id === idPokemon))
     },
 
     /**

@@ -109,6 +109,14 @@ Sur la page d’accueil, tous les Pokémon sont affichés d’un coup. Si la lis
 
 ---
 
+🛠 Suggestions bonus (facultatives)
+Idée	Détail
+Ajouter des tests unitaires	Par exemple avec Vitest ou Cypress pour tester l’ajout de Pokémon
+Améliorer la navigation	Ajouter des transitions Vue ou Vuetify entre pages
+SEO / Head	Utiliser vueuse/head pour ajouter titre/déscription dynamiques
+Dark/light mode toggle	Tu as déjà un thème dark, pourquoi ne pas le rendre configurable ?
+Sauvegarde cloud (niveau avancé)	Intégrer Firebase plus tard au lieu de localStorage pour les données (niveau pro)
+
 Souhaites-tu que je te génère :
 - un plan de test automatisé simple,
 - un tableau de bord d’administration,

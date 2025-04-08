@@ -1,6 +1,6 @@
 {
-  "name": "hello-world",
-  "version": "0.0.0",
+  "name": "ch.dicom.pokedex-vuetify",
+  "version": "0.0.1",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
