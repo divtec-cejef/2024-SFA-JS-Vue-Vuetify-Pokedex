@@ -52,6 +52,7 @@ Ouvrez l'URL affichée dans le terminal (en général [http://localhost:3000](ht
 
 Vous devriez apercevoir le résultat suivant :
 
+![screeshot-start.png](public/screeshot-start.png)
 ---
 
 ## 📁 Structure du projet
