@@ -57,4 +57,5 @@
     // Vous trouverez des icônes sur https://pictogrammers.com/library/mdi/
     // N'oubliez pas d'ajouter le préfixe 'mdi-' devant le nom de l'icône.
   ]
+
 </script>

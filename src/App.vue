@@ -10,7 +10,6 @@
       * Inclut le composant personnalisé MenuPrincipal créer dans le fichier `src/components/AppHeader.vue`
     -->
     <menu-principal />
-
     <!--
     Section principale de l'application
       * <v-main> définit le conteneur principal pour afficher le contenu de l'application
