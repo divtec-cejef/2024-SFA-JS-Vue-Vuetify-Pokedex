@@ -890,13 +890,10 @@ Et dans le template :
 
 ---
 
-## 🔗 Suite après l’étape 18 : Connexion à une API
-
-L’objectif de cette phase est de remplacer les données locales du `pokemonStore` par des données **récupérées à distance** depuis une API REST (ou Directus, par exemple).
-
----
-
 ### 🧩 Étape 19 – Introduction à Axios et à l'appel API
+
+L’objectif de cette phase est de remplacer les données locales du `pokemonStore` par des données
+**récupérées à distance** depuis une API REST (ou Directus, par exemple).
 
 🎯 Objectifs :
 - Installer et importer **Axios**
