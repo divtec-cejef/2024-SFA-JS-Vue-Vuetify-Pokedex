@@ -1,15 +1,17 @@
 <template>
+  <!-- Conteneur principal pour structurer la disposition de la page -->
   <v-container>
-    <h1 class="mb-6 text-center">Pokédex</h1>
+    <!--
+    Titre de la page
+      * mb-6 permet d'ajouter une Marge en Bas de 6 unités
+      * text-center permet de centrer le texte
+    -->
+    <h1 class="mb-6 text-center">
+      Pokédex
+    </h1>
   </v-container>
 </template>
 
 <script setup>
-  import { storeToRefs } from 'pinia'
-  import { usePokemonStore } from '@/stores/pokemonStore'
-
-  // On récupère les données du store Pokemon
-  const pokemonStore = usePokemonStore()
-  // On transforme le store en refs (données réactives)
-  const { pokemons } = storeToRefs(pokemonStore)
+// Vos scripts ou imports ici
 </script>
