@@ -754,3 +754,230 @@ Dans le fichier `pokemonStore.js`, deux fonctions sont déjà prêtes :
 - [❤️ Material Design Icons](https://pictogrammers.com/library/mdi/?q=heart)
 
 ---
+
+### 🧩 Étape 12 – Créer la page des favoris
+
+Dans cette étape, vous allez créer une page `Favoris.vue` qui affiche uniquement les Pokémon que l’utilisateur a ajoutés à ses favoris.  
+Vous allez réutiliser le composant `PokemonCard.vue` pour afficher chaque carte, comme sur la page d’accueil.
+
+---
+
+#### 🎯 Objectifs
+
+- Créer une nouvelle page accessible via le menu : `/favoris`
+- Récupérer les Pokémon favoris depuis le `pokemonStore`
+- Réutiliser le composant `PokemonCard.vue`
+- Gérer le cas où aucun favori n’est encore sélectionné
+
+---
+
+#### 📌 À faire
+
+1. Ouvrez ou créez le fichier `src/pages/Favoris.vue`
+2. Structurez la page avec :
+  - un `<v-container>` pour le contenu
+  - un titre `<h1>` centré
+  - une **grille Vuetify** (`v-row` + `v-col`)
+  - et un affichage conditionnel si la liste est vide
+
+3. Dans le `<script setup>` :
+  - Importez `usePokemonStore()` et appelez-le
+  - Utilisez le **getter `getFavorites`** du store pour récupérer la liste à afficher
+
+---
+
+#### 💡 Exemple de logique
+
+```js
+const pokemonStore = usePokemonStore()
+const favoris = computed(() => pokemonStore.getFavorites)
+```
+
+Et dans le template :
+
+```vue
+<v-row v-if="favoris.length > 0">
+  <v-col
+    v-for="pokemon in favoris"
+    :key="pokemon.id"
+    cols="12"
+    sm="6"
+    md="4"
+    lg="3"
+    xl="2"
+  >
+    <PokemonCard :pokemon="pokemon" />
+  </v-col>
+</v-row>
+
+<v-alert
+  v-else
+  type="info"
+  class="text-center"
+>
+  Vous n'avez pas encore de Pokémon favoris.<br />
+  <v-btn to="/">Retourner à la liste</v-btn>
+</v-alert>
+```
+
+---
+
+#### 🧠 À noter
+
+- Le getter `getFavorites` renvoie un tableau d’objets Pokémon (pas seulement les ID).
+- Le message s’affiche automatiquement si la liste est vide.
+- Aucun bouton de suppression n’est nécessaire ici (sauf si on souhaite retirer un favori via le cœur).
+
+---
+
+📘 Voir aussi :
+- [🧩 Étape 11 – Ajouter les favoris](#)
+- [💡 Vuetify – Alert](https://vuetifyjs.com/en/components/alerts/)
+- [🗂️ Composant PokemonCard.vue](#)
+
+---
+
+### 🧩 Étape 13 – Rendre la carte Pokémon cliquable
+
+🎯 Objectifs :
+- Faire en sorte que chaque carte ouvre une **page de détail**
+- Créer une page dynamique avec paramètre `id` (fichier `[id].vue`)
+- Récupérer les données du Pokémon depuis le store
+
+---
+
+### 🧩 Étape 14 – Créer une fiche de détail complète
+
+🎯 Objectifs :
+- Afficher les infos complètes : nom, image, types, stats, description
+- Réutiliser ou créer les composants `PokemonStats` et `PokemonTypesChips`
+- Ajouter un bouton "Retour" ou un lien vers la page d’accueil
+
+---
+
+### 🧩 Étape 15 – Ajouter un formulaire d’ajout de Pokémon (avec authentification)
+
+🎯 Objectifs :
+- Créer une page de formulaire avec `v-form`
+- Ajouter un Pokémon au store avec validation
+- Protéger l'accès à cette page avec un login (plus tard)
+
+---
+
+### 🧩 Étape 16 – Ajouter une page de connexion simple
+
+🎯 Objectifs :
+- Simuler une authentification avec un store `authStore`
+- Ajouter un formulaire de login (email + mot de passe)
+- Stocker un token factice et simuler la connexion
+
+---
+
+### 🧩 Étape 17 – Protéger les routes (auth required)
+
+🎯 Objectifs :
+- Empêcher l'accès à certaines pages si l'utilisateur n’est pas connecté
+- Rediriger automatiquement vers `/login` si non-authentifié
+
+---
+
+### 🧩 Étape 18 – Ajouter la suppression d’un Pokémon (si connecté)
+
+🎯 Objectifs :
+- Afficher un bouton "Supprimer" sur la carte (ou la fiche)
+- Protéger cette action : visible uniquement si connecté
+- Supprimer le Pokémon du store + localStorage
+
+---
+
+Bien sûr ! Voici les **étapes pédagogiques** que je te recommande pour connecter ton application à une **API** après l’étape 18, tout en gardant une progression logique pour tes apprentis.
+
+---
+
+## 🔗 Suite après l’étape 18 : Connexion à une API
+
+L’objectif de cette phase est de remplacer les données locales du `pokemonStore` par des données **récupérées à distance** depuis une API REST (ou Directus, par exemple).
+
+---
+
+### 🧩 Étape 19 – Introduction à Axios et à l'appel API
+
+🎯 Objectifs :
+- Installer et importer **Axios**
+- Comprendre ce qu’est une API REST
+- Expliquer comment faire une requête `GET`
+
+📌 À faire :
+- Installer Axios via `npm install axios`
+- Créer un fichier de test avec un appel `axios.get()` vers une URL de démonstration (ou PokéAPI)
+
+---
+
+### 🧩 Étape 20 – Ajouter la config API dans le store
+
+🎯 Objectifs :
+- Ajouter un champ `apiUrl` dans le store
+- Préparer le terrain pour les appels API
+
+📌 À faire :
+- Ajouter `apiUrl: 'https://localhost'` (ou autre URL) dans `state`
+- Ajouter un champ `isLoading` pour gérer un éventuel loader
+
+---
+
+### 🧩 Étape 21 – Récupérer les types depuis l'API
+
+🎯 Objectifs :
+- Remplacer la liste locale des types par un appel `GET /items/type` (ou équivalent)
+- Stocker la réponse dans `state.types`
+
+📌 À faire :
+- Créer une méthode `fetchTypes()` dans le store
+- Gérer les erreurs avec `try/catch`
+- Appeler `fetchTypes()` dans `App.vue` ou `onMounted`
+
+---
+
+### 🧩 Étape 22 – Récupérer les Pokémon depuis l'API
+
+🎯 Objectifs :
+- Remplacer `defaultPokemons` par les données de l'API
+
+📌 À faire :
+- Créer une méthode `fetchPokemons()`
+- Appeler l’API avec `axios.get()`
+- Transformer les données si besoin pour qu’elles soient compatibles avec le format local
+
+---
+
+### 🧩 Étape 23 – Intégrer les images distantes
+
+🎯 Objectifs :
+- Gérer les chemins d’image distants (via `/assets` ou une autre structure de fichier)
+
+📌 À faire :
+- Ajouter `imageBaseUrl` dans le store
+- Modifier `getImageUrl(filename)` pour l’adapter si nécessaire
+
+---
+
+### 🧩 Étape 24 – Désactiver les données locales (optionnel)
+
+🎯 Objectifs :
+- Supprimer ou commenter les Pokémon/Types définis en dur
+- Ne garder que la structure dynamique
+
+---
+
+### 🧩 Étape 25 – Gérer les favoris avec l'API (niveau avancé)
+
+🎯 Objectifs :
+- Sauvegarder les favoris via une API (POST/DELETE)
+- Ou synchroniser avec un champ "favori" du back-end
+
+📌 À faire :
+- Modifier `toggleFavorite()` pour envoyer une requête
+- Ajouter une méthode `fetchFavorites()` si besoin
+
+---
+
