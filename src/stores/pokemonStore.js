@@ -362,8 +362,8 @@ export const usePokemonStore = defineStore('pokemon', {
      * Supprime les favoris obsolètes qui ne sont plus dans la liste actuelle.
      */
     loadFavorites () {
-      this.favorites = JSON.parse(localStorage.getItem('favorites')) || []
-      this.favorites = this.favorites.filter(idPokemon => this.pokemons.some(p => p.id === idPokemon))
+      this.favorites = JSON.parse(localStorage.getItem('favorites')) || [] // Récupère les favoris du localStorage ou un tableau vide.
+      this.favorites = this.favorites.filter(idPokemon => this.pokemons.some(p => p.id === idPokemon)) // Filtre les favoris pour ne garder que ceux qui existent encore dans la liste des Pokémon.
     },
 
     /**
