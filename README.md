@@ -43,7 +43,7 @@ npm install
 Une fois les dépendances installées, démarrez le serveur avec :
 
 ```bash
-npm run serve
+npm run dev
 ```
 
 ### Accéder à l'application dans le navigateur
