@@ -1,79 +1,533 @@
-# Vuetify (Default)
+# 📕 Exercice Pokédex Vuetify
 
-This is the official scaffolding tool for Vuetify, designed to give you a head start in building your new Vuetify application. It sets up a base template with all the necessary configurations and standard directory structure, enabling you to begin development without the hassle of setting up the project from scratch.
+## 🧭 Introduction
 
-## ❗️ Important Links
+Dans cet exercice, vous allez créer un **Pokédex interactif** avec **Vue.js**, **Vuetify** et **Pinia**.
 
-- 📄 [Docs](https://vuetifyjs.com/)
-- 🚨 [Issues](https://issues.vuetifyjs.com/)
-- 🏬 [Store](https://store.vuetifyjs.com/)
-- 🎮 [Playground](https://play.vuetifyjs.com/)
-- 💬 [Discord](https://community.vuetifyjs.com)
+L’objectif est d’apprendre à développer une application web moderne avec un framework JavaScript puissant (Vue 3) et une bibliothèque de composants (Vuetify 3) qui permet de construire des interfaces élégantes rapidement.
 
-## 💿 Install
+Vous allez découvrir comment :
 
-Set up your project using your preferred package manager. Use the corresponding command to install the dependencies:
+- concevoir plusieurs pages avec un **routage automatique**,
+- utiliser **Pinia** pour partager des données entre vos composants,
+- structurer une application **modulaire et évolutive**,
+- afficher dynamiquement des données sous forme de **composants réutilisables**,
+- enrichir l’expérience utilisateur avec des **animations**, des **boîtes de dialogue**, et des **icônes bien choisies** (promis, pas que des cœurs et des Pokéballs 🥲).
 
-| Package Manager                                                | Command        |
-|---------------------------------------------------------------|----------------|
-| [yarn](https://yarnpkg.com/getting-started)                   | `yarn install` |
-| [npm](https://docs.npmjs.com/cli/v7/commands/npm-install)     | `npm install`  |
-| [pnpm](https://pnpm.io/installation)                          | `pnpm install` |
-| [bun](https://bun.sh/#getting-started)                        | `bun install`  |
+> 🔐 Une **fonctionnalité d’authentification** sera ajoutée plus tard dans l'exercice. Elle permettra aux utilisateurs connectés d’ajouter ou de supprimer des Pokémon.
 
-After completing the installation, your environment is ready for Vuetify development.
+**Pages à réaliser** :
 
-## ✨ Features
+L'application contiendra les pages suivantes, que vous allez progressivement construire :
 
-- 🖼️ **Optimized Front-End Stack**: Leverage the latest Vue 3 and Vuetify 3 for a modern, reactive UI development experience. [Vue 3](https://v3.vuejs.org/) | [Vuetify 3](https://vuetifyjs.com/en/)
-- 🗃️ **State Management**: Integrated with [Pinia](https://pinia.vuejs.org/), the intuitive, modular state management solution for Vue.
-- 🚦 **Routing and Layouts**: Utilizes Vue Router for SPA navigation and vite-plugin-vue-layouts for organizing Vue file layouts. [Vue Router](https://router.vuejs.org/) | [vite-plugin-vue-layouts](https://github.com/JohnCampionJr/vite-plugin-vue-layouts)
-- ⚡ **Next-Gen Tooling**: Powered by Vite, experience fast cold starts and instant HMR (Hot Module Replacement). [Vite](https://vitejs.dev/)
-- 🧩 **Automated Component Importing**: Streamline your workflow with unplugin-vue-components, automatically importing components as you use them. [unplugin-vue-components](https://github.com/antfu/unplugin-vue-components)
+- 🏠 **Accueil** : liste des Pokémon avec barre de recherche
+- ❤️ **Favoris** : liste des Pokémon ajoutés aux favoris
+- ❓ **FAQ** : liste de questions/réponses repliables
+- 🗺️ **Monde Pokémon** : carte du monde + texte descriptif
+- 🔐 **Connexion (plus tard)** : permet d’ajouter ou supprimer des Pokémon
 
-These features are curated to provide a seamless development experience from setup to deployment, ensuring that your Vuetify application is both powerful and maintainable.
+Exemple de solution : [https://kode.ch/pokedex](https://kode.ch/pokedex)
 
-## 💡 Usage
+## ⚙️ Mise en place
 
-This section covers how to start the development server and build your project for production.
+### Installer les dépendances
 
-### Starting the Development Server
-
-To start the development server with hot-reload, run the following command. The server will be accessible at [http://localhost:3000](http://localhost:3000):
+Ouvrez un terminal à la racine du projet et exécutez la commande suivante :
 
 ```bash
-yarn dev
+npm install
 ```
 
-(Repeat for npm, pnpm, and bun with respective commands.)
+### Lancer le serveur de développement
 
-> Add NODE_OPTIONS='--no-warnings' to suppress the JSON import warnings that happen as part of the Vuetify import mapping. If you are on Node [v21.3.0](https://nodejs.org/en/blog/release/v21.3.0) or higher, you can change this to NODE_OPTIONS='--disable-warning=5401'. If you don't mind the warning, you can remove this from your package.json dev script.
-
-### Building for Production
-
-To build your project for production, use:
+Une fois les dépendances installées, démarrez le serveur avec :
 
 ```bash
-yarn build
+npm run serve
 ```
 
-(Repeat for npm, pnpm, and bun with respective commands.)
+### Accéder à l'application dans le navigateur
 
-Once the build process is completed, your application will be ready for deployment in a production environment.
+Ouvrez l'URL affichée dans le terminal (en général [http://localhost:3000](http://localhost:3000)) pour afficher l'application de départ.
 
-## 💪 Support Vuetify Development
+Vous devriez apercevoir le résultat suivant :
 
-This project is built with [Vuetify](https://vuetifyjs.com/en/), a UI Library with a comprehensive collection of Vue components. Vuetify is an MIT licensed Open Source project that has been made possible due to the generous contributions by our [sponsors and backers](https://vuetifyjs.com/introduction/sponsors-and-backers/). If you are interested in supporting this project, please consider:
+---
 
-- [Requesting Enterprise Support](https://support.vuetifyjs.com/)
-- [Sponsoring John on Github](https://github.com/users/johnleider/sponsorship)
-- [Sponsoring Kael on Github](https://github.com/users/kaelwd/sponsorship)
-- [Supporting the team on Open Collective](https://opencollective.com/vuetify)
-- [Becoming a sponsor on Patreon](https://www.patreon.com/vuetify)
-- [Becoming a subscriber on Tidelift](https://tidelift.com/subscription/npm/vuetify)
-- [Making a one-time donation with Paypal](https://paypal.me/vuetify)
+## 📁 Structure du projet
 
-## 📑 License
-[MIT](http://opensource.org/licenses/MIT)
+Voici une vue d'ensemble des différents dossiers et fichiers du projet.
 
-Copyright (c) 2016-present Vuetify, LLC
+### `public/`
+
+Contient le fichier `index.html`, qui est le point d'entrée statique de l'application.
+
+- `images/` : Contient les images des Pokémons accessibles via des chemins publics (`/images/…`).
+
+### `src/`
+
+Le dossier principal qui contient tout le code source de l'application :
+
+- `assets/` : Contient les ressources statiques comme les images, les icônes, le logo du site, etc.
+- `components/` : Composants Vue réutilisables (cartes, puces, header, etc.). Ils sont auto-importés grâce au plugin `unplugin-vue-components`.
+- `pages/` : Contient les différentes vues de l'application. Chaque fichier `.vue` correspond automatiquement à une route grâce à `unplugin-vue-router`.
+  - `index.vue` : Page d’accueil principale.
+  - `[...path].vue` : Page 404 affichée si aucune route ne correspond.
+- `stores/` : Gestion d’état avec **Pinia**.
+  - `pokemons.js` : Gère la liste, les types et les favoris des Pokémon.
+  - `authStore.js` : Simule un système d’authentification locale.
+- `plugins/` : Initialisation de Vuetify, Pinia et Vue Router. Le fichier `index.js` centralise l’enregistrement des plugins, `vuetify.js` contient la config Vuetify.
+- `styles/` : Fichier `settings.scss` contenant les personnalisations SCSS pour Vuetify et les animations CSS.
+- `utils/` : Fonctions utilitaires comme `getImageUrl()` pour construire des chemins d’image.
+- `typed-router.d.ts` : Fichier généré automatiquement pour typer les routes (utile si vous activez TypeScript).
+- `App.vue` : Composant racine affichant la structure globale de l’application.
+- `main.js` : Point d’entrée de l’application. Crée l’app Vue et enregistre les plugins (router, pinia, vuetify).
+
+### 🧩 Affichage (layout) de base
+
+Le composant principal `App.vue` est composé de trois sections principales :
+
+- `<app-header>` : Charge le composant `components/AppHeader.vue` qui contient l’en-tête du site (logo et menu de navigation).
+- `<v-main>` : Contenu principal qui contient le composant `<router-view>`, utilisé pour afficher dynamiquement la page active selon la route.
+- `<v-footer>` : Pied de page contenant une ligne simple (ex : date ou nom du projet).
+
+### Fichier de configuration
+
+- `vite.config.mjs` : Configuration Vite : plugins (vuetify, auto-import, layouts...), alias, port local, etc.&#x20;
+
+## ✍️ Travail à réaliser
+
+### 📝 Étape 1 – Créer les pages
+
+Créez une page `.vue` pour chaque section de l'application dans le dossier `src/pages/`.
+
+Chaque page doit contenir un élément `<template>` avec un titre `<h1>` décrivant son contenu. Voici un exemple minimal à copier dans chaque fichier :
+
+```vue
+<template>
+  <h1>Pokédex : page d'accueil</h1>
+</template>
+```
+
+Remplacez le texte du `<h1>` en fonction du titre de la page (voir tableau ci-dessous).
+
+Créez 4 fichiers `.vue` dans `src/pages/` contenant chacun un `<h1>` avec le titre suivant :
+
+| Fichier        | Titre affiché             |
+| -------------- | ------------------------- |
+| `index.vue`    | Pokédex : page d'accueil  |
+| `Favoris.vue`  | Mes Pokémons Favoris      |
+| `FAQ.vue`      | Foire Aux Questions (FAQ) |
+| `KantoMap.vue` | Monde Pokémon             |
+
+**Testez vos pages** :
+
+- [http://localhost:3000/](http://localhost:3000/)
+- [http://localhost:3000/favoris](http://localhost:3000/favoris)
+- [http://localhost:3000/faq](http://localhost:3000/faq)
+- [http://localhost:3000/kantomap](http://localhost:3000/kantomap)
+
+📘 Voir : [Guide sur le routage basé sur les fichiers](https://uvr.esm.is/guide/file-based-routing.html)
+
+---
+
+### 🔗 Étape 2 – Ajouter les liens de menu
+
+Dans le fichier `src/components/AppHeader.vue`, localisez la constante `menuItems` à l'intérieur de la section `<script setup>`.
+
+Ajoutez les objets suivants au tableau, chacun représentant une page à lier dans le menu :
+
+Dans `src/components/AppHeader.vue`, modifiez le tableau `menuItems` pour ajouter les nouvelles pages.
+
+```js
+const menuItems = [
+    { title: 'Accueil', path: '/', icon: 'mdi-pokeball' },
+    // Ajouter ici les autres liens du menu.
+    // Vous trouverez des icônes sur https://pictogrammers.com/library/mdi/
+    // N'oubliez pas d'ajouter le préfixe 'mdi-' devant le nom de l'icône.
+  ]
+```
+
+Ce menu utilise le composant `v-app-bar` de Vuetify pour créer une barre de navigation en haut de la page. Voici les éléments principaux du code :
+
+- `v-avatar` : Affiche un avatar représentant une Pokéball qui, lorsqu'on clique dessus, redirige vers la page d'accueil.
+- `v-toolbar-title` : Affiche le titre "Pokédex".
+- `v-btn` : La directive `v-for` crée un bouton de navigation pour chaque élément du tableau `menuItems` défini dans le `<script>` du composant.
+
+Dans le code de départ, il n'y a qu'un seul élément nommé "Accueil" avec une icône de Pokéball.
+
+Pour ajouter un lien au menu, ajouter  un élément au tableau `menuItems`.
+
+Ce projet utilise les **Material Design Icons**. Pour utiliser l'une de ces icônes, ajoutez simplement le préfixe `mdi-` devant le nom de l'icône. Par exemple, `account` devient `mdi-account`.
+
+🔍 Icônes disponibles sur : https\://pictogrammers.com/library/mdi/
+
+---
+
+### 🗺️ Étape 3 – Contenu de la page "Monde Pokémon"
+
+Dans cette étape, vous allez construire la page `KantoMap.vue` pour présenter visuellement le monde des Pokémon à l’aide d’une carte et d’un petit texte explicatif.
+
+#### 🎯 Objectifs
+
+- Afficher une **image de carte** cliquable
+- Présenter un **texte structuré** avec titres et paragraphes
+- Afficher l’image en **grand format dans une boîte de dialogue** (bonus)
+
+#### 📌 À faire
+
+1. **Afficher une image**
+  - Utilisez le composant `v-img` de Vuetify.
+  - L’image se trouve dans le dossier `public/images/pokemon-map.png`.
+    Pour l’afficher, utilisez le chemin suivant : `/images/pokemon-map.png`.
+  - Vérifiez que l’image est visible et bien dimensionnée.
+
+2. **Ajouter un texte explicatif**
+  - Présentez le contenu (texte fourni ci-dessous) dans un composant `v-card` avec une section `v-card-text`.
+
+3. **(Bonus) Afficher l’image en grand au clic**
+  - Rendez l’image cliquable.
+  - Lors d’un clic, ouvrez une **boîte de dialogue (`v-dialog`)** contenant l’image en grand.
+  - Utilisez une variable réactive pour contrôler l’ouverture/fermeture de la boîte.
+
+#### 🧠 Astuces
+
+- Commencez par afficher l’image seule.
+- Ensuite, ajoutez le texte.
+- Enfin, tentez le système de boîte de dialogue (vous trouverez un exemple dans la [doc Vuetify – Dialog](https://vuetifyjs.com/en/components/dialogs/)).
+
+#### 📝 Texte à insérer dans la carte
+
+Voici le texte à intégrer dans la carte sous forme de titres + paragraphes (utilisez `h2`, `p`, `mt-6`, `mb-3`, etc.) :
+
+```html
+<h2>Un univers fascinant à découvrir</h2>
+<p>Le monde Pokémon est un vaste et merveilleux univers peuplé de créatures extraordinaires appelées Pokémon. Cette carte représente les différentes régions que les dresseurs peuvent explorer, chacune offrant ses propres défis, Pokémon uniques et aventures palpitantes.</p>
+
+<h2>Des régions diversifiées</h2>
+<p>De Kanto à Galar, en passant par Johto, Hoenn, Sinnoh, Unova, Kalos et Alola, chaque région du monde Pokémon possède sa propre identité, sa culture et son écosystème unique. Les paysages varient des montagnes enneigées aux îles tropicales, offrant une diversité incroyable d'habitats pour les différentes espèces de Pokémon.</p>
+
+<h2>Un monde en constante évolution</h2>
+<p>Le monde Pokémon est en perpétuelle expansion, avec de nouvelles régions, de nouvelles espèces de Pokémon et de nouvelles aventures qui sont régulièrement découvertes. Cette carte n'est qu'un aperçu d'un univers riche et en constante évolution, prêt à être exploré par les dresseurs audacieux.</p>
+
+<h2>Un appel à l'aventure</h2>
+<p>Que vous soyez un dresseur débutant ou expérimenté, le monde Pokémon vous invite à partir à l'aventure. Capturez de nouveaux Pokémon, affrontez des champions d'arènes, déjouez les plans des équipes malveillantes et devenez peut-être le prochain Maître Pokémon. L'aventure commence ici, sur cette carte, mais où vous mènera-t-elle ?</p>
+```
+
+📘 Documentation utile :
+- [🖼️ v-img (image)](https://vuetifyjs.com/en/components/images/)
+- [📄 v-card](https://vuetifyjs.com/en/components/cards/)
+- [💬 v-dialog](https://vuetifyjs.com/en/components/dialogs/)
+
+---
+
+### ❓ Étape 4 – Créer la page FAQ
+
+Dans cette étape, vous allez créer une **page de Foire Aux Questions (FAQ)**,
+où les utilisateurs pourront lire des réponses à des questions courantes sur le fonctionnement de votre Pokédex.
+
+#### 🎯 Objectif
+
+Créer une liste d'accordéons avec une **question en titre** et une **réponse affichée au clic**.
+
+#### 📌 À faire
+
+1. **Créer la structure HTML de base**
+  - Ouvrez le fichier `FAQ.vue`
+  - Ajoutez un titre principal `<h1>` pour introduire la page.
+
+2. **Choisir un composant Vuetify adapté**
+  - Utilisez le composant `v-expansion-panels` pour créer des éléments repliables.
+  - Chaque question-réponse sera placée dans un `v-expansion-panel`.
+
+3. **Afficher une liste dynamique**
+  - Stockez la liste des questions dans une **variable réactive (`ref`)**.
+  - Parcourez-la avec `v-for` pour générer les panneaux de façon automatique.
+
+4. **Soigner l’apparence**
+  - Utilisez `mb-6`, `pa-4` ou d’autres classes utilitaires de Vuetify pour espacer les éléments.
+
+---
+
+#### 💬 Questions à afficher
+
+Utilisez ces données dans votre code (sous forme de tableau dans la partie `<script setup>`) :
+
+```js
+[
+  {
+    question: "Qu'est-ce qu'un Pokédex ?",
+    answer: "Un Pokédex est un dispositif électronique qui répertorie et fournit des informations sur les différentes espèces de Pokémon. Notre application est une version numérique de cet outil.",
+  },
+  {
+    question: "Comment puis-je ajouter un Pokémon à mes favoris ?",
+    answer: "Pour ajouter un Pokémon à vos favoris, cliquez simplement sur l'icône en forme de cœur sur la carte du Pokémon. L'icône deviendra rouge pour indiquer que le Pokémon est maintenant dans vos favoris.",
+  },
+  {
+    question: "Pourquoi certains Pokémon ont-ils plusieurs types ?",
+    answer: "Certains Pokémon possèdent des caractéristiques de plusieurs types, ce qui se reflète dans leurs capacités et leurs faiblesses. Par exemple, Charizard est à la fois de type Feu et Vol.",
+  },
+  {
+    question: "Comment fonctionne la recherche de Pokémon ?",
+    answer: "Vous pouvez rechercher des Pokémon en tapant leur nom dans la barre de recherche. La liste se mettra à jour automatiquement pour afficher les Pokémon dont le nom correspond à votre recherche.",
+  },
+  {
+    question: "Que signifient les différentes statistiques des Pokémon ?",
+    answer: "Les statistiques comme HP, Attaque, Défense et Vitesse représentent les capacités de base d'un Pokémon. HP représente les points de vie, Attaque la puissance offensive, Défense la résistance aux attaques, et Vitesse détermine l'ordre d'action en combat.",
+  },
+  {
+    question: "L'application est-elle mise à jour régulièrement avec de nouveaux Pokémon ?",
+    answer: "Oui, nous nous efforçons de maintenir notre base de données à jour avec les derniers Pokémon découverts. Cependant, la fréquence des mises à jour peut varier en fonction des nouvelles sorties de jeux et d'informations officielles.",
+  },
+]
+```
+
+---
+
+#### 🧠 Aide
+
+- [documentation Vuetify – Expansion Panels](https://vuetifyjs.com/en/components/expansion-panels/)
+- N’oubliez pas de donner une **clé unique** à chaque `v-expansion-panel` lors de la boucle (`:key`)
+
+---
+
+### 🧩 Étape 5 – Préparer l’affichage de la liste des Pokémon
+
+Dans cette étape, vous allez préparer la page d’accueil (`index.vue`) pour accueillir une **grille de cartes Pokémon**. Pour l’instant, il ne s’agit que de **créer le layout vide** : l’affichage des vraies données viendra après.
+
+---
+
+#### 🎯 Objectifs
+
+- Mettre en place une **structure responsive** avec Vuetify (`v-container`, `v-row`, `v-col`)
+- Préparer un **champ de recherche**
+- Comprendre comment fonctionne le **système de colonnes de Vuetify**
+
+---
+
+#### 📌 À faire
+
+1. Ouvrez le fichier `src/pages/index.vue`
+2. Remplacez le contenu par la structure suivante :
+
+```vue
+<template>
+  <v-container>
+    <h1 class="mb-6 text-center">Pokédex</h1>
+
+    <v-text-field
+      label="Rechercher un Pokémon"
+      prepend-icon="mdi-magnify"
+      clearable
+    />
+
+    <v-row>
+      <!-- Exemple de colonne vide (à dupliquer plus tard avec du contenu) -->
+      <v-col
+        cols="12"
+        sm="6"
+        md="4"
+        lg="3"
+        xl="2"
+      >
+        <p>Carte à venir...</p>
+      </v-col>
+    </v-row>
+  </v-container>
+</template>
+```
+
+---
+
+#### 🧠 Vuetify : système de colonnes (grid system)
+
+Vuetify divise l’espace horizontal en **12 colonnes**. Chaque `v-col` définit **combien de colonnes** il occupe, selon la taille de l’écran :
+
+| Attribut | Écran            | Exemple        | Nombre de cartes par ligne |
+|----------|------------------|----------------|-----------------------------|
+| `cols`   | par défaut       | `cols="12"`    | 1                          |
+| `sm`     | petit écran ≥600px | `sm="6"`     | 2                          |
+| `md`     | moyen écran ≥960px | `md="4"`    | 3                          |
+| `lg`     | grand écran ≥1280px | `lg="3"`   | 4                          |
+| `xl`     | très grand écran ≥1920px | `xl="2"` | 6                    |
+
+💡 Vuetify ajuste automatiquement la disposition selon la taille de l’écran (mobile, tablette, desktop).
+
+---
+
+#### ✅ Ce que vous devez avoir à la fin
+
+Une page avec :
+- Un titre centré
+- Un champ de recherche (non fonctionnel pour l’instant)
+- Une grille avec une ou plusieurs cases affichant "Carte à venir..."
+
+Vous pouvez dupliquer les `v-col` si vous voulez tester l’affichage avec plusieurs colonnes.
+
+---
+
+📘 Ressources utiles :
+- [📐 Vuetify – Grid system](https://vuetifyjs.com/en/components/grids/)
+- [🖊️ Vuetify – Text fields](https://vuetifyjs.com/en/components/text-fields/)
+
+---
+
+### 🧩 Étape 6 – Se connecter au magasin Pinia
+
+C’est le moment de **récupérer les données depuis le magasin `pokemonStore`**, qui contient déjà une liste de Pokémon dans sa version par défaut.
+
+#### 🎯 Objectifs
+- Importer `usePokemonStore`
+- Initialiser le store dans le script
+- Vérifier que les données sont bien là
+
+#### 📌 À faire
+
+1. Dans la section `<script setup>` de `index.vue`, ajoutez :
+
+```js
+import { usePokemonStore } from '@/stores/pokemonStore'
+```
+
+2. Ensuite, initialisez le store :
+```js
+const pokemonStore = usePokemonStore()
+```
+
+3. Pour vérifier que tout fonctionne, **utilisez la console du navigateur** :
+```js
+console.log(pokemonStore.pokemons)
+```
+
+> 💬 Vous devriez voir un tableau avec plusieurs objets Pokémon dans la console du navigateur.
+
+#### 🧠 Et ensuite ?
+À ce stade, vous **n'affichez rien dans la page** avec ces données. On va le faire dans l'étape suivante !
+
+---
+
+### 🧩 Étape 7 – Afficher les Pokémon dans la grille
+
+Maintenant que les données sont disponibles dans `pokemonStore.pokemons`, vous allez les afficher dynamiquement dans la page d’accueil.
+
+#### 🎯 Objectifs
+- Parcourir les Pokémon avec `v-for`
+- Afficher quelques infos (nom, image, etc.)
+- S’assurer que le layout fonctionne
+
+#### 📌 À faire
+
+1. Dans le `<v-row>`, ajoutez un `v-col` par Pokémon :
+
+```vue
+<v-col
+  v-for="pokemon in pokemonStore.pokemons"
+  :key="pokemon.id"
+  cols="12"
+  sm="6"
+  md="4"
+  lg="3"
+  xl="2"
+>
+  <p>{{ pokemon.name }}</p>
+</v-col>
+```
+
+2. (Bonus) Ajoutez une image :
+
+```vue
+<v-img :src="`/images/${pokemon.img}`" height="200" contain />
+```
+
+> 💡 Utilisez `v-img` avec `contain` pour que l’image garde les proportions, et testez avec quelques noms comme `pikachu.png`, `salameche.png`, etc.
+
+---
+
+📘 Pour aller plus loin :
+
+- [📄 Docs Vuetify – Grid system](https://vuetifyjs.com/en/components/grids/)
+- [🖼️ Docs Vuetify – Images](https://vuetifyjs.com/en/components/images/)
+- [📦 Docs Pinia – Introduction](https://pinia.vuejs.org/introduction.html)
+
+---
+
+### 🧩 Étape 8 – Créer un composant `PokemonCard.vue`
+
+Maintenant que vous affichez dynamiquement une liste de Pokémon, il est temps d’isoler l’affichage d’un Pokémon dans un **composant dédié**. Cela vous permettra de :
+
+- mieux organiser votre code,
+- éviter de dupliquer du HTML,
+- et réutiliser facilement cette carte dans d’autres pages (comme les favoris).
+
+---
+
+#### 🎯 Objectifs
+
+- Créer un composant Vue (`PokemonCard.vue`)
+- Passer un Pokémon en **prop**
+- Afficher le nom, l’image, le niveau et les types du Pokémon
+
+---
+
+#### 📌 À faire
+
+1. Créez un nouveau fichier `PokemonCard.vue` dans le dossier `src/components/`
+
+2. Dans ce fichier, structurez le composant avec :
+  - `<template>` : pour l'affichage
+  - `<script setup>` : pour recevoir la prop
+  - `defineProps({ pokemon: Object })` : pour recevoir l’objet Pokémon
+
+3. Affichez dans la carte :
+  - l’image (`v-img`)
+  - le nom (`v-card-title`)
+  - le niveau (`v-card-subtitle` ou `v-card-text`)
+  - les types (un tableau d’`id` à interpréter plus tard)
+
+4. Dans `index.vue`, importez ce composant et remplacez le contenu du `v-col` par :
+
+```vue
+<PokemonCard :pokemon="pokemon" />
+```
+
+---
+
+#### 💡 Conseils
+
+- Utilisez `v-card` comme base de mise en page (voir [v-card](https://vuetifyjs.com/en/components/cards/)).
+- Ajoutez un minimum de styles (`height`, `pa-2`, `elevation`, etc.) pour rendre la carte agréable.
+- Pour l’image, utilisez :
+  ```vue
+  <v-img :src="`/images/${pokemon.img}`" height="200" contain />
+  ```
+- Ne vous occupez pas encore de rendre la carte cliquable ni des favoris — ça viendra plus tard.
+
+---
+
+#### ✅ Résultat attendu
+
+Une **carte Pokémon réutilisable** et propre, utilisée dans `index.vue` avec un `v-for` :
+
+```vue
+<v-col
+  v-for="pokemon in pokemonStore.pokemons"
+  :key="pokemon.id"
+  cols="12"
+  sm="6"
+  md="4"
+  lg="3"
+  xl="2"
+>
+  <PokemonCard :pokemon="pokemon" />
+</v-col>
+```
+
+---
+
+📘 Voir aussi :
+- [🧩 Vuetify – Card](https://vuetifyjs.com/en/components/cards/)
+- [📦 Vue – defineProps](https://vuejs.org/guide/components/props.html#defining-props)
+
+---
+
+
