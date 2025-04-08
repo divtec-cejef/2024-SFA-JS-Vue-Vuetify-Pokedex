@@ -890,10 +890,6 @@ Et dans le template :
 
 ---
 
-Bien sûr ! Voici les **étapes pédagogiques** que je te recommande pour connecter ton application à une **API** après l’étape 18, tout en gardant une progression logique pour tes apprentis.
-
----
-
 ## 🔗 Suite après l’étape 18 : Connexion à une API
 
 L’objectif de cette phase est de remplacer les données locales du `pokemonStore` par des données **récupérées à distance** depuis une API REST (ou Directus, par exemple).
