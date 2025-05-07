@@ -18,37 +18,29 @@
     -->
     <v-expansion-panels>
       <!--
-      Panneau individuel
-        * v-for : Itère sur chaque élément de `faqItems` pour créer un panneau.
-        * :key="i" : Fournit une clé unique basée sur l'index de l'élément pour optimiser le rendu.
+      Panneaux d'expansion individuels
+        * v-expansion-panel : Composant pour chaque question/réponse.
+        - v-for : Itère sur le tableau `faq` pour créer un panneau pour chaque élément.
+        - :key : Utilisé pour donner une clé unique à chaque panneau, ici basé sur la question.
+        - :text : Définit le texte affiché lorsque le panneau est ouvert (réponse).
+        - :title : Définit le titre du panneau (question).
       -->
-      <v-expansion-panel v-for="(item, i) in faqItems" :key="i">
-        <!--
-        Titre du panneau
-          * v-expansion-panel-title : Affiche la question dans l'en-tête cliquable du panneau.
-        -->
-        <v-expansion-panel-title>
-          {{ item.question }}
-        </v-expansion-panel-title>
-
-        <!--
-        Texte du panneau
-          * v-expansion-panel-text : Contient la réponse affichée lorsque le panneau est ouvert.
-        -->
-        <v-expansion-panel-text>
-          {{ item.answer }}
-        </v-expansion-panel-text>
-      </v-expansion-panel>
+      <v-expansion-panel
+        v-for="element in faq"
+        :key="element.question"
+        :text="element.answer"
+        :title="element.question"
+      />
     </v-expansion-panels>
   </v-container>
 </template>
 
 <script setup>
-// Importation de `ref` depuis Vue, permet de créer des données réactives.
+  // Importation de `ref` depuis Vue, permet de créer des données réactives.
   import { ref } from 'vue'
 
   // Tableau réactif (ref) contenant les questions et réponses.
-  const faqItems = ref([
+  const faq = ref([
     {
       question: "Qu'est-ce qu'un Pokédex ?",
       answer: 'Un Pokédex est un dispositif électronique qui répertorie et fournit des informations sur les différentes espèces de Pokémon. Notre application est une version numérique de cet outil.',
@@ -75,7 +67,3 @@
     },
   ])
 </script>
-
-<style scoped>
-/* Ajoutez des styles personnalisés si nécessaire */
-</style>
