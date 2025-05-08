@@ -12,7 +12,7 @@
       <!--
       Logo de l'application cliquable
         * class="mr-4 pa-0 cursor-pointer" ajoute une marge à droite, retire le padding, et change le curseur pour indiquer la cliquabilité
-        * image définit le chemin vers le logo (Pokeball) de l'application
+        * image définit le chemin vers le logo (Poké Ball) de l'application
         * size="64" définit la taille de l'avatar
         * @click redirige vers la page d'accueil
       -->
