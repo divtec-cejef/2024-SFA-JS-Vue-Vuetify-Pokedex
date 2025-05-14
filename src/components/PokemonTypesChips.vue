@@ -7,6 +7,8 @@
       * :key="type.id" : Utilise `type.id` comme clé unique pour optimiser le rendu.
       * class="ma-1" : Ajoute une marge uniforme autour de chaque puce (1 unité).
       * :color : Définit dynamiquement la couleur de la puce à partir de la propriété `color` du type (valeur par défaut : 'grey').
+        type?.color : Utilise l'opérateur de coalescence nulle (?) pour fournir une couleur par défaut si `type.color` est indéfini.
+        https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Operators/Nullish_coalescing
       * text-color="white" : Rend le texte des puces blanc pour un meilleur contraste.
     -->
     <v-chip
@@ -54,10 +56,3 @@ Récupération des types associés au Pokémon
     props.pokemon.types.map(typeId => pokemonStore.getTypeById(typeId))
   )
 </script>
-
-<style scoped>
-/*
-Styles locaux :
-- ma-1 : Classe Vuetify ajoutant une marge uniforme autour de chaque puce.
-*/
-</style>
