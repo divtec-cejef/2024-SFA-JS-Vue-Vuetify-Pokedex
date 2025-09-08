@@ -13,7 +13,7 @@ import { fileURLToPath, URL } from 'node:url'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  // base: '/pokedex/',
+  base: '/2024-SFA-JS-Vue-Vuetify-Pokedex/',
   plugins: [
     VueRouter(),
     Layouts(),
